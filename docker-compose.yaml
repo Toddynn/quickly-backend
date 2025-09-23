@@ -1,0 +1,77 @@
+services:
+     pgsql:
+          image: postgres:11-alpine
+          ports:
+               - '5432:5432'
+          container_name: 'pgsql'
+          restart: always
+          environment:
+               POSTGRES_DB: ${POSTGRES_DB}
+               POSTGRES_USER: ${POSTGRES_USER}
+               POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          healthcheck:
+               test:
+                    [
+                         'CMD-SHELL',
+                         'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}',
+                    ]
+               interval: 5s
+               timeout: 5s
+               retries: 5
+
+     adminer:
+          image: adminer:latest
+          restart: always
+          ports:
+               - 8080:8080
+          depends_on:
+               pgsql:
+                    condition: service_healthy
+
+     pgadmin:
+          image: dpage/pgadmin4
+          environment:
+               PGADMIN_DEFAULT_EMAIL: 'admin@teste.com'
+               PGADMIN_DEFAULT_PASSWORD: 'Admin123'
+          ports:
+               - '8085:80'
+          restart: always
+          depends_on:
+               pgsql:
+                    condition: service_healthy
+
+     mailhog:
+          image: mailhog/mailhog
+          ports:
+               - '1025:1025'
+               - '8025:8025'
+          restart: always
+
+     app:
+          build: .
+          container_name: 'quickly-backend'
+          command: 'npm run start:dev'
+          working_dir: /usr/src/app
+          ports:
+               - '3000:3000'
+          env_file:
+               - .env
+          volumes:
+               - .:/usr/src/app
+               - /usr/src/app/node_modules
+          depends_on:
+               pgsql:
+                    condition: service_healthy
+          environment:
+               DB_HOST: ${DB_HOST}
+               DB_PORT: ${DB_PORT}
+               DB_USER: ${DB_USER}
+               DB_PASSWORD: ${DB_PASSWORD}
+               DB_DATABASE: ${DB_DATABASE}
+               DB_SCHEMA: ${DB_SCHEMA}
+               DB_SYNC: ${DB_SYNC}
+
+networks:
+     default:
+          name: quickly-network
+          driver: bridge
