@@ -15,7 +15,7 @@ export class PgTypeOrmConfigService implements TypeOrmOptionsFactory {
                `*.entity.{ts,js}`,
           );
 
-          const sync = this.configService.get<boolean>('pg_db.sync') ?? false;
+          const sync = this.configService.get<string>('pg_db.sync') === 'true';
 
           return {
                type: 'postgres',
