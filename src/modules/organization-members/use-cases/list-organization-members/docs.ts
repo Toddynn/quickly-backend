@@ -7,35 +7,35 @@ export function ListOrganizationMembersDocs() {
 	return applyDecorators(
 		ApiExtraModels(OrganizationMember),
 		ApiOperation({
-			summary: 'Lista todos os membros das organizações',
-			description: 'Retorna uma lista paginada com todos os membros das organizações. Pode ser filtrado por status ativo/inativo.',
+			summary: 'List all organization members',
+			description: 'Returns a paginated list with all organization members. Can be filtered by active/inactive status.',
 		}),
 		ApiQuery({
 			name: 'page',
 			required: false,
 			type: Number,
-			description: 'Número da página (padrão: 1)',
+			description: 'Page number (default: 1)',
 		}),
 		ApiQuery({
 			name: 'limit',
 			required: false,
 			type: Number,
-			description: 'Quantidade de itens por página (padrão: 10)',
+			description: 'Number of items per page (default: 10)',
 		}),
 		ApiQuery({
 			name: 'is_active',
 			required: false,
 			type: Boolean,
-			description: 'Filtrar por membros ativos (true) ou inativos (false). Se não informado, retorna todos.',
+			description: 'Filter by active (true) or inactive (false) members. If not provided, returns all.',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Lista de membros retornada com sucesso.',
+			description: 'List of members returned successfully.',
 			schema: getPaginatedResponseSchema(OrganizationMember),
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao listar membros.',
+			description: 'Unexpected error while listing members.',
 		}),
 	);
 }

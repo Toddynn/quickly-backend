@@ -4,25 +4,25 @@ import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 export function InactivateOrganizationMemberDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Desativa um membro da organização',
-			description: 'Desativa um membro da organização, mantendo o histórico de agendamentos intacto.',
+			summary: 'Inactivate an organization member',
+			description: 'Inactivates an organization member, keeping the appointment history intact.',
 		}),
 		ApiParam({
 			name: 'id',
-			description: 'ID do membro da organização',
+			description: 'Organization member ID',
 			type: String,
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Membro da organização desativado com sucesso.',
+			description: 'Organization member inactivated successfully.',
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,
-			description: 'Membro da organização não encontrado.',
+			description: 'Organization member not found.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao desativar membro da organização.',
+			description: 'Unexpected error while inactivating organization member.',
 		}),
 	);
 }

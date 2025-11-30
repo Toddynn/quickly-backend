@@ -4,29 +4,29 @@ import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 export function CancelOrganizationInviteDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Cancela um convite para organização',
-			description: 'Cancela um convite pendente, tornando o link inválido.',
+			summary: 'Cancel an organization invite',
+			description: 'Cancels a pending invite, making the link invalid.',
 		}),
 		ApiParam({
 			name: 'id',
-			description: 'ID do convite',
+			description: 'Invite ID',
 			type: String,
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Convite cancelado com sucesso.',
+			description: 'Invite canceled successfully.',
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Apenas convites pendentes podem ser cancelados.',
+			description: 'Only pending invites can be canceled.',
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,
-			description: 'Convite não encontrado.',
+			description: 'Invite not found.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao cancelar convite.',
+			description: 'Unexpected error while canceling invite.',
 		}),
 	);
 }

@@ -4,25 +4,25 @@ import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 export function DeleteOrganizationDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Deleta uma organização',
-			description: 'Remove uma organização do sistema.',
+			summary: 'Delete an organization',
+			description: 'Removes an organization from the system.',
 		}),
 		ApiParam({
 			name: 'id',
-			description: 'ID da organização',
+			description: 'Organization ID',
 			type: String,
 		}),
 		ApiResponse({
 			status: HttpStatus.NO_CONTENT,
-			description: 'Organização deletada com sucesso.',
+			description: 'Organization deleted successfully.',
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,
-			description: 'Organização não encontrada.',
+			description: 'Organization not found.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao deletar organização.',
+			description: 'Unexpected error while deleting organization.',
 		}),
 	);
 }

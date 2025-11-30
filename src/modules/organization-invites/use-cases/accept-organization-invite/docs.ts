@@ -4,29 +4,29 @@ import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 export function AcceptOrganizationInviteDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Aceita um convite para organização',
-			description: 'Aceita um convite pendente e vincula o usuário à organização como membro.',
+			summary: 'Accept an organization invite',
+			description: 'Accepts a pending invite and links the user to the organization as a member.',
 		}),
 		ApiParam({
 			name: 'id',
-			description: 'ID único do convite (UUID)',
+			description: 'Unique invite ID (UUID)',
 			type: String,
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Convite aceito com sucesso. Usuário vinculado à organização.',
+			description: 'Invite accepted successfully. User linked to organization.',
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Convite não está mais pendente ou está expirado.',
+			description: 'Invite is no longer pending or has expired.',
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,
-			description: 'Convite não encontrado.',
+			description: 'Invite not found.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao aceitar convite.',
+			description: 'Unexpected error while accepting invite.',
 		}),
 	);
 }

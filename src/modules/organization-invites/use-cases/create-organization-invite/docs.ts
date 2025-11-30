@@ -6,26 +6,26 @@ import { OrganizationInvite } from '../../models/entities/organization-invite.en
 export function CreateOrganizationInviteDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Cria um novo convite para organização',
+			summary: 'Create a new organization invite',
 			description:
-				'Cria um convite único com prazo de validade de 7 dias. O ID do convite (UUID) será usado como identificador único. Um usuário só pode ter 1 convite ativo por organização. Não é possível convidar um usuário que já é membro da organização. Um email será enviado automaticamente para o convidado com o link de aceitação.',
+				'Creates a unique invite with a 7-day validity period. The invite ID (UUID) will be used as a unique identifier. A user can only have 1 active invite per organization. It is not possible to invite a user who is already a member of the organization. An email will be automatically sent to the invitee with the acceptance link.',
 		}),
 		ApiBody({
 			type: CreateOrganizationInviteDto,
-			description: 'Dados para criação de convite',
+			description: 'Data for invite creation',
 		}),
 		ApiResponse({
 			status: HttpStatus.CREATED,
-			description: 'Convite criado com sucesso e email enviado.',
+			description: 'Invite created successfully and email sent.',
 			type: OrganizationInvite,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos para criação de convite, ou já existe um convite ativo, ou o usuário já é membro da organização.',
+			description: 'Invalid data for invite creation, or an active invite already exists, or the user is already a member of the organization.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao criar convite.',
+			description: 'Unexpected error while creating invite.',
 		}),
 	);
 }

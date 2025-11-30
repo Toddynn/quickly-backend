@@ -6,26 +6,26 @@ import { Organization } from '../../models/entities/organization.entity';
 export function CreateOrganizationDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Cria uma nova organização',
+			summary: 'Create a new organization',
 			description:
-				'Cria uma nova organização com nome, descrição, logo e owner_id. O criador (owner_id) é automaticamente adicionado como membro da organização.',
+				'Creates a new organization with name, description, logo and owner_id. The creator (owner_id) is automatically added as a member of the organization.',
 		}),
 		ApiBody({
 			type: CreateOrganizationDto,
-			description: 'Dados para criação de organização',
+			description: 'Data for organization creation',
 		}),
 		ApiResponse({
 			status: HttpStatus.CREATED,
-			description: 'Organização criada com sucesso.',
+			description: 'Organization created successfully.',
 			type: Organization,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos para criação de organização.',
+			description: 'Invalid data for organization creation.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao criar organização.',
+			description: 'Unexpected error while creating organization.',
 		}),
 	);
 }

@@ -5,17 +5,17 @@ import { ResetPasswordDto } from '../../models/dto/reset-password.dto';
 export function ResetPasswordDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Redefine a senha após validação do OTP',
+			summary: 'Reset password after OTP validation',
 			description:
-				'Redefine a senha do usuário. Requer que o código OTP tenha sido validado anteriormente através do endpoint de validação. A senha deve atender aos critérios de segurança: pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um símbolo.',
+				'Resets the user password. Requires that the OTP code has been previously validated through the validation endpoint. The password must meet security criteria: at least 8 characters, one uppercase letter, one lowercase letter, one number and one symbol.',
 		}),
 		ApiBody({
 			type: ResetPasswordDto,
-			description: 'Email e nova senha para redefinição',
+			description: 'Email and new password for reset',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Senha redefinida com sucesso.',
+			description: 'Password reset successfully.',
 			schema: {
 				example: {
 					message: 'Senha redefinida com sucesso.',
@@ -24,23 +24,23 @@ export function ResetPasswordDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos ou OTP não validado.',
+			description: 'Invalid data or OTP not validated.',
 			schema: {
 				examples: {
 					otp_nao_validado: {
-						summary: 'OTP não validado',
+						summary: 'OTP not validated',
 						value: {
 							message: 'Nenhum código OTP validado encontrado. Por favor, valide o código OTP primeiro.',
 						},
 					},
 					otp_expirado: {
-						summary: 'OTP expirado',
+						summary: 'OTP expired',
 						value: {
 							message: 'Código OTP expirado.',
 						},
 					},
 					senha_invalida: {
-						summary: 'Senha não atende aos critérios',
+						summary: 'Password does not meet criteria',
 						value: {
 							message: 'A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um símbolo.',
 						},
@@ -50,7 +50,7 @@ export function ResetPasswordDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao redefinir senha.',
+			description: 'Unexpected error while resetting password.',
 		}),
 	);
 }

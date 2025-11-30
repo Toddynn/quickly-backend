@@ -7,29 +7,29 @@ export function ListOrganizationsDocs() {
 	return applyDecorators(
 		ApiExtraModels(Organization),
 		ApiOperation({
-			summary: 'Lista todas as organizações',
-			description: 'Retorna uma lista paginada com todas as organizações cadastradas.',
+			summary: 'List all organizations',
+			description: 'Returns a paginated list with all registered organizations.',
 		}),
 		ApiQuery({
 			name: 'page',
 			required: false,
 			type: Number,
-			description: 'Número da página (padrão: 1)',
+			description: 'Page number (default: 1)',
 		}),
 		ApiQuery({
 			name: 'limit',
 			required: false,
 			type: Number,
-			description: 'Quantidade de itens por página (padrão: 10)',
+			description: 'Number of items per page (default: 10)',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Lista de organizações retornada com sucesso.',
+			description: 'List of organizations returned successfully.',
 			schema: getPaginatedResponseSchema(Organization),
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao listar organizações.',
+			description: 'Unexpected error while listing organizations.',
 		}),
 	);
 }

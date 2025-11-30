@@ -6,25 +6,25 @@ import { OrganizationMember } from '../../models/entities/organization-member.en
 export function CreateOrganizationMemberDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Cria um novo membro da organização',
-			description: 'Vincula um usuário a uma organização como membro.',
+			summary: 'Create a new organization member',
+			description: 'Links a user to an organization as a member.',
 		}),
 		ApiBody({
 			type: CreateOrganizationMemberDto,
-			description: 'Dados para criação de membro da organização',
+			description: 'Data for organization member creation',
 		}),
 		ApiResponse({
 			status: HttpStatus.CREATED,
-			description: 'Membro da organização criado com sucesso.',
+			description: 'Organization member created successfully.',
 			type: OrganizationMember,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos para criação de membro da organização.',
+			description: 'Invalid data for organization member creation.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao criar membro da organização.',
+			description: 'Unexpected error while creating organization member.',
 		}),
 	);
 }

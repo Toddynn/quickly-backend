@@ -4,29 +4,29 @@ import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 export function RejectOrganizationInviteDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Recusa um convite para organização',
-			description: 'Recusa um convite pendente, atualizando o status para RECUSADO.',
+			summary: 'Reject an organization invite',
+			description: 'Rejects a pending invite, updating the status to REJECTED.',
 		}),
 		ApiParam({
 			name: 'id',
-			description: 'ID único do convite (UUID)',
+			description: 'Unique invite ID (UUID)',
 			type: String,
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Convite recusado com sucesso.',
+			description: 'Invite rejected successfully.',
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Convite não está mais pendente.',
+			description: 'Invite is no longer pending.',
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,
-			description: 'Convite não encontrado.',
+			description: 'Invite not found.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao recusar convite.',
+			description: 'Unexpected error while rejecting invite.',
 		}),
 	);
 }

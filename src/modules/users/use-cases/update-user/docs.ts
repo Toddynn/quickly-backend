@@ -6,31 +6,31 @@ import { User } from '../../models/entities/user.entity';
 export function UpdateUserDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Atualiza dados do usuário',
+			summary: 'Update user data',
 			description:
-				'Atualiza os dados do usuário (nome e/ou telefone). A senha não pode ser alterada através deste endpoint. Use o fluxo de recuperação de senha para alterar a senha.',
+				'Updates user data (name and/or phone). Password cannot be changed through this endpoint. Use the password recovery flow to change the password.',
 		}),
 		ApiParam({
 			name: 'id',
-			description: 'ID do usuário a ser atualizado',
+			description: 'ID of the user to be updated',
 			type: String,
 		}),
 		ApiBody({
 			type: UpdateUserDto,
-			description: 'Dados para atualização do usuário',
+			description: 'Data for user update',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Usuário atualizado com sucesso.',
+			description: 'User updated successfully.',
 			type: User,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos para atualização do usuário.',
+			description: 'Invalid data for user update.',
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,
-			description: 'Usuário não encontrado.',
+			description: 'User not found.',
 			schema: {
 				example: {
 					message: 'User não encontrado com os critérios: {"id":"..."}',
@@ -39,7 +39,7 @@ export function UpdateUserDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao atualizar usuário.',
+			description: 'Unexpected error while updating user.',
 		}),
 	);
 }

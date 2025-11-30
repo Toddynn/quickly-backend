@@ -7,29 +7,29 @@ export function ListOrganizationInvitesDocs() {
 	return applyDecorators(
 		ApiExtraModels(OrganizationInvite),
 		ApiOperation({
-			summary: 'Lista todos os convites de organizações',
-			description: 'Retorna uma lista paginada com todos os convites enviados.',
+			summary: 'List all organization invites',
+			description: 'Returns a paginated list with all sent invites.',
 		}),
 		ApiQuery({
 			name: 'page',
 			required: false,
 			type: Number,
-			description: 'Número da página (padrão: 1)',
+			description: 'Page number (default: 1)',
 		}),
 		ApiQuery({
 			name: 'limit',
 			required: false,
 			type: Number,
-			description: 'Quantidade de itens por página (padrão: 10)',
+			description: 'Number of items per page (default: 10)',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Lista de convites retornada com sucesso.',
+			description: 'List of invites returned successfully.',
 			schema: getPaginatedResponseSchema(OrganizationInvite),
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao listar convites.',
+			description: 'Unexpected error while listing invites.',
 		}),
 	);
 }

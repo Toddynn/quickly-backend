@@ -5,17 +5,17 @@ import { RequestPasswordResetDto } from '../../models/dto/request-password-reset
 export function RequestPasswordResetDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Solicita recuperação de senha',
+			summary: 'Request password recovery',
 			description:
-				'Envia um código OTP de 6 dígitos para o email informado. O código expira em 15 minutos. Por questões de segurança, a resposta é sempre a mesma, independente do email existir ou não no sistema.',
+				'Sends a 6-digit OTP code to the provided email. The code expires in 15 minutes. For security reasons, the response is always the same, regardless of whether the email exists in the system or not.',
 		}),
 		ApiBody({
 			type: RequestPasswordResetDto,
-			description: 'Email do usuário para recuperação de senha',
+			description: 'User email for password recovery',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Se o email existir, um código OTP foi enviado.',
+			description: 'If the email exists, an OTP code has been sent.',
 			schema: {
 				example: {
 					message: 'Se o email existir, um código OTP foi enviado.',
@@ -24,11 +24,11 @@ export function RequestPasswordResetDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos para solicitação de recuperação de senha.',
+			description: 'Invalid data for password recovery request.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao solicitar recuperação de senha.',
+			description: 'Unexpected error while requesting password recovery.',
 		}),
 	);
 }

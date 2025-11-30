@@ -6,25 +6,25 @@ import { User } from '../../models/entities/user.entity';
 export function CreateUserDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Cria um novo usuário',
-			description: 'Cria um novo usuário com nome, e-mail e senha. O e-mail é validado quanto à unicidade.',
+			summary: 'Create a new user',
+			description: 'Creates a new user with name, email and password. The email is validated for uniqueness.',
 		}),
 		ApiBody({
 			type: CreateUserDto,
-			description: 'Dados para criação de usuário',
+			description: 'Data for user creation',
 		}),
 		ApiResponse({
 			status: HttpStatus.CREATED,
-			description: 'Usuário criado com sucesso.',
+			description: 'User created successfully.',
 			type: User,
 		}),
 		ApiResponse({
 			status: HttpStatus.CONFLICT,
-			description: 'Conflito de dados. O e-mail informado já está em uso.',
+			description: 'Data conflict. The provided email is already in use.',
 			schema: {
 				examples: {
 					email_duplicado: {
-						summary: 'E-mail já cadastrado',
+						summary: 'Email already registered',
 						value: {
 							message: 'E-mail usuario@email.com já em uso!',
 						},
@@ -34,11 +34,11 @@ export function CreateUserDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Dados inválidos para criação de usuário.',
+			description: 'Invalid data for user creation.',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao criar usuário.',
+			description: 'Unexpected error while creating user.',
 		}),
 	);
 }

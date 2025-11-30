@@ -5,17 +5,17 @@ import { ValidatePasswordResetOtpDto } from '../../models/dto/validate-password-
 export function ValidatePasswordResetOtpDocs() {
 	return applyDecorators(
 		ApiOperation({
-			summary: 'Valida código OTP para recuperação de senha',
+			summary: 'Validate OTP code for password recovery',
 			description:
-				'Valida o código OTP enviado por email. O código deve estar pendente e não expirado. Após a validação bem-sucedida, o OTP é marcado como validado e pode ser usado para redefinir a senha.',
+				'Validates the OTP code sent by email. The code must be pending and not expired. After successful validation, the OTP is marked as validated and can be used to reset the password.',
 		}),
 		ApiBody({
 			type: ValidatePasswordResetOtpDto,
-			description: 'Email e código OTP para validação',
+			description: 'Email and OTP code for validation',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Código OTP válido.',
+			description: 'Valid OTP code.',
 			schema: {
 				example: {
 					valid: true,
@@ -24,17 +24,17 @@ export function ValidatePasswordResetOtpDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Código OTP inválido ou expirado.',
+			description: 'Invalid or expired OTP code.',
 			schema: {
 				examples: {
 					otp_invalido: {
-						summary: 'OTP inválido',
+						summary: 'Invalid OTP',
 						value: {
 							message: 'Email ou código OTP inválido.',
 						},
 					},
 					otp_expirado: {
-						summary: 'OTP expirado',
+						summary: 'Expired OTP',
 						value: {
 							message: 'Código OTP expirado.',
 						},
@@ -44,7 +44,7 @@ export function ValidatePasswordResetOtpDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
-			description: 'Erro inesperado ao validar código OTP.',
+			description: 'Unexpected error while validating OTP code.',
 		}),
 	);
 }
