@@ -1,0 +1,1 @@
+export const SCHEDULE_GRANULARITY_MINUTES = 5;

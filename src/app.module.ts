@@ -9,7 +9,9 @@ import { MailerConfigService } from './configs/mailer/mailer-config.service';
 import { EmailModule } from './modules/email/email.module';
 import { OrganizationInvitesModule } from './modules/organization-invites/organization-invites.module';
 import { OrganizationMembersModule } from './modules/organization-members/organization-members.module';
+import { OrganizationServicesModule } from './modules/organization-services/organization-services.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
+import { ServiceCategoriesModule } from './modules/service-categories/service-categories.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -37,6 +39,8 @@ import { UsersModule } from './modules/users/users.module';
 		OrganizationsModule,
 		OrganizationMembersModule,
 		OrganizationInvitesModule,
+		ServiceCategoriesModule,
+		OrganizationServicesModule,
 		EmailModule,
 	],
 	controllers: [],
