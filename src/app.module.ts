@@ -5,6 +5,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import pgDatabaseConfig from './configs/database/pg-database.config';
 import { PgTypeOrmConfigService } from './configs/database/pg-typeorm-config.service';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
+import { EmailModule } from './modules/email/email.module';
 import { OrganizationInvitesModule } from './modules/organization-invites/organization-invites.module';
 import { OrganizationMembersModule } from './modules/organization-members/organization-members.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
@@ -35,6 +36,7 @@ import { UsersModule } from './modules/users/users.module';
 		OrganizationsModule,
 		OrganizationMembersModule,
 		OrganizationInvitesModule,
+		EmailModule,
 	],
 	controllers: [],
 	providers: [],

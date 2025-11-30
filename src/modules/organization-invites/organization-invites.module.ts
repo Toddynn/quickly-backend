@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { EmailModule } from '../email/email.module';
 import { OrganizationMembersModule } from '../organization-members/organization-members.module';
+import { OrganizationsModule } from '../organizations/organizations.module';
+import { UsersModule } from '../users/users.module';
 import { OrganizationInvite } from './models/entities/organization-invite.entity';
 import { OrganizationInvitesRepository } from './repository/organization-invites.repository';
 import { ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
@@ -16,9 +19,16 @@ import { ListOrganizationInvitesController } from './use-cases/list-organization
 import { ListOrganizationInvitesUseCase } from './use-cases/list-organization-invites/list-organization-invites.use-case';
 import { RejectOrganizationInviteController } from './use-cases/reject-organization-invite/reject-organization-invite.controller';
 import { RejectOrganizationInviteUseCase } from './use-cases/reject-organization-invite/reject-organization-invite.use-case';
+import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organization-invite-email/send-organization-invite-email.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([OrganizationInvite]), OrganizationMembersModule],
+	imports: [
+		TypeOrmModule.forFeature([OrganizationInvite]),
+		OrganizationMembersModule,
+		OrganizationsModule,
+		UsersModule,
+		EmailModule,
+	],
 	controllers: [
 		CreateOrganizationInviteController,
 		AcceptOrganizationInviteController,
@@ -40,6 +50,7 @@ import { RejectOrganizationInviteUseCase } from './use-cases/reject-organization
 		RejectOrganizationInviteUseCase,
 		CancelOrganizationInviteUseCase,
 		ListOrganizationInvitesUseCase,
+		SendOrganizationInviteEmailUseCase,
 	],
 	exports: [ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY],
 })

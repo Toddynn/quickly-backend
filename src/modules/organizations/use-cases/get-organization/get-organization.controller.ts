@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { Organization } from '../../models/entities/organization.entity';
+import { Organization } from '../../models/entities/organization.entity';
 import { GetOrganizationDocs } from './docs';
 import { GetOrganizationUseCase } from './get-organization.use-case';
 

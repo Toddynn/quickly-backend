@@ -7,7 +7,8 @@ export function CreateOrganizationDocs() {
 	return applyDecorators(
 		ApiOperation({
 			summary: 'Cria uma nova organização',
-			description: 'Cria uma nova organização com nome, descrição, logo e owner_id.',
+			description:
+				'Cria uma nova organização com nome, descrição, logo e owner_id. O criador (owner_id) é automaticamente adicionado como membro da organização.',
 		}),
 		ApiBody({
 			type: CreateOrganizationDto,

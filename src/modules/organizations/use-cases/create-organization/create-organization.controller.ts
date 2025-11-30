@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { CreateOrganizationDto } from '../../models/dto/create-organization.dto';
-import type { Organization } from '../../models/entities/organization.entity';
+import { CreateOrganizationDto } from '../../models/dto/create-organization.dto';
+import { Organization } from '../../models/entities/organization.entity';
 import { CreateOrganizationUseCase } from './create-organization.use-case';
 import { CreateOrganizationDocs } from './docs';
 

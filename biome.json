@@ -82,6 +82,7 @@
 			"includes": ["src/**/*.controller.ts"],
 			"linter": {
 				"rules": {
+					"recommended": true,
 					"style": {
 						"useImportType": "off"
 					}

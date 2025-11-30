@@ -1,6 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { OrganizationsModule } from '../organizations/organizations.module';
+import { UsersModule } from '../users/users.module';
 import { OrganizationMember } from './models/entities/organization-member.entity';
 import { OrganizationMembersRepository } from './repository/organization-members.repository';
 import { ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
@@ -15,7 +17,7 @@ import { ListOrganizationMembersController } from './use-cases/list-organization
 import { ListOrganizationMembersUseCase } from './use-cases/list-organization-members/list-organization-members.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([OrganizationMember])],
+	imports: [TypeOrmModule.forFeature([OrganizationMember]), forwardRef(() => OrganizationsModule), forwardRef(() => UsersModule)],
 	controllers: [
 		CreateOrganizationMemberController,
 		ActivateOrganizationMemberController,
@@ -36,6 +38,6 @@ import { ListOrganizationMembersUseCase } from './use-cases/list-organization-me
 		InactivateOrganizationMemberUseCase,
 		ListOrganizationMembersUseCase,
 	],
-	exports: [ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY],
+	exports: [ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY, GetExistingOrganizationMemberUseCase, CreateOrganizationMemberUseCase],
 })
 export class OrganizationMembersModule {}

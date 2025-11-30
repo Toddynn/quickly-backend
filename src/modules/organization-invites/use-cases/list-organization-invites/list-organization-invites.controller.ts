@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
-import type { OrganizationInvite } from '../../models/entities/organization-invite.entity';
+import { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
+import { OrganizationInvite } from '../../models/entities/organization-invite.entity';
 import { ListOrganizationInvitesDocs } from './docs';
 import { ListOrganizationInvitesUseCase } from './list-organization-invites.use-case';
 

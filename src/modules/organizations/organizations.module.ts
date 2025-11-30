@@ -1,6 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { OrganizationMembersModule } from '../organization-members/organization-members.module';
+import { UsersModule } from '../users/users.module';
 import { Organization } from './models/entities/organization.entity';
 import { OrganizationsRepository } from './repository/organizations.repository';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
@@ -17,7 +19,7 @@ import { UpdateOrganizationController } from './use-cases/update-organization/up
 import { UpdateOrganizationUseCase } from './use-cases/update-organization/update-organization.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Organization])],
+	imports: [TypeOrmModule.forFeature([Organization]), forwardRef(() => OrganizationMembersModule), forwardRef(() => UsersModule)],
 	controllers: [
 		CreateOrganizationController,
 		GetOrganizationController,
@@ -40,6 +42,6 @@ import { UpdateOrganizationUseCase } from './use-cases/update-organization/updat
 		DeleteOrganizationUseCase,
 		ListOrganizationsUseCase,
 	],
-	exports: [ORGANIZATION_REPOSITORY_INTERFACE_KEY],
+	exports: [ORGANIZATION_REPOSITORY_INTERFACE_KEY, GetExistingOrganizationUseCase],
 })
 export class OrganizationsModule {}
