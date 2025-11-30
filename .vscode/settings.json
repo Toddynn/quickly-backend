@@ -1,0 +1,233 @@
+{
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"javascript.suggest.autoImports": true,
+	"git.ignoreMissingGitWarning": true,
+	"editor.minimap.enabled": false,
+	"editor.fontFamily": "Fira Code",
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"terminal.integrated.fontFamily": "JetBrains Mono NL",
+	"terminal.integrated.cursorStyle": "line",
+	"terminal.integrated.cursorStyleInactive": "underline",
+	"terminal.integrated.cursorBlinking": true,
+	"terminal.integrated.unicodeVersion": "11",
+	"terminal.integrated.enableImages": true,
+	"indentRainbow.lightIndicatorStyleLineWidth": 4,
+	"indentRainbow.errorColor": "rgba(128,32,32,0.6)",
+	"editor.guides.bracketPairs": "active",
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.codeActionsOnSave": {
+		"source.addMissingImports": "explicit",
+		"source.removeUnusedImports": "explicit",
+		"source.organizeImports.biome": "explicit",
+		"source.fixAll.biome": "explicit",
+		"source.biome": "explicit"
+	},
+	"symbols.folders.associations": {
+		"entities": "folder-assets",
+		"repository": "folder-green",
+		"use-cases": "folder-yellow",
+		"dto": "folder-purple",
+		"interfaces": "folder-interfaces",
+		"src": "folder-pink-code",
+		"pages": "folder-app",
+		"constants": "folder-red",
+		"functions": "folder-sky",
+		"contexts": "folder-yellow",
+		"hooks": "folder-hooks",
+		"lib": "folder-green",
+		"private": "folder-auth",
+		"templates": "folder-layout",
+		"clients": "folder-helpers",
+		"schemas": "folder-middleware",
+		"stores": "folder-purple",
+		"protected": "folder-auth"
+	},
+	"symbols.files.associations": {
+		"*.module.ts": "pulumi",
+		"*.service.ts": "i18n",
+		"*.controller.ts": "nest",
+		"*.use-case.ts": "i18n",
+		"*.tsx": "i18n",
+		"*.css": "brackets-green"
+	},
+	"indentRainbow.colors": [
+		"rgba(0,191,255,0.1)",
+		"rgba(30,144,255,0.1)",
+		"rgba(123,104,238,0.1)",
+		"rgba(138,43,226,0.1)",
+		"rgba(199,21,133,0.1)",
+		"rgba(255,20,147,0.1)",
+		"rgba(255,0,0,0.1)",
+		"rgba(255,140,0,0.1)",
+		"rgba(255,215,0,0.1)",
+		"rgba(173,255,47,0.1)",
+		"rgba(50,205,50,0.1)",
+		"rgba(32,178,170,0.1)",
+		"rgba(0,206,209,0.1)"
+	],
+	"editor.tokenColorCustomizations": {
+		"textMateRules": [
+			{
+				"scope": "rainbow1",
+				"settings": {
+					"foreground": "#0082C8"
+				}
+			},
+			{
+				"scope": "keyword.rainbow2",
+				"settings": {
+					"foreground": "#39afa9"
+				}
+			},
+			{
+				"scope": "entity.name.function.rainbow3",
+				"settings": {
+					"foreground": "#21c761"
+				}
+			},
+			{
+				"scope": "comment.rainbow4",
+				"settings": {
+					"foreground": "#acf35c"
+				}
+			},
+			{
+				"scope": "string.rainbow5",
+				"settings": {
+					"foreground": "#f7ec56"
+				}
+			},
+			{
+				"scope": "variable.parameter.rainbow6",
+				"settings": {
+					"foreground": "#f0ac46"
+				}
+			},
+			{
+				"scope": "constant.numeric.rainbow7",
+				"settings": {
+					"foreground": "#f05e32"
+				}
+			},
+			{
+				"scope": "entity.name.type.rainbow8",
+				"settings": {
+					"foreground": "#ce1919"
+				}
+			},
+			{
+				"scope": "markup.bold.rainbow9",
+				"settings": {
+					"foreground": "#f531cb"
+				}
+			},
+			{
+				"scope": "invalid.rainbow10",
+				"settings": {
+					"foreground": "#8d31f7"
+				}
+			},
+			{
+				"scope": "keyword.other.dotenv",
+				"settings": {
+					"foreground": "#FF000000"
+				}
+			}
+		]
+	},
+	"workbench.iconTheme": "symbols",
+	"git.confirmSync": false,
+	"git.enableSmartCommit": true,
+	"terminal.external.linuxExec": "x-terminal-emulator",
+	"terminal.integrated.env.linux": {},
+	"editor.bracketPairColorization.enabled": true,
+	"RainbowBrackets.depreciation-notice": false,
+	"console-ninja.outputMode": "In View",
+	"console-ninja.captureFunctions": true,
+	"diffEditor.ignoreTrimWhitespace": false,
+	"workbench.colorTheme": "Cursor Dark",
+	"editor.cursorBlinking": "smooth",
+	"editor.cursorSmoothCaretAnimation": "on",
+	"editor.fontLigatures": true,
+	"editor.detectIndentation": false,
+	"editor.fastScrollSensitivity": 5,
+	"editor.smoothScrolling": true,
+	"editor.scrollbar.horizontalScrollbarSize": 5,
+	"editor.scrollbar.verticalScrollbarSize": 15,
+	"editor.formatOnSave": true,
+	"editor.tabSize": 5,
+	"editor.fontVariations": true,
+	"editor.fontWeight": "100",
+	"editor.links": true,
+	"editor.mouseWheelZoom": true,
+	"files.associations": {
+		"*.css": "tailwindcss",
+		"*env*": "env"
+	},
+	"workbench.tree.indent": 20,
+	"console-ninja.featureSet": "Community",
+	"explorer.compactFolders": false,
+	"editor.scrollbar.horizontal": "hidden",
+	"editor.scrollbar.vertical": "hidden",
+	"window.titleBarStyle": "custom",
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
+		"tailwind.config.ts": "tailwind.config*, postcss.config*",
+		"tailwind.config.js": "tailwind.config*, postcss.config*",
+		".env.local": ".env*",
+		".env": ".env*",
+		"nextJS": "next*",
+		"JSON": "tsconfig.json, components.json",
+		".gitignore": ".gitattributes, .gitignore",
+		"Dockerfile": "Docker*, .docker*, docker*",
+		"package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, vite*, .eslint*, .prettier*"
+	},
+	"terminal.integrated.fontSize": 14,
+	"terminal.explorerKind": "external",
+	"symbols.hidesExplorerArrows": false,
+	"window.commandCenter": false,
+	"window.title": " ",
+	"workbench.list.smoothScrolling": true,
+	"terminal.integrated.env.windows": {},
+	"gitlens.advanced.messages": {
+		"suppressCreatePullRequestPrompt": true
+	},
+	"diffEditor.maxComputationTime": 0,
+	"tailwindCSS.experimental.classRegex": [["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"], ["classNames={{([^}]*)}}", "[\"'`]([^\"'`]*).*?[\"'`]"]],
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact"
+	},
+	"emmet.syntaxProfiles": {
+		"javascript": "jsx"
+	},
+	"[csharp]": {
+		"editor.defaultFormatter": "csharpier.csharpier-vscode"
+	},
+	"[dotenv]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"extensions.ignoreRecommendations": true,
+	"[dockerfile]": {
+		"editor.defaultFormatter": "ms-azuretools.vscode-containers"
+	},
+	"terminal.integrated.defaultProfile.linux": "zsh",
+	"terminal.integrated.defaultProfile.windows": "Command Prompt",
+	"explorer.confirmDelete": false,
+	"remote.portsAttributes": {
+		"3007": {
+			"protocol": "https"
+		}
+	},
+	"explorer.confirmDragAndDrop": false,
+	"[ignore]": {
+		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"explorer.confirmPasteNative": false,
+	"workbench.editorAssociations": {
+		"*.copilotmd": "vscode.markdown.preview.editor",
+		"*.svg": "default"
+	},
+	"workbench.editor.empty.hint": "hidden",
+	"terminal.integrated.allowedLinkSchemes": ["file", "http", "https", "mailto", "vscode", "vscode-insiders", "docker-desktop"],
+	"terminal.integrated.enableMultiLinePasteWarning": "never"
+}

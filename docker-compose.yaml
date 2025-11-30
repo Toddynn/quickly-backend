@@ -1,29 +1,31 @@
 services:
      pgsql:
-          image: postgres:11-alpine
+          image: postgres:16-alpine
           ports:
-               - '5432:5432'
+               - '${DB_PORT:-5432}:5432'
           container_name: 'pgsql'
           restart: always
           environment:
-               POSTGRES_DB: ${POSTGRES_DB}
-               POSTGRES_USER: ${POSTGRES_USER}
-               POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+               POSTGRES_DB: ${POSTGRES_DB:-quicklydb}
+               POSTGRES_USER: ${POSTGRES_USER:-pguser}
+               POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pgpassword}
           healthcheck:
                test:
                     [
                          'CMD-SHELL',
-                         'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}',
+                         'pg_isready -U ${POSTGRES_USER:-pguser} -d ${POSTGRES_DB:-quicklydb}',
                     ]
                interval: 5s
                timeout: 5s
                retries: 5
+          volumes:
+               - postgres_data:/var/lib/postgresql/data
 
      adminer:
           image: adminer:latest
           restart: always
           ports:
-               - 8080:8080
+               - '8080:8080'
           depends_on:
                pgsql:
                     condition: service_healthy
@@ -52,37 +54,44 @@ services:
           build:
                context: .
                dockerfile: Dockerfile
-          command: 'npm run start:dev'
+          command: 'pnpm run start:dev'
           ports:
-               - '3000:3000'
+               - '${APP_PORT:-3000}:3000'
           env_file:
                - .env
           volumes:
                - .:/app
                - /app/node_modules
+               - /app/dist
           develop:
                watch:
-                    # Sync changes in the Next.js app directory for live reloading
                     - action: sync
-                      path: ./app # Path to watch for changes (local directory)
-                      target: /app # Target path in the container where changes are synced
+                      path: .
+                      target: /app
                       ignore:
-                           - node_modules/ # Exclude node_modules/ from syncing to avoid performance issues
+                           - node_modules/
+                           - dist/
+                           - .git/
 
-                    # Rebuild the service when package.json changes (e.g., after adding new dependencies)
                     - action: rebuild
-                      path: package.json # Path to watch for triggering rebuilds
+                      path: package.json
+                    - action: rebuild
+                      path: pnpm-lock.yaml
           depends_on:
                pgsql:
                     condition: service_healthy
           environment:
-               DB_HOST: ${DB_HOST}
-               DB_PORT: ${DB_PORT}
-               DB_USER: ${DB_USER}
-               DB_PASSWORD: ${DB_PASSWORD}
-               DB_DATABASE: ${DB_DATABASE}
-               DB_SCHEMA: ${DB_SCHEMA}
-               DB_SYNC: ${DB_SYNC}
+               DB_HOST: pgsql
+               DB_PORT: ${DB_PORT:-5432}
+               DB_USER: ${DB_USER:-pguser}
+               DB_PASSWORD: ${DB_PASSWORD:-pgpassword}
+               DB_DATABASE: ${DB_DATABASE:-quicklydb}
+               DB_SCHEMA: ${DB_SCHEMA:-public}
+               DB_SYNC: ${DB_SYNC:-true}
+               APP_PORT: ${APP_PORT:-3000}
+
+volumes:
+     postgres_data:
 
 networks:
      default:
