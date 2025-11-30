@@ -6,6 +6,10 @@ export class MailerConfigService {
 	constructor(private readonly configService: ConfigService) {}
 
 	createMailerOptions() {
+		const fromEmail = this.configService.get<string>('mailer.fromEmail');
+		const fromName = this.configService.get<string>('mailer.fromName');
+		const from = fromName && fromEmail ? `${fromName} <${fromEmail}>` : fromEmail;
+
 		return {
 			transport: {
 				host: this.configService.get<string>('mailer.host'),
@@ -16,8 +20,9 @@ export class MailerConfigService {
 				},
 				secure: this.configService.get<boolean>('mailer.secure'),
 				ignoreTls: this.configService.get<boolean>('mailer.ignoreTls'),
-				from: this.configService.get<string>('mailer.fromEmail'),
-				name: this.configService.get<string>('mailer.fromName'),
+			},
+			defaults: {
+				from: from,
 			},
 		};
 	}

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 import pgDatabaseConfig from './configs/database/pg-database.config';
 import { PgTypeOrmConfigService } from './configs/database/pg-typeorm-config.service';
+import mailerConfig from './configs/mailer/mailer.config';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
 import { EmailModule } from './modules/email/email.module';
 import { OrganizationInvitesModule } from './modules/organization-invites/organization-invites.module';
@@ -16,7 +17,7 @@ import { UsersModule } from './modules/users/users.module';
 		ConfigModule.forRoot({
 			isGlobal: true,
 			envFilePath: ['.env'],
-			load: [pgDatabaseConfig],
+			load: [pgDatabaseConfig, mailerConfig],
 		}),
 		TypeOrmModule.forRootAsync({
 			useFactory: (configService: ConfigService) => {

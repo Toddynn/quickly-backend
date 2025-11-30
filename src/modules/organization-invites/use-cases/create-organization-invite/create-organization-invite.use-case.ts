@@ -1,20 +1,19 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { DataSource } from 'typeorm';
 import { GetExistingOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/get-existing-organization-member/get-existing-organization-member.use-case';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import type { CreateOrganizationInviteDto } from '../../models/dto/create-organization-invite.dto';
-import type { OrganizationInvite } from '../../models/entities/organization-invite.entity';
-import type { OrganizationInvitesRepositoryInterface } from '../../models/interfaces/repository.interface';
+import { OrganizationInvite } from '../../models/entities/organization-invite.entity';
 import { INVITE_STATUS } from '../../shared/constants/invite-status';
-import { ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 import { GetExistingOrganizationInviteUseCase } from '../get-existing-organization-invite/get-existing-organization-invite.use-case';
 import { SendOrganizationInviteEmailUseCase } from '../send-organization-invite-email/send-organization-invite-email.use-case';
 
 @Injectable()
 export class CreateOrganizationInviteUseCase {
 	constructor(
-		@Inject(ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY)
-		private readonly organizationInvitesRepository: OrganizationInvitesRepositoryInterface,
+		@Inject(DataSource)
+		private readonly dataSource: DataSource,
 		@Inject(GetExistingUserUseCase)
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 		@Inject(GetExistingOrganizationInviteUseCase)
@@ -28,27 +27,31 @@ export class CreateOrganizationInviteUseCase {
 	) {}
 
 	async execute(createOrganizationInviteDto: CreateOrganizationInviteDto): Promise<OrganizationInvite> {
-		
-          await this.getExistingOrganizationInviteUseCase.execute({
-               where: {
-                    email: createOrganizationInviteDto.email,
-                    organization_id: createOrganizationInviteDto.organization_id,
-                    status: INVITE_STATUS.PENDING,
-               },
-          }, { throwIfFound: true });
+		await this.getExistingOrganizationInviteUseCase.execute(
+			{
+				where: {
+					email: createOrganizationInviteDto.email,
+					organization_id: createOrganizationInviteDto.organization_id,
+					status: INVITE_STATUS.PENDING,
+				},
+			},
+			{ throwIfFound: true },
+		);
 
-          const user = await this.getExistingUserUseCase.execute({
-               where: { email: createOrganizationInviteDto.email },
-          });
+		const user = await this.getExistingUserUseCase.execute({
+			where: { email: createOrganizationInviteDto.email },
+		});
 
-          await this.getExistingOrganizationMemberUseCase.execute({
-               where: {
-                    user_id: user.id,
-                    organization_id: createOrganizationInviteDto.organization_id,
-                    active: true,
-               },
-          }, { throwIfFound: true});
-
+		await this.getExistingOrganizationMemberUseCase.execute(
+			{
+				where: {
+					user_id: user.id,
+					organization_id: createOrganizationInviteDto.organization_id,
+					active: true,
+				},
+			},
+			{ throwIfFound: true },
+		);
 
 		const organization = await this.getExistingOrganizationUseCase.execute({
 			where: { id: createOrganizationInviteDto.organization_id },
@@ -57,20 +60,35 @@ export class CreateOrganizationInviteUseCase {
 		const expirationDate = new Date();
 		expirationDate.setDate(expirationDate.getDate() + 7);
 
-		const organizationInvite = this.organizationInvitesRepository.create({
-			...createOrganizationInviteDto,
-			expiration_date: expirationDate,
-			status: INVITE_STATUS.PENDING,
-		});
+		const queryRunner = this.dataSource.createQueryRunner();
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
 
-          await this.organizationInvitesRepository.save(organizationInvite);
+		try {
+			const organizationInvite = queryRunner.manager.create(OrganizationInvite, {
+				...createOrganizationInviteDto,
+				expiration_date: expirationDate,
+				status: INVITE_STATUS.PENDING,
+			});
 
-		await this.sendOrganizationInviteEmailUseCase.execute({
-			email: createOrganizationInviteDto.email,
-			inviteId: organizationInvite.id,
-			organizationName: organization.name,
-		});
+			const invite = queryRunner.manager.create(OrganizationInvite, organizationInvite);
 
-		return organizationInvite;
+			await queryRunner.manager.save(invite);
+
+			await this.sendOrganizationInviteEmailUseCase.execute({
+				email: createOrganizationInviteDto.email,
+				inviteId: invite.id,
+				organizationId: organization.id,
+			});
+
+			await queryRunner.commitTransaction();
+
+			return invite;
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+		} finally {
+			await queryRunner.release();
+		}
 	}
 }
