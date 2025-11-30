@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { CreateUserDto } from '../../models/dto/create-user.dto';
-import type { User } from '../../models/entities/user.entity';
+import { CreateUserDto } from '../../models/dto/create-user.dto';
+import { User } from '../../models/entities/user.entity';
 import { CreateUserUseCase } from './create-user.use-case';
 import { CreateUserDocs } from './docs';
 

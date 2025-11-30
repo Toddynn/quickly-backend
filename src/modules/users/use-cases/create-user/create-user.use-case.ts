@@ -14,7 +14,6 @@ export class CreateUserUseCase {
 
 	async execute(createUserDto: CreateUserDto): Promise<User> {
 		const passwordHash = createHash('sha256').update(createUserDto.password).digest('hex');
-
 		const user = this.usersRepository.create({
 			...createUserDto,
 			password: passwordHash,

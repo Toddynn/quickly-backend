@@ -5,6 +5,5 @@ export function setupGlobalPipes(): ValidationPipe {
 		transform: true,
 		whitelist: true,
 		forbidNonWhitelisted: true,
-		forbidUnknownValues: true,
 	});
 }
