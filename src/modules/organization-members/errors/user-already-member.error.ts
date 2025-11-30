@@ -4,4 +4,3 @@ export class UserAlreadyMemberException extends Error {
 		this.name = 'UserAlreadyMemberException';
 	}
 }
-

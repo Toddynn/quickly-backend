@@ -6,4 +6,3 @@ export class UserAlreadyExistsException extends BadRequestException {
 		this.name = 'UserAlreadyExistsException';
 	}
 }
-

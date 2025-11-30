@@ -17,4 +17,3 @@ export class ResetPasswordDto {
 	@ApiProperty({ description: 'The new password' })
 	new_password: string;
 }
-

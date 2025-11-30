@@ -24,13 +24,7 @@ import { ValidatePasswordResetOtpUseCase } from './use-cases/validate-password-r
 
 @Module({
 	imports: [TypeOrmModule.forFeature([User, PasswordReset]), EmailModule],
-	controllers: [
-		CreateUserController,
-		RequestPasswordResetController,
-		ValidatePasswordResetOtpController,
-		ResetPasswordController,
-		UpdateUserController,
-	],
+	controllers: [CreateUserController, RequestPasswordResetController, ValidatePasswordResetOtpController, ResetPasswordController, UpdateUserController],
 	providers: [
 		{
 			provide: USER_REPOSITORY_INTERFACE_KEY,

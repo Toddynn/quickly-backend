@@ -11,9 +11,7 @@ interface NormalizedGetExistingOptions {
  * - Se throwIfNotFound é true e throwIfFound não foi definido, assume false
  * - Caso contrário, usa os valores padrão (throwIfFound: false, throwIfNotFound: true)
  */
-export function normalizeGetExistingOptions(
-	options: GetExistingOptions = {},
-): NormalizedGetExistingOptions {
+export function normalizeGetExistingOptions(options: GetExistingOptions = {}): NormalizedGetExistingOptions {
 	const throwIfFound = options.throwIfFound ?? false;
 	const throwIfNotFound = options.throwIfNotFound ?? !throwIfFound;
 
@@ -22,4 +20,3 @@ export function normalizeGetExistingOptions(
 		throwIfNotFound,
 	};
 }
-

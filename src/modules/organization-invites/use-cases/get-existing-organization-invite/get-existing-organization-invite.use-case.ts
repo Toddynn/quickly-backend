@@ -19,14 +19,11 @@ export class GetExistingOrganizationInviteUseCase {
 
 	@ThrowsException(NotFoundOrganizationInviteException)
 	@ThrowsException(OrganizationInviteAlreadyExistsException)
-	async execute(
-		criteria: FindOneOptions<OrganizationInvite>,
-		options: GetExistingOptions = {},
-	): Promise<OrganizationInvite | null> {
+	async execute(criteria: FindOneOptions<OrganizationInvite>, options: GetExistingOptions = {}): Promise<OrganizationInvite | null> {
 		const { throwIfFound, throwIfNotFound } = normalizeGetExistingOptions(options);
 		const fields = formatWhereClause(criteria.where || {});
 
-          const organizationInvite = await this.organizationInvitesRepository.findOne(criteria);
+		const organizationInvite = await this.organizationInvitesRepository.findOne(criteria);
 
 		if (!organizationInvite) {
 			if (throwIfNotFound) {

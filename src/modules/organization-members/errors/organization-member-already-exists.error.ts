@@ -6,4 +6,3 @@ export class OrganizationMemberAlreadyExistsException extends BadRequestExceptio
 		this.name = 'OrganizationMemberAlreadyExistsException';
 	}
 }
-

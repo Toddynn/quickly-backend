@@ -13,4 +13,3 @@ export class ValidatePasswordResetOtpDto {
 	@ApiProperty({ description: 'The OTP code' })
 	otp_code: string;
 }
-

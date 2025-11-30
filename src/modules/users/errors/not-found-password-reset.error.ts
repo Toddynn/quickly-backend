@@ -6,4 +6,3 @@ export class NotFoundPasswordResetException extends NotFoundException {
 		this.name = 'NotFoundPasswordResetException';
 	}
 }
-

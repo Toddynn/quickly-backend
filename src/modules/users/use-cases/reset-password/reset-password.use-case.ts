@@ -19,9 +19,12 @@ export class ResetPasswordUseCase {
 	) {}
 
 	async execute(resetPasswordDto: ResetPasswordDto): Promise<void> {
-		const user = await this.getExistingUserUseCase.execute({
-			where: { email: resetPasswordDto.email },
-		}, {throwIfNotFound: false});
+		const user = await this.getExistingUserUseCase.execute(
+			{
+				where: { email: resetPasswordDto.email },
+			},
+			{ throwIfNotFound: false },
+		);
 
 		if (!user) {
 			throw new BadRequestException('Email inválido.');
@@ -87,4 +90,3 @@ export class ResetPasswordUseCase {
 		}
 	}
 }
-

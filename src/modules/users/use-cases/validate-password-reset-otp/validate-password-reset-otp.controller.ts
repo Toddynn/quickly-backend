@@ -18,4 +18,3 @@ export class ValidatePasswordResetOtpController {
 		return await this.validatePasswordResetOtpUseCase.execute(validatePasswordResetOtpDto);
 	}
 }
-

@@ -35,4 +35,3 @@ export class PasswordReset extends TimestampedEntity {
 	@ApiProperty({ description: 'The user', type: () => User })
 	user: User;
 }
-

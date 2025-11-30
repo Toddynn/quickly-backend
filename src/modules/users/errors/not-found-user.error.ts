@@ -6,4 +6,3 @@ export class NotFoundUserException extends NotFoundException {
 		this.name = 'NotFoundUserException';
 	}
 }
-

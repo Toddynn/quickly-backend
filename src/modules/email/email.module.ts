@@ -8,4 +8,3 @@ import { SendEmailUseCase } from './use-cases/send-email/send-email.use-case';
 	exports: [SendEmailUseCase],
 })
 export class EmailModule {}
-

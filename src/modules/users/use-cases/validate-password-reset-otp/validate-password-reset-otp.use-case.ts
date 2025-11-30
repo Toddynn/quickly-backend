@@ -18,21 +18,27 @@ export class ValidatePasswordResetOtpUseCase {
 	) {}
 
 	async execute(validatePasswordResetOtpDto: ValidatePasswordResetOtpDto): Promise<{ valid: boolean }> {
-		const user = await this.getExistingUserUseCase.execute({
-			where: { email: validatePasswordResetOtpDto.email },
-		}, {throwIfNotFound: false});
+		const user = await this.getExistingUserUseCase.execute(
+			{
+				where: { email: validatePasswordResetOtpDto.email },
+			},
+			{ throwIfNotFound: false },
+		);
 
 		if (!user) {
 			throw new BadRequestException('Email ou código OTP inválido.');
 		}
 
-		const passwordReset = await this.getExistingPasswordResetUseCase.execute({
-			where: {
-				user_id: user.id,
-				otp_code: validatePasswordResetOtpDto.otp_code,
-				status: PASSWORD_RESET_STATUS.PENDING,
+		const passwordReset = await this.getExistingPasswordResetUseCase.execute(
+			{
+				where: {
+					user_id: user.id,
+					otp_code: validatePasswordResetOtpDto.otp_code,
+					status: PASSWORD_RESET_STATUS.PENDING,
+				},
 			},
-		}, {throwIfNotFound: false});
+			{ throwIfNotFound: false },
+		);
 
 		if (!passwordReset) {
 			throw new BadRequestException('Email ou código OTP inválido.');
@@ -51,4 +57,3 @@ export class ValidatePasswordResetOtpUseCase {
 		return { valid: true };
 	}
 }
-

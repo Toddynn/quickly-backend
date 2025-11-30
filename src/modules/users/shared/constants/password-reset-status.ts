@@ -3,4 +3,3 @@ export enum PASSWORD_RESET_STATUS {
 	USED = 'USED',
 	EXPIRED = 'EXPIRED',
 }
-

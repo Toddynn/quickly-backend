@@ -19,4 +19,3 @@ export class UpdateUserController {
 		return await this.updateUserUseCase.execute(userId, updateUserDto);
 	}
 }
-

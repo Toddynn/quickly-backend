@@ -13,7 +13,7 @@ export class AcceptOrganizationInviteController {
 
 	@Patch(':id/accept')
 	@AcceptOrganizationInviteDocs()
-	async execute(@Param('id') id: string, @Body('user_id') userId: string): Promise<void> {
+	async execute(@Param('id') id: string, @Body('user_id') userId: string): Promise<{ message: string }> {
 		return await this.acceptOrganizationInviteUseCase.execute(id, userId);
 	}
 }

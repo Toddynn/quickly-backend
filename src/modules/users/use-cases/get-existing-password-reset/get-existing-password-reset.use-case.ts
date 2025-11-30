@@ -19,10 +19,7 @@ export class GetExistingPasswordResetUseCase {
 
 	@ThrowsException(NotFoundPasswordResetException)
 	@ThrowsException(PasswordResetAlreadyExistsException)
-	async execute(
-		criteria: FindOneOptions<PasswordReset>,
-		options: GetExistingOptions = {},
-	): Promise<PasswordReset | null> {
+	async execute(criteria: FindOneOptions<PasswordReset>, options: GetExistingOptions = {}): Promise<PasswordReset | null> {
 		const { throwIfFound, throwIfNotFound } = normalizeGetExistingOptions(options);
 		const fields = formatWhereClause(criteria.where || {});
 
@@ -42,4 +39,3 @@ export class GetExistingPasswordResetUseCase {
 		return passwordReset;
 	}
 }
-

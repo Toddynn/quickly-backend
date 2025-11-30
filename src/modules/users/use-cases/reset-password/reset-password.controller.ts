@@ -19,4 +19,3 @@ export class ResetPasswordController {
 		return { message: 'Senha redefinida com sucesso.' };
 	}
 }
-

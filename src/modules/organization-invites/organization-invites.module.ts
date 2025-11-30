@@ -22,13 +22,7 @@ import { RejectOrganizationInviteUseCase } from './use-cases/reject-organization
 import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organization-invite-email/send-organization-invite-email.use-case';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([OrganizationInvite]),
-		OrganizationMembersModule,
-		OrganizationsModule,
-		UsersModule,
-		EmailModule,
-	],
+	imports: [TypeOrmModule.forFeature([OrganizationInvite]), OrganizationMembersModule, OrganizationsModule, UsersModule, EmailModule],
 	controllers: [
 		CreateOrganizationInviteController,
 		AcceptOrganizationInviteController,

@@ -9,4 +9,3 @@ export class PasswordResetRepository extends Repository<PasswordReset> implement
 		super(PasswordReset, dataSource.createEntityManager());
 	}
 }
-

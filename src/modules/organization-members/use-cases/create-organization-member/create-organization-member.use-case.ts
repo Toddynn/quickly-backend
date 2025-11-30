@@ -13,21 +13,21 @@ export class CreateOrganizationMemberUseCase {
 		private readonly organizationMembersRepository: OrganizationMembersRepositoryInterface,
 		@Inject(GetExistingOrganizationUseCase)
 		private readonly getExistingOrganizationUseCase: GetExistingOrganizationUseCase,
-          @Inject(GetExistingUserUseCase)
-          private readonly getExistingUserUseCase: GetExistingUserUseCase,
+		@Inject(GetExistingUserUseCase)
+		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 	) {}
 
 	async execute(createOrganizationMemberDto: CreateOrganizationMemberDto): Promise<OrganizationMember> {
-          const [organization, user] = await Promise.all([
-            this.getExistingOrganizationUseCase.execute({ where: { id: createOrganizationMemberDto.organization_id } }),
-            this.getExistingUserUseCase.execute({ where: { id: createOrganizationMemberDto.user_id } }),
-          ]);
-		
-          const organizationMember = this.organizationMembersRepository.create({
+		const [organization, user] = await Promise.all([
+			this.getExistingOrganizationUseCase.execute({ where: { id: createOrganizationMemberDto.organization_id } }),
+			this.getExistingUserUseCase.execute({ where: { id: createOrganizationMemberDto.user_id } }),
+		]);
+
+		const organizationMember = this.organizationMembersRepository.create({
 			organization_id: organization.id,
 			user_id: user.id,
 		});
-		
-          return await this.organizationMembersRepository.save(organizationMember);
+
+		return await this.organizationMembersRepository.save(organizationMember);
 	}
 }

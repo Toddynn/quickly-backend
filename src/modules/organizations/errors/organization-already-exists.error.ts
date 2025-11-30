@@ -6,4 +6,3 @@ export class OrganizationAlreadyExistsException extends BadRequestException {
 		this.name = 'OrganizationAlreadyExistsException';
 	}
 }
-

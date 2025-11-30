@@ -1,13 +1,10 @@
 import { BadRequestException, HttpCode, HttpException, HttpStatus, NotFoundException, applyDecorators } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
-export function ThrowsException(
-	exception: new (...args: unknown[]) => Error,
-	statusCode?: HttpStatus,
-) {
+export function ThrowsException(exception: new (...args: unknown[]) => Error, statusCode?: HttpStatus) {
 	// Se o statusCode não foi fornecido, tenta extrair da exceção
 	let finalStatusCode = statusCode;
-	
+
 	if (!finalStatusCode) {
 		// Verifica se a exceção estende NotFoundException
 		if (exception.prototype instanceof NotFoundException || exception === NotFoundException) {

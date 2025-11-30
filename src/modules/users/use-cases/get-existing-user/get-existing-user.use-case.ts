@@ -19,10 +19,7 @@ export class GetExistingUserUseCase {
 
 	@ThrowsException(NotFoundUserException)
 	@ThrowsException(UserAlreadyExistsException)
-	async execute(
-		criteria: FindOneOptions<User>,
-		options: GetExistingOptions = {},
-	): Promise<User | null> {
+	async execute(criteria: FindOneOptions<User>, options: GetExistingOptions = {}): Promise<User | null> {
 		const { throwIfFound, throwIfNotFound } = normalizeGetExistingOptions(options);
 		const fields = formatWhereClause(criteria.where || {});
 
@@ -42,4 +39,3 @@ export class GetExistingUserUseCase {
 		return user;
 	}
 }
-

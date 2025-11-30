@@ -12,4 +12,3 @@ export class UpdateUserDto {
 	@ApiPropertyOptional({ description: 'The phone of the user' })
 	phone?: string;
 }
-

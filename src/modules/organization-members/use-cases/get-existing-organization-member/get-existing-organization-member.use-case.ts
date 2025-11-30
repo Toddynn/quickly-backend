@@ -19,10 +19,7 @@ export class GetExistingOrganizationMemberUseCase {
 
 	@ThrowsException(NotFoundOrganizationMemberException)
 	@ThrowsException(OrganizationMemberAlreadyExistsException)
-	async execute(
-		criteria: FindOneOptions<OrganizationMember>,
-		options: GetExistingOptions = {},
-	): Promise<OrganizationMember | null> {
+	async execute(criteria: FindOneOptions<OrganizationMember>, options: GetExistingOptions = {}): Promise<OrganizationMember | null> {
 		const { throwIfFound, throwIfNotFound } = normalizeGetExistingOptions(options);
 		const fields = formatWhereClause(criteria.where || {});
 

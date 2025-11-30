@@ -21,19 +21,25 @@ export class RequestPasswordResetUseCase {
 	) {}
 
 	async execute(requestPasswordResetDto: RequestPasswordResetDto): Promise<void> {
-		const user = await this.getExistingUserUseCase.execute({
-			where: { email: requestPasswordResetDto.email },
-		}, { throwIfNotFound: false, throwIfFound: false });
+		const user = await this.getExistingUserUseCase.execute(
+			{
+				where: { email: requestPasswordResetDto.email },
+			},
+			{ throwIfNotFound: false, throwIfFound: false },
+		);
 
-          if(!user) return;
+		if (!user) return;
 
 		// Invalida qualquer OTP pendente anterior para este usuário
-		const existingPasswordReset = await this.getExistingPasswordResetUseCase.execute({
-			where: {
-				user_id: user.id,
-				status: PASSWORD_RESET_STATUS.PENDING,
+		const existingPasswordReset = await this.getExistingPasswordResetUseCase.execute(
+			{
+				where: {
+					user_id: user.id,
+					status: PASSWORD_RESET_STATUS.PENDING,
+				},
 			},
-		}, {throwIfNotFound: false});
+			{ throwIfNotFound: false },
+		);
 
 		if (existingPasswordReset) {
 			await this.dataSource.getRepository(PasswordReset).update(existingPasswordReset.id, {
@@ -76,4 +82,3 @@ export class RequestPasswordResetUseCase {
 		}
 	}
 }
-

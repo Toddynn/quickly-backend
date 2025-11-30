@@ -4,4 +4,3 @@ export class ActiveInviteAlreadyExistsException extends Error {
 		this.name = 'ActiveInviteAlreadyExistsException';
 	}
 }
-
