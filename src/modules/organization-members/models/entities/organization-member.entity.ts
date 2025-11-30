@@ -4,7 +4,7 @@ import { User } from '@/modules/users/models/entities/user.entity';
 import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
 import { Organization } from '../../../organizations/models/entities/organization.entity';
 
-@Entity('organization_users')
+@Entity('organization_members')
 export class OrganizationMember extends TimestampedEntity {
 	@Column({ name: 'organization_id' })
 	@ApiProperty({ description: 'The organization ID' })

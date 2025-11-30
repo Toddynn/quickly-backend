@@ -1,24 +1,28 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { hashPassword } from '@/shared/helpers/hash-password.helper';
-import type { CreateUserDto } from '../../models/dto/create-user.dto';
+import type { UpdateUserDto } from '../../models/dto/update-user.dto';
 import type { User } from '../../models/entities/user.entity';
 import type { UsersRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { USER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
 @Injectable()
-export class CreateUserUseCase {
+export class UpdateUserUseCase {
 	constructor(
 		@Inject(USER_REPOSITORY_INTERFACE_KEY)
 		private readonly usersRepository: UsersRepositoryInterface,
 	) {}
 
-	async execute(createUserDto: CreateUserDto): Promise<User> {
-		const passwordHash = await hashPassword(createUserDto.password);
-		const user = this.usersRepository.create({
-			...createUserDto,
-			password: passwordHash,
+	async execute(userId: string, updateUserDto: UpdateUserDto): Promise<User> {
+		await this.usersRepository.update(userId, updateUserDto);
+
+		const updatedUser = await this.usersRepository.findOne({
+			where: { id: userId },
 		});
 
-		return await this.usersRepository.save(user);
+		if (!updatedUser) {
+			throw new Error('Usuário não encontrado após atualização.');
+		}
+
+		return updatedUser;
 	}
 }
+
