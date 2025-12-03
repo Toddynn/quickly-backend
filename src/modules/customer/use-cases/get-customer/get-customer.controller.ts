@@ -1,8 +1,8 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Customer } from '../../models/entities/customer.entity';
-import { GetCustomerUseCase } from './get-customer.use-case';
 import { GetCustomerDocs } from './docs';
+import { GetCustomerUseCase } from './get-customer.use-case';
 
 @ApiTags('Customers')
 @Controller('customers')
@@ -18,4 +18,3 @@ export class GetCustomerController {
 		return await this.getCustomerUseCase.execute(id);
 	}
 }
-

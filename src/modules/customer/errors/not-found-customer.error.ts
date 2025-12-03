@@ -6,4 +6,3 @@ export class NotFoundCustomerException extends NotFoundException {
 		this.name = 'NotFoundCustomerException';
 	}
 }
-

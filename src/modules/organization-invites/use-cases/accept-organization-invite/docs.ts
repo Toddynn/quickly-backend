@@ -1,5 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { AcceptOrganizationInviteDto } from '../../models/dto/input/accept-organization-invite.dto';
+import { AcceptOrganizationInviteResponseDto } from '../../models/dto/output/accept-organization-invite-response.dto';
 
 export function AcceptOrganizationInviteDocs() {
 	return applyDecorators(
@@ -12,9 +14,14 @@ export function AcceptOrganizationInviteDocs() {
 			description: 'Unique invite ID (UUID)',
 			type: String,
 		}),
+		ApiBody({
+			type: AcceptOrganizationInviteDto,
+			description: 'Data for accepting the invite',
+		}),
 		ApiResponse({
 			status: HttpStatus.OK,
 			description: 'Invite accepted successfully. User linked to organization.',
+			type: AcceptOrganizationInviteResponseDto,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,

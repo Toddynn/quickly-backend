@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { FindOneOptions } from 'typeorm';
-import { ThrowsException } from '@/shared/decorators/api-metadata-exceptions.decorator';
 import { formatWhereClause } from '@/shared/helpers/format-where-clause.helper';
 import { normalizeGetExistingOptions } from '@/shared/helpers/normalize-get-existing-options.helper';
 import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options';
@@ -17,8 +16,6 @@ export class GetExistingCustomerUseCase {
 		private readonly customersRepository: CustomersRepositoryInterface,
 	) {}
 
-	@ThrowsException(NotFoundCustomerException)
-	@ThrowsException(CustomerAlreadyExistsException)
 	async execute(criteria: FindOneOptions<Customer>, options: GetExistingOptions = {}): Promise<Customer | null> {
 		const { throwIfFound, throwIfNotFound } = normalizeGetExistingOptions(options);
 		const fields = formatWhereClause(criteria.where || {});
@@ -39,4 +36,3 @@ export class GetExistingCustomerUseCase {
 		return customer;
 	}
 }
-

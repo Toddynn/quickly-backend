@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ThrowsException } from '@/shared/decorators/api-metadata-exceptions.decorator';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import { CustomerAlreadyLinkedException } from '../../errors/customer-already-linked.error';
-import { CustomerAlreadyExistsException } from '../../errors/customer-already-exists.error';
 import type { LinkCustomerToUserDto } from '../../models/dto/input/link-customer-to-user.dto';
 import type { Customer } from '../../models/entities/customer.entity';
 import type { CustomersRepositoryInterface } from '../../models/interfaces/repository.interface';
@@ -20,8 +18,6 @@ export class LinkCustomerToUserUseCase {
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 	) {}
 
-	@ThrowsException(CustomerAlreadyLinkedException)
-	@ThrowsException(CustomerAlreadyExistsException)
 	async execute(id: string, linkCustomerToUserDto: LinkCustomerToUserDto): Promise<Customer> {
 		const customer = await this.getExistingCustomerUseCase.execute({ where: { id } });
 
@@ -53,4 +49,3 @@ export class LinkCustomerToUserUseCase {
 		});
 	}
 }
-

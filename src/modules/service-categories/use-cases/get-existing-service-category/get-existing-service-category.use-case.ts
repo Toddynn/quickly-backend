@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { FindOneOptions } from 'typeorm';
-import { ThrowsException } from '@/shared/decorators/api-metadata-exceptions.decorator';
 import { formatWhereClause } from '@/shared/helpers/format-where-clause.helper';
 import { normalizeGetExistingOptions } from '@/shared/helpers/normalize-get-existing-options.helper';
 import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options';
@@ -16,7 +15,6 @@ export class GetExistingServiceCategoryUseCase {
 		private readonly serviceCategoriesRepository: ServiceCategoriesRepositoryInterface,
 	) {}
 
-	@ThrowsException(NotFoundServiceCategoryException)
 	async execute(criteria: FindOneOptions<ServiceCategory>, options: GetExistingOptions = {}): Promise<ServiceCategory | null> {
 		const { throwIfFound, throwIfNotFound } = normalizeGetExistingOptions(options);
 		const fields = formatWhereClause(criteria.where || {});

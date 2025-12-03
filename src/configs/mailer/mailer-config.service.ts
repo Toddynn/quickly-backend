@@ -13,7 +13,7 @@ export class MailerConfigService {
 		return {
 			transport: {
 				host: this.configService.get<string>('mailer.host'),
-				port: this.configService.get<number>('mailer.port'),
+				port: this.configService.get<number>('mailer.smtpPort'),
 				auth: {
 					user: this.configService.get<string>('mailer.user'),
 					pass: this.configService.get<string>('mailer.pass'),
