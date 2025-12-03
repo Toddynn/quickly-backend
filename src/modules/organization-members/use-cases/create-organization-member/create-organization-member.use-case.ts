@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
-import type { CreateOrganizationMemberDto } from '../../models/dto/create-organization-member.dto';
+import type { CreateOrganizationMemberDto } from '../../models/dto/input/create-organization-member.dto';
 import type { OrganizationMember } from '../../models/entities/organization-member.entity';
 import type { OrganizationMembersRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';

@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateOrganizationMemberDto } from '../../models/dto/create-organization-member.dto';
+import { CreateOrganizationMemberDto } from '../../models/dto/input/create-organization-member.dto';
 import { OrganizationMember } from '../../models/entities/organization-member.entity';
 
 export function CreateOrganizationMemberDocs() {
