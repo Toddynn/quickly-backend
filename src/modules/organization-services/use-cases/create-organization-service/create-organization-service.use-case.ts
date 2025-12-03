@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
 import { GetExistingServiceCategoryUseCase } from '@/modules/service-categories/use-cases/get-existing-service-category/get-existing-service-category.use-case';
-import type { CreateOrganizationServiceDto } from '../../models/dto/create-organization-service.dto';
+import type { CreateOrganizationServiceDto } from '../../models/dto/input/create-organization-service.dto';
 import type { OrganizationService } from '../../models/entities/organization-service.entity';
 import type { OrganizationServicesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_SERVICE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';

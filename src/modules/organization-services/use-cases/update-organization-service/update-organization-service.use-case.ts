@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { UpdateResult } from 'typeorm';
 import { GetExistingServiceCategoryUseCase } from '@/modules/service-categories/use-cases/get-existing-service-category/get-existing-service-category.use-case';
-import type { UpdateOrganizationServiceDto } from '../../models/dto/update-organization-service.dto';
+import type { UpdateOrganizationServiceDto } from '../../models/dto/input/update-organization-service.dto';
 import type { OrganizationServicesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_SERVICE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 import { GetExistingOrganizationServiceUseCase } from '../get-existing-organization-service/get-existing-organization-service.use-case';
