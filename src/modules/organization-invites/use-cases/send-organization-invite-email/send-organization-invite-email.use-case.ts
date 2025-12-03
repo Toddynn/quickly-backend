@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SendEmailUseCase } from '@/modules/email/use-cases/send-email/send-email.use-case';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
-import type { SendOrganizationInviteEmailDto } from '../../models/dto/send-organization-invite-email.dto';
+import type { SendOrganizationInviteEmailDto } from '../../models/dto/input/send-organization-invite-email.dto';
 
 @Injectable()
 export class SendOrganizationInviteEmailUseCase {

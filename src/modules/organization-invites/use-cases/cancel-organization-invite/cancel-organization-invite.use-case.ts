@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import type { OrganizationInvitesRepositoryInterface } from '../../models/interfaces/repository.interface';
-import { INVITE_STATUS } from '../../shared/constants/invite-status';
 import { ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
+import { INVITE_STATUS } from '../../shared/interfaces/invite-status';
 import { GetExistingOrganizationInviteUseCase } from '../get-existing-organization-invite/get-existing-organization-invite.use-case';
 
 @Injectable()

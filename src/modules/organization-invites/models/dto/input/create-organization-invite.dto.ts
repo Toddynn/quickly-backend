@@ -17,3 +17,4 @@ export class CreateOrganizationInviteDto {
 	@ApiProperty({ description: 'The email of the invited user' })
 	email: string;
 }
+

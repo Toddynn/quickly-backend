@@ -3,9 +3,9 @@ import { DataSource } from 'typeorm';
 import { GetExistingOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/get-existing-organization-member/get-existing-organization-member.use-case';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
-import type { CreateOrganizationInviteDto } from '../../models/dto/create-organization-invite.dto';
+import type { CreateOrganizationInviteDto } from '../../models/dto/input/create-organization-invite.dto';
 import { OrganizationInvite } from '../../models/entities/organization-invite.entity';
-import { INVITE_STATUS } from '../../shared/constants/invite-status';
+import { INVITE_STATUS } from '../../shared/interfaces/invite-status';
 import { GetExistingOrganizationInviteUseCase } from '../get-existing-organization-invite/get-existing-organization-invite.use-case';
 import { SendOrganizationInviteEmailUseCase } from '../send-organization-invite-email/send-organization-invite-email.use-case';
 

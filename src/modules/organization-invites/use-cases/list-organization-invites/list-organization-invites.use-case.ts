@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
-import type { OrganizationInvite } from '../../models/entities/organization-invite.entity';
+import { ListOrganizationInviteResponseDto } from '../../models/dto/output/list-organization-invite-response.dto';
 import type { OrganizationInvitesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
@@ -11,7 +11,7 @@ export class ListOrganizationInvitesUseCase {
 		private readonly organizationInvitesRepository: OrganizationInvitesRepositoryInterface,
 	) {}
 
-	async execute(paginationDto: PaginationDto): Promise<PaginatedResponseDto<OrganizationInvite>> {
+	async execute(paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationInviteResponseDto>> {
 		const { page = 1, limit = 10 } = paginationDto;
 		const skip = (page - 1) * limit;
 
@@ -26,8 +26,10 @@ export class ListOrganizationInvitesUseCase {
 
 		const totalPages = Math.ceil(total / limit);
 
+		const mappedData = data.map((invite) => new ListOrganizationInviteResponseDto(invite));
+
 		return {
-			data,
+			data: mappedData,
 			page,
 			limit,
 			total,

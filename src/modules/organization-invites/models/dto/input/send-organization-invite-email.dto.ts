@@ -17,3 +17,4 @@ export class SendOrganizationInviteEmailDto {
 	@ApiProperty({ description: 'The ID of the organization' })
 	organizationId: string;
 }
+
