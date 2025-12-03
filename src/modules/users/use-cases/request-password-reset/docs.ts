@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { RequestPasswordResetDto } from '../../models/dto/request-password-reset.dto';
+import { RequestPasswordResetDto } from '../../models/dto/input/request-password-reset.dto';
 
 export function RequestPasswordResetDocs() {
 	return applyDecorators(

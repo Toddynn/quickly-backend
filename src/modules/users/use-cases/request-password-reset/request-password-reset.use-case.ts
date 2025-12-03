@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import type { RequestPasswordResetDto } from '../../models/dto/request-password-reset.dto';
+import type { RequestPasswordResetDto } from '../../models/dto/input/request-password-reset.dto';
 import { PasswordReset } from '../../models/entities/password-reset.entity';
-import { PASSWORD_RESET_STATUS } from '../../shared/constants/password-reset-status';
+import { PASSWORD_RESET_STATUS } from '../../shared/interfaces/password-reset-status';
 import { GetExistingPasswordResetUseCase } from '../get-existing-password-reset/get-existing-password-reset.use-case';
 import { GetExistingUserUseCase } from '../get-existing-user/get-existing-user.use-case';
 import { SendPasswordResetEmailUseCase } from '../send-password-reset-email/send-password-reset-email.use-case';

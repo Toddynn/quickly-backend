@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateUserDto } from '../../models/dto/create-user.dto';
-import { User } from '../../models/entities/user.entity';
+import { CreateUserDto } from '../../models/dto/input/create-user.dto';
+import { UserDto } from '../../models/dto/output/user.dto';
 
 export function CreateUserDocs() {
 	return applyDecorators(
@@ -16,7 +16,7 @@ export function CreateUserDocs() {
 		ApiResponse({
 			status: HttpStatus.CREATED,
 			description: 'User created successfully.',
-			type: User,
+			type: UserDto,
 		}),
 		ApiResponse({
 			status: HttpStatus.CONFLICT,

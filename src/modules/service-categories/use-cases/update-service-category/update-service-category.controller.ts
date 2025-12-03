@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import type { UpdateResult } from 'typeorm';
-import { UpdateServiceCategoryDto } from '../../models/dto/update-service-category.dto';
+import { UpdateServiceCategoryDto } from '../../models/dto/input/update-service-category.dto';
 import { UpdateServiceCategoryDocs } from './docs';
 import { UpdateServiceCategoryUseCase } from './update-service-category.use-case';
 

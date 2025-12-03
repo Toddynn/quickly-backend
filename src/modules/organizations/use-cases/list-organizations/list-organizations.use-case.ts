@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
-import { ListOrganizationResponseDto } from '../../models/dto/list-organization-response.dto';
+import { ListOrganizationResponseDto } from '../../models/dto/output/list-organization-response.dto';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 

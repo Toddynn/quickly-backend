@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateServiceCategoryDto } from '../../models/dto/create-service-category.dto';
+import { CreateServiceCategoryDto } from '../../models/dto/input/create-service-category.dto';
 import { ServiceCategory } from '../../models/entities/service-category.entity';
 import { CreateServiceCategoryUseCase } from './create-service-category.use-case';
 import { CreateServiceCategoryDocs } from './docs';

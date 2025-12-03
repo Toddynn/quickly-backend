@@ -7,7 +7,7 @@ import type { GetExistingOptions } from '@/shared/interfaces/get-existing-option
 import { NotFoundUserException } from '../../errors/not-found-user.error';
 import { UserAlreadyExistsException } from '../../errors/user-already-exists.error';
 import type { User } from '../../models/entities/user.entity';
-import type { UsersRepositoryInterface } from '../../models/interfaces/repository.interface';
+import type { UsersRepositoryInterface } from '../../models/interfaces/users-repository.interface';
 import { USER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
 @Injectable()

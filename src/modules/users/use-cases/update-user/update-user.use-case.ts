@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { UpdateUserDto } from '../../models/dto/update-user.dto';
+import type { UpdateUserDto } from '../../models/dto/input/update-user.dto';
 import type { User } from '../../models/entities/user.entity';
-import type { UsersRepositoryInterface } from '../../models/interfaces/repository.interface';
+import type { UsersRepositoryInterface } from '../../models/interfaces/users-repository.interface';
 import { USER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
 @Injectable()

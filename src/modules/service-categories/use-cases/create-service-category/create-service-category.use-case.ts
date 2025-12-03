@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
-import type { CreateServiceCategoryDto } from '../../models/dto/create-service-category.dto';
+import type { CreateServiceCategoryDto } from '../../models/dto/input/create-service-category.dto';
 import type { ServiceCategory } from '../../models/entities/service-category.entity';
 import type { ServiceCategoriesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { SERVICE_CATEGORY_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';

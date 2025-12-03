@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { OrganizationDto } from '../../models/dto/organization.dto';
-import { UpdateOrganizationDto } from '../../models/dto/update-organization.dto';
+import { UpdateOrganizationDto } from '../../models/dto/input/update-organization.dto';
+import { OrganizationDto } from '../../models/dto/output/organization.dto';
 
 export function UpdateOrganizationDocs() {
 	return applyDecorators(

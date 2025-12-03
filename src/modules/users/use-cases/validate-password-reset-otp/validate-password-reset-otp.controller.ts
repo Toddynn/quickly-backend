@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ValidatePasswordResetOtpDto } from '../../models/dto/validate-password-reset-otp.dto';
+import { ValidatePasswordResetOtpDto } from '../../models/dto/input/validate-password-reset-otp.dto';
 import { ValidatePasswordResetOtpDocs } from './docs';
 import { ValidatePasswordResetOtpUseCase } from './validate-password-reset-otp.use-case';
 

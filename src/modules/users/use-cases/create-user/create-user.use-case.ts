@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { hashPassword } from '@/shared/helpers/hash-password.helper';
-import type { CreateUserDto } from '../../models/dto/create-user.dto';
+import type { CreateUserDto } from '../../models/dto/input/create-user.dto';
 import type { User } from '../../models/entities/user.entity';
-import type { UsersRepositoryInterface } from '../../models/interfaces/repository.interface';
+import type { UsersRepositoryInterface } from '../../models/interfaces/users-repository.interface';
 import { USER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
 @Injectable()

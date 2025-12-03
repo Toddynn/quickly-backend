@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
-import { ListOrganizationResponseDto } from '../../models/dto/list-organization-response.dto';
+import { ListOrganizationResponseDto } from '../../models/dto/output/list-organization-response.dto';
 import { ListOrganizationsDocs } from './docs';
 import { ListOrganizationsUseCase } from './list-organizations.use-case';
 

@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import type { ValidatePasswordResetOtpDto } from '../../models/dto/validate-password-reset-otp.dto';
+import type { ValidatePasswordResetOtpDto } from '../../models/dto/input/validate-password-reset-otp.dto';
 import type { PasswordResetRepositoryInterface } from '../../models/interfaces/password-reset-repository.interface';
 import { PASSWORD_RESET_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/password-reset-repository-interface-key';
-import { PASSWORD_RESET_STATUS } from '../../shared/constants/password-reset-status';
+import { PASSWORD_RESET_STATUS } from '../../shared/interfaces/password-reset-status';
 import { GetExistingPasswordResetUseCase } from '../get-existing-password-reset/get-existing-password-reset.use-case';
 import { GetExistingUserUseCase } from '../get-existing-user/get-existing-user.use-case';
 

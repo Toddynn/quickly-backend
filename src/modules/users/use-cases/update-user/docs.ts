@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { UpdateUserDto } from '../../models/dto/update-user.dto';
-import { User } from '../../models/entities/user.entity';
+import { UpdateUserDto } from '../../models/dto/input/update-user.dto';
+import { UserDto } from '../../models/dto/output/user.dto';
 
 export function UpdateUserDocs() {
 	return applyDecorators(
@@ -22,7 +22,7 @@ export function UpdateUserDocs() {
 		ApiResponse({
 			status: HttpStatus.OK,
 			description: 'User updated successfully.',
-			type: User,
+			type: UserDto,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,

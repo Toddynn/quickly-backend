@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SendEmailUseCase } from '@/modules/email/use-cases/send-email/send-email.use-case';
-import type { SendPasswordResetEmailDto } from '../../models/dto/send-password-reset-email.dto';
+import type { SendPasswordResetEmailDto } from '../../models/dto/input/send-password-reset-email.dto';
 
 @Injectable()
 export class SendPasswordResetEmailUseCase {

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { UpdateResult } from 'typeorm';
-import type { UpdateOrganizationDto } from '../../models/dto/update-organization.dto';
+import type { UpdateOrganizationDto } from '../../models/dto/input/update-organization.dto';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 import { GetExistingOrganizationUseCase } from '../get-existing-organization/get-existing-organization.use-case';

@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiExtraModels, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { getPaginatedResponseSchema } from '@/shared/helpers/paginated-response-schema.helper';
-import { ListOrganizationResponseDto } from '../../models/dto/list-organization-response.dto';
+import { ListOrganizationResponseDto } from '../../models/dto/output/list-organization-response.dto';
 
 export function ListOrganizationsDocs() {
 	return applyDecorators(

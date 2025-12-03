@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UpdateUserDto } from '../../models/dto/update-user.dto';
+import { UpdateUserDto } from '../../models/dto/input/update-user.dto';
 import { User } from '../../models/entities/user.entity';
 import { UpdateUserDocs } from './docs';
 import { UpdateUserUseCase } from './update-user.use-case';

@@ -1,9 +1,9 @@
 import { BadRequestException, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { hashPassword } from '@/shared/helpers/hash-password.helper';
-import type { ResetPasswordDto } from '../../models/dto/reset-password.dto';
+import type { ResetPasswordDto } from '../../models/dto/input/reset-password.dto';
 import { User } from '../../models/entities/user.entity';
-import { PASSWORD_RESET_STATUS } from '../../shared/constants/password-reset-status';
+import { PASSWORD_RESET_STATUS } from '../../shared/interfaces/password-reset-status';
 import { GetExistingPasswordResetUseCase } from '../get-existing-password-reset/get-existing-password-reset.use-case';
 import { GetExistingUserUseCase } from '../get-existing-user/get-existing-user.use-case';
 

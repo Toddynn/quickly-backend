@@ -1,8 +1,8 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import type { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
+import type { ListServiceCategoriesDto } from '../../models/dto/output/list-service-categories.dto';
 import { ServiceCategory } from '../../models/entities/service-category.entity';
-import type { ListServiceCategoriesDto } from '../../models/dto/list-service-categories.dto';
 import { ListServiceCategoriesDocs } from './docs';
 import { ListServiceCategoriesUseCase } from './list-service-categories.use-case';
 

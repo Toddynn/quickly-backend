@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateOrganizationMemberUseCase } from '../../../organization-members/use-cases/create-organization-member/create-organization-member.use-case';
-import type { CreateOrganizationDto } from '../../models/dto/create-organization.dto';
+import type { CreateOrganizationDto } from '../../models/dto/input/create-organization.dto';
 import type { Organization } from '../../models/entities/organization.entity';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';

@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
-import { ServiceCategory } from '../../models/entities/service-category.entity';
+import { ServiceCategoryDto } from '../../models/dto/output/service-category.dto';
 
 export function GetServiceCategoryDocs() {
 	return applyDecorators(
@@ -8,7 +8,7 @@ export function GetServiceCategoryDocs() {
 		ApiParam({ name: 'id', description: 'Service category ID' }),
 		ApiOkResponse({
 			description: 'Service category found',
-			type: ServiceCategory,
+			type: ServiceCategoryDto,
 		}),
 	);
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestPasswordResetDto } from '../../models/dto/request-password-reset.dto';
+import { RequestPasswordResetDto } from '../../models/dto/input/request-password-reset.dto';
 import { RequestPasswordResetDocs } from './docs';
 import { RequestPasswordResetUseCase } from './request-password-reset.use-case';
 
