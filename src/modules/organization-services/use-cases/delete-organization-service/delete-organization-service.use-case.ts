@@ -24,6 +24,6 @@ export class DeleteOrganizationServiceUseCase {
 
 		this.checkFutureAppointmentsUseCase.execute(hasFutureAppointments);
 
-		await this.organizationServicesRepository.remove(organizationService);
+		await this.organizationServicesRepository.delete({ id: organizationService.id });
 	}
 }

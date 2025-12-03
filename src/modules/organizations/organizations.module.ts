@@ -6,6 +6,8 @@ import { UsersModule } from '../users/users.module';
 import { Organization } from './models/entities/organization.entity';
 import { OrganizationsRepository } from './repository/organizations.repository';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
+import { CheckSlugAvailabilityController } from './use-cases/check-slug-availability/check-slug-availability.controller';
+import { CheckSlugAvailabilityUseCase } from './use-cases/check-slug-availability/check-slug-availability.use-case';
 import { CreateOrganizationController } from './use-cases/create-organization/create-organization.controller';
 import { CreateOrganizationUseCase } from './use-cases/create-organization/create-organization.use-case';
 import { DeleteOrganizationController } from './use-cases/delete-organization/delete-organization.controller';
@@ -21,6 +23,7 @@ import { UpdateOrganizationUseCase } from './use-cases/update-organization/updat
 @Module({
 	imports: [TypeOrmModule.forFeature([Organization]), forwardRef(() => OrganizationMembersModule), forwardRef(() => UsersModule)],
 	controllers: [
+		CheckSlugAvailabilityController,
 		CreateOrganizationController,
 		GetOrganizationController,
 		UpdateOrganizationController,
@@ -36,6 +39,7 @@ import { UpdateOrganizationUseCase } from './use-cases/update-organization/updat
 			inject: [DataSource],
 		},
 		GetExistingOrganizationUseCase,
+		CheckSlugAvailabilityUseCase,
 		CreateOrganizationUseCase,
 		GetOrganizationUseCase,
 		UpdateOrganizationUseCase,

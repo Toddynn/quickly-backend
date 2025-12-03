@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import type { OrganizationMember } from '@/modules/organization-members/models/entities/organization-member.entity';
 import { TimestampedEntityDto } from '@/shared/dto/timestamped-entity.dto';
 
 export class UserDto extends TimestampedEntityDto {
@@ -13,4 +14,7 @@ export class UserDto extends TimestampedEntityDto {
 
 	@ApiPropertyOptional({ description: 'The phone of the user' })
 	phone?: string;
+
+	@ApiProperty({ description: 'The organization memberships of the user' })
+	organization_memberships: OrganizationMember[];
 }

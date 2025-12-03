@@ -30,7 +30,7 @@ export class OrganizationService extends TimestampedEntity {
 	@JoinColumn({ name: 'organization_id' })
 	organization: Organization;
 
-	@ManyToOne(() => ServiceCategory, { nullable: true })
+	@ManyToOne(() => ServiceCategory)
 	@JoinColumn({ name: 'service_category_id' })
-	serviceCategory: ServiceCategory;
+	service_category: ServiceCategory;
 }

@@ -14,6 +14,6 @@ export class DeleteServiceCategoryUseCase {
 
 	async execute(id: string): Promise<void> {
 		const serviceCategory = await this.getExistingServiceCategoryUseCase.execute({ where: { id } });
-		await this.serviceCategoriesRepository.remove(serviceCategory);
+		await this.serviceCategoriesRepository.delete({ id: serviceCategory.id });
 	}
 }

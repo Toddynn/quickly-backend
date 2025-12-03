@@ -10,6 +10,7 @@ export function setupDocumentationConfig(app: INestApplication) {
 		swaggerOptions: {
 			persistAuthorization: true,
 		},
+		customSiteTitle: 'Quickly API reference',
 	});
 
 	app.use('/reference', apiReference({ content: document }));

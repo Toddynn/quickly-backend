@@ -4,6 +4,8 @@ import type { CreateOrganizationDto } from '../../models/dto/input/create-organi
 import type { Organization } from '../../models/entities/organization.entity';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
+import { OrganizationSlug } from '../../shared/value-objects/organization-slug';
+import { GetExistingOrganizationUseCase } from '../get-existing-organization/get-existing-organization.use-case';
 
 @Injectable()
 export class CreateOrganizationUseCase {
@@ -12,10 +14,27 @@ export class CreateOrganizationUseCase {
 		private readonly organizationsRepository: OrganizationsRepositoryInterface,
 		@Inject(CreateOrganizationMemberUseCase)
 		private readonly createOrganizationMemberUseCase: CreateOrganizationMemberUseCase,
+		@Inject(GetExistingOrganizationUseCase)
+		private readonly getExistingOrganizationUseCase: GetExistingOrganizationUseCase,
 	) {}
 
 	async execute(createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
-		const organization = this.organizationsRepository.create(createOrganizationDto);
+		// Validar e normalizar o slug usando a classe de valor
+		const organizationSlug = new OrganizationSlug(createOrganizationDto.slug);
+		const normalizedSlug = organizationSlug.getValue();
+
+		// Verificar se já existe uma organização com este slug
+		await this.getExistingOrganizationUseCase.execute(
+			{
+				where: { slug: normalizedSlug },
+			},
+			{ throwIfFound: true },
+		);
+
+		const organization = this.organizationsRepository.create({
+			...createOrganizationDto,
+			slug: normalizedSlug,
+		});
 		await this.organizationsRepository.save(organization);
 
 		await this.createOrganizationMemberUseCase.execute({

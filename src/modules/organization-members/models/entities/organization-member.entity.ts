@@ -5,19 +5,16 @@ import { Organization } from '../../../organizations/models/entities/organizatio
 
 @Entity('organization_members')
 export class OrganizationMember extends TimestampedEntity {
+	@Column({ name: 'active', type: 'boolean', default: true })
+	active: boolean;
+
 	@Column({ name: 'organization_id' })
 	organization_id: string;
 
 	@Column({ name: 'user_id' })
 	user_id: string;
 
-	@Column({ name: 'active', default: true })
-	active: boolean;
-
-	@ManyToOne(
-		() => Organization,
-		(organization) => organization.organizationMembers,
-	)
+	@ManyToOne(() => Organization)
 	@JoinColumn({ name: 'organization_id' })
 	organization: Organization;
 

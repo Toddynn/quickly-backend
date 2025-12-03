@@ -6,7 +6,7 @@ import type { OrganizationsRepositoryInterface } from '../../models/interfaces/r
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
 const isListOrganizationResponseDto = (
-	organization: Omit<OrganizationDto, 'organizationMembers' | 'addresses'>,
+	organization: Omit<OrganizationDto, 'organization_members' | 'addresses'>,
 ): organization is ListOrganizationResponseDto => {
 	return 'membersCount' in organization;
 };
@@ -24,7 +24,7 @@ export class ListOrganizationsUseCase {
 		const queryBuilder = this.organizationsRepository
 			.createQueryBuilder('organization')
 			.leftJoinAndSelect('organization.owner', 'owner')
-			.loadRelationCountAndMap('organization.membersCount', 'organization.organizationMembers')
+			.loadRelationCountAndMap('organization.membersCount', 'organization.organization_members')
 			.skip(skip)
 			.take(limit);
 

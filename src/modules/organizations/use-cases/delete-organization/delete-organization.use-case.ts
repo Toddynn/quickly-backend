@@ -14,6 +14,6 @@ export class DeleteOrganizationUseCase {
 
 	async execute(id: string): Promise<void> {
 		const organization = await this.getExistingOrganizationUseCase.execute({ where: { id } });
-		await this.organizationsRepository.remove(organization);
+		await this.organizationsRepository.delete({ id: organization.id });
 	}
 }

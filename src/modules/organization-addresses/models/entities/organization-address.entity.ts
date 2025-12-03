@@ -13,6 +13,9 @@ export class OrganizationAddress extends TimestampedEntity {
 	@Column({ nullable: true, name: 'street' })
 	street: string;
 
+	@Column({ nullable: true, name: 'number' })
+	number: string;
+
 	@Column({ nullable: true, name: 'complement' })
 	complement: string;
 

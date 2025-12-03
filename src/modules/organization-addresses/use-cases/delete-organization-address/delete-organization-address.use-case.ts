@@ -14,6 +14,6 @@ export class DeleteOrganizationAddressUseCase {
 
 	async execute(id: string): Promise<void> {
 		const organizationAddress = await this.getExistingOrganizationAddressUseCase.execute({ where: { id } });
-		await this.organizationAddressesRepository.remove(organizationAddress);
+		await this.organizationAddressesRepository.delete({ id: organizationAddress.id });
 	}
 }
