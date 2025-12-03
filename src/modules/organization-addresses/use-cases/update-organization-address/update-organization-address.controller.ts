@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
-import { UpdateOrganizationAddressDto } from '../../models/dto/update-organization-address.dto';
+import { UpdateOrganizationAddressDto } from '../../models/dto/input/update-organization-address.dto';
 import { UpdateOrganizationAddressDocs } from './docs';
 import { UpdateOrganizationAddressUseCase } from './update-organization-address.use-case';
 

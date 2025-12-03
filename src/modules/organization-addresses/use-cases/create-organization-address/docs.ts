@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateOrganizationAddressDto } from '../../models/dto/create-organization-address.dto';
+import { CreateOrganizationAddressDto } from '../../models/dto/input/create-organization-address.dto';
 import { OrganizationAddress } from '../../models/entities/organization-address.entity';
 
 export function CreateOrganizationAddressDocs() {

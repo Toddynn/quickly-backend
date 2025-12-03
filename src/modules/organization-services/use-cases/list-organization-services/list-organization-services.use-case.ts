@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { type FindOptionsWhere, ILike } from 'typeorm';
 import type { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
 import type { ListOrganizationServicesDto } from '../../models/dto/input/list-organization-services.dto';
-import { ListOrganizationServiceResponseDto } from '../../models/dto/output/list-organization-service-response.dto';
+import type { ListOrganizationServiceResponseDto } from '../../models/dto/output/list-organization-service-response.dto';
 import type { OrganizationService } from '../../models/entities/organization-service.entity';
 import type { OrganizationServicesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_SERVICE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
@@ -43,10 +43,8 @@ export class ListOrganizationServicesUseCase {
 
 		const totalPages = Math.ceil(total / limit);
 
-		const mappedData = data.map((service) => new ListOrganizationServiceResponseDto(service));
-
 		return {
-			data: mappedData,
+			data,
 			page,
 			limit,
 			total,

@@ -1,8 +1,8 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
-import { ListOrganizationAddressesDto } from '../../models/dto/list-organization-addresses.dto';
-import { OrganizationAddress } from '../../models/entities/organization-address.entity';
+import type { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
+import type { ListOrganizationAddressesDto } from '../../models/dto/input/list-organization-addresses.dto';
+import { ListOrganizationAddressResponseDto } from '../../models/dto/output/list-organization-address-response.dto';
 import { ListOrganizationAddressesDocs } from './docs';
 import { ListOrganizationAddressesUseCase } from './list-organization-addresses.use-case';
 
@@ -16,7 +16,7 @@ export class ListOrganizationAddressesController {
 
 	@Get()
 	@ListOrganizationAddressesDocs()
-	async execute(@Query() listDto: ListOrganizationAddressesDto): Promise<PaginatedResponseDto<OrganizationAddress>> {
+	async execute(@Query() listDto: ListOrganizationAddressesDto): Promise<PaginatedResponseDto<ListOrganizationAddressResponseDto>> {
 		return await this.listOrganizationAddressesUseCase.execute(listDto);
 	}
 }

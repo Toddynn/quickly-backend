@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
 import type { ListOrganizationMembersDto } from '../../models/dto/input/list-organization-members.dto';
-import { ListOrganizationMemberResponseDto } from '../../models/dto/output/list-organization-member-response.dto';
+import type { ListOrganizationMemberResponseDto } from '../../models/dto/output/list-organization-member-response.dto';
 import type { OrganizationMembersRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
@@ -30,10 +30,8 @@ export class ListOrganizationMembersUseCase {
 
 		const totalPages = Math.ceil(total / limit);
 
-		const mappedData = data.map((member) => new ListOrganizationMemberResponseDto(member));
-
 		return {
-			data: mappedData,
+			data,
 			page,
 			limit,
 			total,
