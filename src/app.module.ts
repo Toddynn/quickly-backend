@@ -7,6 +7,7 @@ import { PgTypeOrmConfigService } from './configs/database/pg-typeorm-config.ser
 import mailerConfig from './configs/mailer/mailer.config';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
 import { EmailModule } from './modules/email/email.module';
+import { OrganizationAddressesModule } from './modules/organization-addresses/organization-addresses.module';
 import { OrganizationInvitesModule } from './modules/organization-invites/organization-invites.module';
 import { OrganizationMembersModule } from './modules/organization-members/organization-members.module';
 import { OrganizationServicesModule } from './modules/organization-services/organization-services.module';
@@ -39,6 +40,7 @@ import { UsersModule } from './modules/users/users.module';
 		OrganizationsModule,
 		OrganizationMembersModule,
 		OrganizationInvitesModule,
+		OrganizationAddressesModule,
 		ServiceCategoriesModule,
 		OrganizationServicesModule,
 		EmailModule,

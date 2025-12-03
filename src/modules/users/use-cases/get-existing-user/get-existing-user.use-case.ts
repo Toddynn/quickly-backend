@@ -3,7 +3,7 @@ import type { FindOneOptions } from 'typeorm';
 import { ThrowsException } from '@/shared/decorators/api-metadata-exceptions.decorator';
 import { formatWhereClause } from '@/shared/helpers/format-where-clause.helper';
 import { normalizeGetExistingOptions } from '@/shared/helpers/normalize-get-existing-options.helper';
-import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options.interface';
+import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options';
 import { NotFoundUserException } from '../../errors/not-found-user.error';
 import { UserAlreadyExistsException } from '../../errors/user-already-exists.error';
 import type { User } from '../../models/entities/user.entity';

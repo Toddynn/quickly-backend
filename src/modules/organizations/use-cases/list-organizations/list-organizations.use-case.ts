@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
-import type { Organization } from '../../models/entities/organization.entity';
+import { ListOrganizationResponseDto } from '../../models/dto/list-organization-response.dto';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 
@@ -11,20 +11,25 @@ export class ListOrganizationsUseCase {
 		private readonly organizationsRepository: OrganizationsRepositoryInterface,
 	) {}
 
-	async execute(paginationDto: PaginationDto): Promise<PaginatedResponseDto<Organization>> {
+	async execute(paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
 		const { page = 1, limit = 10 } = paginationDto;
 		const skip = (page - 1) * limit;
 
-		const [data, total] = await this.organizationsRepository.findAndCount({
-			relations: ['owner', 'organizationMembers', 'organizationMembers.user'],
-			skip,
-			take: limit,
-		});
+		const queryBuilder = this.organizationsRepository
+			.createQueryBuilder('organization')
+			.leftJoinAndSelect('organization.owner', 'owner')
+			.loadRelationCountAndMap('organization.membersCount', 'organization.organizationMembers')
+			.skip(skip)
+			.take(limit);
+
+		const [data, total] = await queryBuilder.getManyAndCount();
 
 		const totalPages = Math.ceil(total / limit);
 
+		const mappedData = data.map((organization) => new ListOrganizationResponseDto(organization));
+
 		return {
-			data,
+			data: mappedData,
 			page,
 			limit,
 			total,

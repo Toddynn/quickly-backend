@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrganizationDto } from '../../models/dto/create-organization.dto';
-import { Organization } from '../../models/entities/organization.entity';
+import { OrganizationDto } from '../../models/dto/organization.dto';
 
 export function CreateOrganizationDocs() {
 	return applyDecorators(
@@ -17,7 +17,7 @@ export function CreateOrganizationDocs() {
 		ApiResponse({
 			status: HttpStatus.CREATED,
 			description: 'Organization created successfully.',
-			type: Organization,
+			type: OrganizationDto,
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,

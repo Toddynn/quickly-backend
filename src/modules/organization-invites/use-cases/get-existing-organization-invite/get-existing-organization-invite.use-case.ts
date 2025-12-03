@@ -3,7 +3,7 @@ import type { FindOneOptions } from 'typeorm';
 import { ThrowsException } from '@/shared/decorators/api-metadata-exceptions.decorator';
 import { formatWhereClause } from '@/shared/helpers/format-where-clause.helper';
 import { normalizeGetExistingOptions } from '@/shared/helpers/normalize-get-existing-options.helper';
-import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options.interface';
+import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options';
 import { NotFoundOrganizationInviteException } from '../../errors/not-found-organization-invite.error';
 import { OrganizationInviteAlreadyExistsException } from '../../errors/organization-invite-already-exists.error';
 import type { OrganizationInvite } from '../../models/entities/organization-invite.entity';

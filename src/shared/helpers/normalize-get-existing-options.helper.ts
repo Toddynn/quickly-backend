@@ -1,4 +1,4 @@
-import type { GetExistingOptions } from '../interfaces/get-existing-options.interface';
+import type { GetExistingOptions } from '../interfaces/get-existing-options';
 
 interface NormalizedGetExistingOptions {
 	throwIfFound: boolean;

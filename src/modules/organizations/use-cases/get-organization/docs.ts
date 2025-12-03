@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { Organization } from '../../models/entities/organization.entity';
+import { OrganizationDto } from '../../models/dto/organization.dto';
 
 export function GetOrganizationDocs() {
 	return applyDecorators(
@@ -16,7 +16,7 @@ export function GetOrganizationDocs() {
 		ApiResponse({
 			status: HttpStatus.OK,
 			description: 'Organization found successfully.',
-			type: Organization,
+			type: OrganizationDto,
 		}),
 		ApiResponse({
 			status: HttpStatus.NOT_FOUND,

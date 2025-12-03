@@ -3,7 +3,7 @@ import type { FindOneOptions } from 'typeorm';
 import { ThrowsException } from '@/shared/decorators/api-metadata-exceptions.decorator';
 import { formatWhereClause } from '@/shared/helpers/format-where-clause.helper';
 import { normalizeGetExistingOptions } from '@/shared/helpers/normalize-get-existing-options.helper';
-import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options.interface';
+import type { GetExistingOptions } from '@/shared/interfaces/get-existing-options';
 import { NotFoundPasswordResetException } from '../../errors/not-found-password-reset.error';
 import { PasswordResetAlreadyExistsException } from '../../errors/password-reset-already-exists.error';
 import type { PasswordReset } from '../../models/entities/password-reset.entity';

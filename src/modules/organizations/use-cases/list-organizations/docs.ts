@@ -1,14 +1,14 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiExtraModels, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { getPaginatedResponseSchema } from '@/shared/helpers/paginated-response-schema.helper';
-import { Organization } from '../../models/entities/organization.entity';
+import { ListOrganizationResponseDto } from '../../models/dto/list-organization-response.dto';
 
 export function ListOrganizationsDocs() {
 	return applyDecorators(
-		ApiExtraModels(Organization),
+		ApiExtraModels(ListOrganizationResponseDto),
 		ApiOperation({
 			summary: 'List all organizations',
-			description: 'Returns a paginated list with all registered organizations.',
+			description: 'Returns a paginated list with all registered organizations. Includes the count of members for each organization.',
 		}),
 		ApiQuery({
 			name: 'page',
@@ -25,7 +25,7 @@ export function ListOrganizationsDocs() {
 		ApiResponse({
 			status: HttpStatus.OK,
 			description: 'List of organizations returned successfully.',
-			schema: getPaginatedResponseSchema(Organization),
+			schema: getPaginatedResponseSchema(ListOrganizationResponseDto),
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,

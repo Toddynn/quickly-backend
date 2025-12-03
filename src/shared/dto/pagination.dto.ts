@@ -3,19 +3,19 @@ import { Type } from 'class-transformer';
 import { IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class PaginationDto {
-	@ApiPropertyOptional({ description: 'Número da página', default: 1, minimum: 1 })
+	@ApiPropertyOptional({ description: 'Number of the page', default: 1, minimum: 1 })
 	@IsOptional()
 	@Type(() => Number)
 	@IsInt()
 	@Min(1)
 	page?: number = 1;
 
-	@ApiPropertyOptional({ description: 'Pesquisa' })
+	@ApiPropertyOptional({ description: 'Search' })
 	@IsOptional()
 	@IsString()
 	search?: string;
 
-	@ApiPropertyOptional({ description: 'Quantidade de itens por página', default: 10, minimum: 1 })
+	@ApiPropertyOptional({ description: 'Number of items per page', default: 10, minimum: 1 })
 	@IsOptional()
 	@Type(() => Number)
 	@IsInt()
@@ -24,18 +24,18 @@ export class PaginationDto {
 }
 
 export class PaginatedResponseDto<T> {
-	@ApiProperty({ description: 'Lista de itens', isArray: true })
+	@ApiProperty({ description: 'List of items', isArray: true })
 	data: Array<T>;
 
-	@ApiProperty({ description: 'Número da página atual' })
+	@ApiProperty({ description: 'Current page number' })
 	page: number;
 
-	@ApiProperty({ description: 'Quantidade de itens por página' })
+	@ApiProperty({ description: 'Number of items per page' })
 	limit: number;
 
-	@ApiProperty({ description: 'Total de itens' })
+	@ApiProperty({ description: 'Total number of items' })
 	total: number;
 
-	@ApiProperty({ description: 'Total de páginas' })
+	@ApiProperty({ description: 'Total number of pages' })
 	totalPages: number;
 }
