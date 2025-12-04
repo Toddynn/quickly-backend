@@ -7,8 +7,7 @@ export function UpdateUserDocs() {
 	return applyDecorators(
 		ApiOperation({
 			summary: 'Update user data',
-			description:
-				'Updates user data (name and/or phone). Password cannot be changed through this endpoint. Use the password recovery flow to change the password.',
+			description: 'Updates user data. Password cannot be changed through this endpoint. Use the password recovery flow to change the password.',
 		}),
 		ApiParam({
 			name: 'id',

@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString, IsStrongPassword } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsStrongPassword } from 'class-validator';
 
 export class CreateUserDto {
 	@IsString()
@@ -22,8 +22,8 @@ export class CreateUserDto {
 	@ApiProperty({ description: 'The password of the user' })
 	password: string;
 
-	@IsNotEmpty()
+	@IsOptional()
 	@IsPhoneNumber('BR', { message: `O telefone deve ser um número de telefone válido.` })
-	@ApiProperty({ description: 'The phone of the user' })
-	phone: string;
+	@ApiPropertyOptional({ description: 'The phone of the user' })
+	phone?: string;
 }

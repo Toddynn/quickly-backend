@@ -13,8 +13,8 @@ export class User extends TimestampedEntity {
 	@Column({ select: false, name: 'password' })
 	password: string;
 
-	@Column({ name: 'phone' })
-	phone: string;
+	@Column({ name: 'phone', nullable: true })
+	phone?: string;
 
 	@Column({ name: 'email_verified', type: 'boolean', default: false })
 	email_verified: boolean;
