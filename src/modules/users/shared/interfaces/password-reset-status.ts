@@ -1,5 +1,0 @@
-export enum PASSWORD_RESET_STATUS {
-	PENDING = 'PENDING',
-	USED = 'USED',
-	EXPIRED = 'EXPIRED',
-}

@@ -13,6 +13,7 @@ import { OrganizationInvitesModule } from './modules/organization-invites/organi
 import { OrganizationMembersModule } from './modules/organization-members/organization-members.module';
 import { OrganizationServicesModule } from './modules/organization-services/organization-services.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
+import { PasswordResetModule } from './modules/password-reset/password-reset.module';
 import { ServiceCategoriesModule } from './modules/service-categories/service-categories.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -38,6 +39,7 @@ import { UsersModule } from './modules/users/users.module';
 			inject: [ConfigService],
 		}),
 		UsersModule,
+		PasswordResetModule,
 		OrganizationsModule,
 		OrganizationMembersModule,
 		OrganizationInvitesModule,

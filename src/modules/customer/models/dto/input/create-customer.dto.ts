@@ -12,9 +12,9 @@ export class CreateCustomerDto {
 	@ApiProperty({ description: 'The customer name' })
 	name: string;
 
+	@IsOptional()
 	@IsEmail()
-	@IsNotEmpty()
-	@ApiProperty({ description: 'The customer email' })
+	@ApiPropertyOptional({ description: 'The customer email' })
 	email: string;
 
 	@IsString()
