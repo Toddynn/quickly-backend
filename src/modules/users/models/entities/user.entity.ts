@@ -16,6 +16,9 @@ export class User extends TimestampedEntity {
 	@Column({ name: 'phone' })
 	phone: string;
 
+	@Column({ name: 'email_verified', type: 'boolean', default: false })
+	email_verified: boolean;
+
 	@OneToMany(
 		() => OrganizationMember,
 		(organizationMember) => organizationMember.user,

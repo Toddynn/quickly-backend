@@ -1,28 +1,35 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { GetExistingUserWithVerifiedEmailUseCase } from '@/modules/users/use-cases/get-existing-user-with-verified-email/get-existing-user-with-verified-email.use-case';
 import { OtpCode } from '@/shared/value-objects/otp-code';
-import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
+import type { CreatePasswordResetDto } from '../../models/dto/input/create-password-reset.dto';
 import type { RequestPasswordResetDto } from '../../models/dto/input/request-password-reset.dto';
-import { PasswordReset } from '../../models/entities/password-reset.entity';
+import type { PasswordResetRepositoryInterface } from '../../models/interfaces/password-reset-repository.interface';
+import { PASSWORD_RESET_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/password-reset-repository-interface-key';
 import { PASSWORD_RESET_STATUS } from '../../shared/interfaces/password-reset-status';
+import { CheckPasswordResetAttemptsUseCase } from '../check-password-reset-attempts/check-password-reset-attempts.use-case';
 import { GetExistingPasswordResetUseCase } from '../get-existing-password-reset/get-existing-password-reset.use-case';
 import { SendPasswordResetEmailUseCase } from '../send-password-reset-email/send-password-reset-email.use-case';
+import { UpdatePasswordResetUseCase } from '../update-password-reset/update-password-reset.use-case';
 
 @Injectable()
 export class RequestPasswordResetUseCase {
 	constructor(
-		@Inject(DataSource)
-		private readonly dataSource: DataSource,
-		@Inject(GetExistingUserUseCase)
-		private readonly getExistingUserUseCase: GetExistingUserUseCase,
+		@Inject(PASSWORD_RESET_REPOSITORY_INTERFACE_KEY)
+		private readonly passwordResetRepository: PasswordResetRepositoryInterface,
+		@Inject(GetExistingUserWithVerifiedEmailUseCase)
+		private readonly getExistingUserWithVerifiedEmailUseCase: GetExistingUserWithVerifiedEmailUseCase,
 		@Inject(GetExistingPasswordResetUseCase)
 		private readonly getExistingPasswordResetUseCase: GetExistingPasswordResetUseCase,
+		@Inject(CheckPasswordResetAttemptsUseCase)
+		private readonly checkPasswordResetAttemptsUseCase: CheckPasswordResetAttemptsUseCase,
+		@Inject(UpdatePasswordResetUseCase)
+		private readonly updatePasswordResetUseCase: UpdatePasswordResetUseCase,
 		@Inject(SendPasswordResetEmailUseCase)
 		private readonly sendPasswordResetEmailUseCase: SendPasswordResetEmailUseCase,
 	) {}
 
 	async execute(requestPasswordResetDto: RequestPasswordResetDto): Promise<void> {
-		const user = await this.getExistingUserUseCase.execute(
+		const user = await this.getExistingUserWithVerifiedEmailUseCase.execute(
 			{
 				where: { email: requestPasswordResetDto.email },
 			},
@@ -30,6 +37,9 @@ export class RequestPasswordResetUseCase {
 		);
 
 		if (!user) return;
+
+		// Verifica se o usuário excedeu o limite de tentativas
+		await this.checkPasswordResetAttemptsUseCase.execute(user.id);
 
 		// Invalida qualquer OTP pendente anterior para este usuário
 		const existingPasswordReset = await this.getExistingPasswordResetUseCase.execute(
@@ -43,44 +53,40 @@ export class RequestPasswordResetUseCase {
 		);
 
 		if (existingPasswordReset) {
-			await this.dataSource.getRepository(PasswordReset).update(existingPasswordReset.id, {
+			await this.updatePasswordResetUseCase.execute(existingPasswordReset.id, {
 				status: PASSWORD_RESET_STATUS.EXPIRED,
 			});
 		}
 
-		// Gera código OTP de 6 dígitos usando o value object
 		const otpCode = OtpCode.generate();
 
-		const expirationDate = new Date();
-		expirationDate.setMinutes(expirationDate.getMinutes() + 15); // OTP expira em 15 minutos
+		const expirationDate = this.generateExpirationDate();
 
-		const queryRunner = this.dataSource.createQueryRunner();
-		await queryRunner.connect();
-		await queryRunner.startTransaction();
+		const createPasswordResetDto: CreatePasswordResetDto = {
+			user_id: user.id,
+			otp_code: otpCode.getValue(),
+			expiration_date: expirationDate,
+			status: PASSWORD_RESET_STATUS.PENDING,
+			validated: false,
+		};
 
 		try {
-			const passwordReset = queryRunner.manager.create(PasswordReset, {
-				user_id: user.id,
-				otp_code: otpCode.getValue(),
-				expiration_date: expirationDate,
-				status: PASSWORD_RESET_STATUS.PENDING,
-				validated: false,
-			});
+			const passwordReset = this.passwordResetRepository.create(createPasswordResetDto);
 
-			await queryRunner.manager.save(passwordReset);
+			await this.passwordResetRepository.save(passwordReset);
 
 			await this.sendPasswordResetEmailUseCase.execute({
 				email: requestPasswordResetDto.email,
 				otpCode: passwordReset.otp_code,
 			});
-
-			await queryRunner.commitTransaction();
 		} catch (error) {
-			await queryRunner.rollbackTransaction();
 			throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-		} finally {
-			await queryRunner.release();
 		}
 	}
-}
 
+	private generateExpirationDate(): Date {
+		const expirationDate = new Date();
+		expirationDate.setMinutes(expirationDate.getMinutes() + 15); // OTP expira em 15 minutos
+		return expirationDate;
+	}
+}

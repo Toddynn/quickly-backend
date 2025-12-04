@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateResult } from 'typeorm';
 import { UpdateUserDto } from '../../models/dto/input/update-user.dto';
-import { User } from '../../models/entities/user.entity';
 import { UpdateUserDocs } from './docs';
 import { UpdateUserUseCase } from './update-user.use-case';
 
@@ -15,7 +15,7 @@ export class UpdateUserController {
 
 	@Patch(':id')
 	@UpdateUserDocs()
-	async execute(@Param('id') userId: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+	async execute(@Param('id') userId: string, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
 		return await this.updateUserUseCase.execute(userId, updateUserDto);
 	}
 }

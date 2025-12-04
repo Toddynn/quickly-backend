@@ -7,6 +7,7 @@ import { USER_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-int
 import { CreateUserController } from './use-cases/create-user/create-user.controller';
 import { CreateUserUseCase } from './use-cases/create-user/create-user.use-case';
 import { GetExistingUserUseCase } from './use-cases/get-existing-user/get-existing-user.use-case';
+import { GetExistingUserWithVerifiedEmailUseCase } from './use-cases/get-existing-user-with-verified-email/get-existing-user-with-verified-email.use-case';
 import { UpdateUserController } from './use-cases/update-user/update-user.controller';
 import { UpdateUserUseCase } from './use-cases/update-user/update-user.use-case';
 import { UpdateUserPasswordUseCase } from './use-cases/update-user-password/update-user-password.use-case';
@@ -24,9 +25,10 @@ import { UpdateUserPasswordUseCase } from './use-cases/update-user-password/upda
 		},
 		CreateUserUseCase,
 		GetExistingUserUseCase,
+		GetExistingUserWithVerifiedEmailUseCase,
 		UpdateUserUseCase,
 		UpdateUserPasswordUseCase,
 	],
-	exports: [USER_REPOSITORY_INTERFACE_KEY, GetExistingUserUseCase, UpdateUserPasswordUseCase],
+	exports: [USER_REPOSITORY_INTERFACE_KEY, GetExistingUserUseCase, GetExistingUserWithVerifiedEmailUseCase, UpdateUserPasswordUseCase, UpdateUserUseCase],
 })
 export class UsersModule {}

@@ -1,27 +1,27 @@
 import { Inject, Injectable } from '@nestjs/common';
+import type { UpdateResult } from 'typeorm';
 import type { UpdateUserDto } from '../../models/dto/input/update-user.dto';
-import type { User } from '../../models/entities/user.entity';
 import type { UsersRepositoryInterface } from '../../models/interfaces/users-repository.interface';
 import { USER_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
+import { GetExistingUserUseCase } from '../get-existing-user/get-existing-user.use-case';
 
 @Injectable()
 export class UpdateUserUseCase {
 	constructor(
 		@Inject(USER_REPOSITORY_INTERFACE_KEY)
 		private readonly usersRepository: UsersRepositoryInterface,
+		@Inject(GetExistingUserUseCase)
+		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 	) {}
 
-	async execute(userId: string, updateUserDto: UpdateUserDto): Promise<User> {
-		await this.usersRepository.update(userId, updateUserDto);
+	async execute(userId: string, updateUserDto: UpdateUserDto): Promise<UpdateResult> {
+		const user = await this.getExistingUserUseCase.execute({ where: { id: userId } });
 
-		const updatedUser = await this.usersRepository.findOne({
-			where: { id: userId },
+		return await this.usersRepository.update(user.id, {
+			name: updateUserDto.name,
+			phone: updateUserDto.phone,
+			email: user.email,
+			email_verified: user.email_verified,
 		});
-
-		if (!updatedUser) {
-			throw new Error('Usuário não encontrado após atualização.');
-		}
-
-		return updatedUser;
 	}
 }

@@ -1,14 +1,10 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsPhoneNumber, IsString } from 'class-validator';
+import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { IsBoolean, IsOptional } from 'class-validator';
+import { CreateUserDto } from './create-user.dto';
 
-export class UpdateUserDto {
-	@IsString()
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+	@IsBoolean()
 	@IsOptional()
-	@ApiPropertyOptional({ description: 'The name of the user' })
-	name?: string;
-
-	@IsPhoneNumber('BR', { message: `O telefone deve ser um número de telefone válido.` })
-	@IsOptional()
-	@ApiPropertyOptional({ description: 'The phone of the user' })
-	phone?: string;
+	@ApiPropertyOptional({ description: 'Whether the user is verified' })
+	email_verified?: boolean;
 }

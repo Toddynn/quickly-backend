@@ -1,11 +1,11 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { OtpCode } from '@/shared/value-objects/otp-code';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
+import { OtpCode } from '@/shared/value-objects/otp-code';
 import type { ValidatePasswordResetOtpDto } from '../../models/dto/input/validate-password-reset-otp.dto';
-import type { PasswordResetRepositoryInterface } from '../../models/interfaces/password-reset-repository.interface';
-import { PASSWORD_RESET_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/password-reset-repository-interface-key';
 import { PASSWORD_RESET_STATUS } from '../../shared/interfaces/password-reset-status';
 import { GetExistingPasswordResetUseCase } from '../get-existing-password-reset/get-existing-password-reset.use-case';
+import { MarkPasswordResetAsValidatedUseCase } from '../mark-password-reset-as-validated/mark-password-reset-as-used.use-case';
+import { ValidatePasswordResetExpirationUseCase } from '../validate-password-reset-expiration/validate-password-reset-expiration.use-case';
 
 @Injectable()
 export class ValidatePasswordResetOtpUseCase {
@@ -14,8 +14,10 @@ export class ValidatePasswordResetOtpUseCase {
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 		@Inject(GetExistingPasswordResetUseCase)
 		private readonly getExistingPasswordResetUseCase: GetExistingPasswordResetUseCase,
-		@Inject(PASSWORD_RESET_REPOSITORY_INTERFACE_KEY)
-		private readonly passwordResetRepository: PasswordResetRepositoryInterface,
+		@Inject(MarkPasswordResetAsValidatedUseCase)
+		private readonly markPasswordResetAsValidatedUseCase: MarkPasswordResetAsValidatedUseCase,
+		@Inject(ValidatePasswordResetExpirationUseCase)
+		private readonly validatePasswordResetExpirationUseCase: ValidatePasswordResetExpirationUseCase,
 	) {}
 
 	async execute(validatePasswordResetOtpDto: ValidatePasswordResetOtpDto): Promise<{ valid: boolean }> {
@@ -30,13 +32,7 @@ export class ValidatePasswordResetOtpUseCase {
 			throw new BadRequestException('Email ou código OTP inválido.');
 		}
 
-		// Valida o formato do OTP usando o value object
-		let otpCode: OtpCode;
-		try {
-			otpCode = OtpCode.fromString(validatePasswordResetOtpDto.otp_code);
-		} catch (error) {
-			throw new BadRequestException('Email ou código OTP inválido.');
-		}
+		const otpCode = new OtpCode(validatePasswordResetOtpDto.otp_code);
 
 		const passwordReset = await this.getExistingPasswordResetUseCase.execute(
 			{
@@ -53,17 +49,10 @@ export class ValidatePasswordResetOtpUseCase {
 			throw new BadRequestException('Email ou código OTP inválido.');
 		}
 
-		// Verifica se o OTP expirou
-		const expirationDate = new Date(passwordReset.expiration_date);
-		if (expirationDate < new Date()) {
-			await this.passwordResetRepository.update(passwordReset.id, { status: PASSWORD_RESET_STATUS.EXPIRED });
-			throw new BadRequestException('Código OTP expirado.');
-		}
+		await this.validatePasswordResetExpirationUseCase.execute(passwordReset);
 
-		// Marca o OTP como validado
-		await this.passwordResetRepository.update(passwordReset.id, { validated: true });
+		await this.markPasswordResetAsValidatedUseCase.execute(passwordReset.id);
 
 		return { valid: true };
 	}
 }
-

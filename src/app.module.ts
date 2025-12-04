@@ -8,6 +8,7 @@ import mailerConfig from './configs/mailer/mailer.config';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
 import { CustomerModule } from './modules/customer/customer.module';
 import { EmailModule } from './modules/email/email.module';
+import { EmailConfirmationModule } from './modules/email-confirmation/email-confirmation.module';
 import { OrganizationAddressesModule } from './modules/organization-addresses/organization-addresses.module';
 import { OrganizationInvitesModule } from './modules/organization-invites/organization-invites.module';
 import { OrganizationMembersModule } from './modules/organization-members/organization-members.module';
@@ -16,7 +17,6 @@ import { OrganizationsModule } from './modules/organizations/organizations.modul
 import { PasswordResetModule } from './modules/password-reset/password-reset.module';
 import { ServiceCategoriesModule } from './modules/service-categories/service-categories.module';
 import { UsersModule } from './modules/users/users.module';
-
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -47,6 +47,7 @@ import { UsersModule } from './modules/users/users.module';
 		ServiceCategoriesModule,
 		OrganizationServicesModule,
 		EmailModule,
+		EmailConfirmationModule,
 		CustomerModule,
 	],
 	controllers: [],
