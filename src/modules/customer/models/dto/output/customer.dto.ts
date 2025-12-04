@@ -8,10 +8,10 @@ export class CustomerDto extends TimestampedEntityDto {
 	name: string;
 
 	@ApiProperty({ description: 'The customer email' })
-	email?: string;
+	email: string;
 
 	@ApiPropertyOptional({ description: 'The customer phone' })
-	phone: string;
+	phone?: string;
 
 	@ApiProperty({ description: 'The organization ID' })
 	organization_id: string;

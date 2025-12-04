@@ -13,29 +13,6 @@ export class ListOrganizationMembersUseCase {
 	) {}
 
 	async execute(listDto: ListOrganizationMembersDto): Promise<PaginatedResponseDto<ListOrganizationMemberResponseDto>> {
-		const { page = 1, limit = 10, is_active } = listDto;
-		const skip = (page - 1) * limit;
-
-		const where: { active?: boolean } = {};
-		if (is_active !== undefined) {
-			where.active = is_active;
-		}
-
-		const [data, total] = await this.organizationMembersRepository.findAndCount({
-			where,
-			relations: ['organization', 'user'],
-			skip,
-			take: limit,
-		});
-
-		const totalPages = Math.ceil(total / limit);
-
-		return {
-			data,
-			page,
-			limit,
-			total,
-			totalPages,
-		};
+		return this.organizationMembersRepository.findAllPaginated(listDto);
 	}
 }

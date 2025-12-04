@@ -12,26 +12,6 @@ export class ListOrganizationInvitesUseCase {
 	) {}
 
 	async execute(paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationInviteResponseDto>> {
-		const { page = 1, limit = 10 } = paginationDto;
-		const skip = (page - 1) * limit;
-
-		const [data, total] = await this.organizationInvitesRepository.findAndCount({
-			relations: ['organization', 'inviter'],
-			skip,
-			take: limit,
-			order: {
-				created_at: 'DESC',
-			},
-		});
-
-		const totalPages = Math.ceil(total / limit);
-
-		return {
-			data,
-			page,
-			limit,
-			total,
-			totalPages,
-		};
+		return this.organizationInvitesRepository.findAllPaginated(paginationDto);
 	}
 }
