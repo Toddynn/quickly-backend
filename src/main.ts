@@ -15,7 +15,7 @@ async function bootstrap() {
 
 	app.enableCors({
 		credentials: true,
-		origin: [`*`],
+		origin: [`http://192.168.155.61:3737`, 'http://localhost:3737'],
 	});
 
 	app.useGlobalPipes(setupGlobalPipes());

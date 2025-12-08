@@ -12,7 +12,7 @@ export class GetOrganizationUseCase {
 	async execute(id: string): Promise<Organization> {
 		return await this.getExistingOrganizationUseCase.execute({
 			where: { id },
-			relations: ['owner', 'organizationMembers', 'organizationMembers.user'],
+			relations: ['owner'],
 		});
 	}
 }

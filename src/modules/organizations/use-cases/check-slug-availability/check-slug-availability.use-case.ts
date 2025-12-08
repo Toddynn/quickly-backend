@@ -19,7 +19,7 @@ export class CheckSlugAvailabilityUseCase {
 			{
 				where: { slug: normalizedSlug },
 			},
-			{ throwIfNotFound: false },
+			{ throwIfNotFound: false, throwIfFound: true },
 		);
 
 		return {
@@ -28,4 +28,3 @@ export class CheckSlugAvailabilityUseCase {
 		};
 	}
 }
-
