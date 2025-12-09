@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { UpdateResult } from 'typeorm';
+import { Not, type UpdateResult } from 'typeorm';
+import { OrganizationAlreadyExistsException } from '../../errors/organization-already-exists.error';
 import type { UpdateOrganizationDto } from '../../models/dto/input/update-organization.dto';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
@@ -25,17 +26,28 @@ export class UpdateOrganizationUseCase {
 
 			// Verificar se já existe outra organização com este slug (exceto a atual)
 			if (normalizedSlug !== organization.slug) {
-				await this.getExistingOrganizationUseCase.execute(
-					{
-						where: { slug: normalizedSlug },
-					},
-					{ throwIfFound: true },
-				);
+				await this.validateUniqueSlug(normalizedSlug, organization.id);
 			}
 
 			updateOrganizationDto.slug = normalizedSlug;
 		}
 
 		return await this.organizationsRepository.update(organization.id, updateOrganizationDto);
+	}
+
+	private async validateUniqueSlug(slug: string, currentOrganizationId: string): Promise<void> {
+		const existingOrganization = await this.getExistingOrganizationUseCase.execute(
+			{
+				where: {
+					slug,
+					id: Not(currentOrganizationId),
+				},
+			},
+			{ throwIfFound: false },
+		);
+
+		if (existingOrganization) {
+			throw new OrganizationAlreadyExistsException(`slug: ${slug}`);
+		}
 	}
 }
