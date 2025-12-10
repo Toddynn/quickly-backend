@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { PASSWORD_RESET_STATUS } from '@/modules/password-reset/shared/interfaces/password-reset-status';
 
 export class CreatePasswordResetDto {
@@ -25,9 +25,4 @@ export class CreatePasswordResetDto {
 		enum: PASSWORD_RESET_STATUS,
 	})
 	status: PASSWORD_RESET_STATUS;
-
-	@IsBoolean()
-	@IsNotEmpty()
-	@ApiProperty({ description: 'Whether the OTP has been validated' })
-	validated: boolean;
 }

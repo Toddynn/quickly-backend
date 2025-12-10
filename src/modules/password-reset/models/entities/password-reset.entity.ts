@@ -17,8 +17,8 @@ export class PasswordReset extends TimestampedEntity {
 	@Column({ name: 'status', type: 'enum', enum: PASSWORD_RESET_STATUS, default: PASSWORD_RESET_STATUS.PENDING })
 	status: PASSWORD_RESET_STATUS;
 
-	@Column({ name: 'validated', type: 'boolean', default: false })
-	validated: boolean;
+	/* @Column({ name: 'validated', type: 'boolean', default: false })
+	validated: boolean; */
 
 	@ManyToOne(() => User)
 	@JoinColumn({ name: 'user_id' })

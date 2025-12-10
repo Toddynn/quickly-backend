@@ -12,10 +12,9 @@ export class ValidatePasswordResetOtpController {
 		private readonly validatePasswordResetOtpUseCase: ValidatePasswordResetOtpUseCase,
 	) {}
 
-	@Post('validate-otp')
+	@Post('verify-otp')
 	@ValidatePasswordResetOtpDocs()
-	async execute(@Body() validatePasswordResetOtpDto: ValidatePasswordResetOtpDto): Promise<{ valid: boolean }> {
+	async execute(@Body() validatePasswordResetOtpDto: ValidatePasswordResetOtpDto): Promise<{ reset_token: string }> {
 		return await this.validatePasswordResetOtpUseCase.execute(validatePasswordResetOtpDto);
 	}
 }
-

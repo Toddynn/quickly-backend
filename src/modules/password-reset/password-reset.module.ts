@@ -9,7 +9,6 @@ import { PASSWORD_RESET_REPOSITORY_INTERFACE_KEY } from './shared/constants/pass
 import { CheckPasswordResetAttemptsUseCase } from './use-cases/check-password-reset-attempts/check-password-reset-attempts.use-case';
 import { GetExistingPasswordResetUseCase } from './use-cases/get-existing-password-reset/get-existing-password-reset.use-case';
 import { MarkPasswordResetAsUsedUseCase } from './use-cases/mark-password-reset-as-used/mark-password-reset-as-used.use-case';
-import { MarkPasswordResetAsValidatedUseCase } from './use-cases/mark-password-reset-as-validated/mark-password-reset-as-used.use-case';
 import { RequestPasswordResetController } from './use-cases/request-password-reset/request-password-reset.controller';
 import { RequestPasswordResetUseCase } from './use-cases/request-password-reset/request-password-reset.use-case';
 import { ResetPasswordController } from './use-cases/reset-password/reset-password.controller';
@@ -39,7 +38,6 @@ import { ValidatePasswordResetOtpUseCase } from './use-cases/validate-password-r
 		ValidatePasswordResetOtpUseCase,
 		ValidatePasswordResetExpirationUseCase,
 		MarkPasswordResetAsUsedUseCase,
-		MarkPasswordResetAsValidatedUseCase,
 		ResetPasswordUseCase,
 	],
 	exports: [PASSWORD_RESET_REPOSITORY_INTERFACE_KEY, GetExistingPasswordResetUseCase],

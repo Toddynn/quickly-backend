@@ -7,7 +7,7 @@ export function ValidatePasswordResetOtpDocs() {
 		ApiOperation({
 			summary: 'Validate OTP code for password recovery',
 			description:
-				'Validates the OTP code sent by email. The code must be pending and not expired. After successful validation, the OTP is marked as validated and can be used to reset the password.',
+				'Validates the OTP code sent by email. The code must be pending and not expired. After successful validation, returns a temporary JWT token (valid for 2 minutes) that must be used to reset the password.',
 		}),
 		ApiBody({
 			type: ValidatePasswordResetOtpDto,
@@ -15,10 +15,11 @@ export function ValidatePasswordResetOtpDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
-			description: 'Valid OTP code.',
+			description: 'Valid OTP code. Returns a temporary token for password reset.',
 			schema: {
 				example: {
 					valid: true,
+					token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
 				},
 			},
 		}),

@@ -1,5 +1,5 @@
+import { randomInt } from 'node:crypto';
 import { BadRequestException } from '@nestjs/common';
-import { randomInt } from 'crypto';
 
 /**
  * Value Object que representa um código OTP (One-Time Password).

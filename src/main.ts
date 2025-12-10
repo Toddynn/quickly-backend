@@ -20,7 +20,7 @@ async function bootstrap() {
 
 	app.enableCors({
 		credentials: true,
-		origin: [frontEndUrl, 'http://localhost:3737'],
+		origin: [frontEndUrl, `${frontEndProtocol}://localhost:${frontEndPort}`],
 	});
 
 	app.useGlobalPipes(setupGlobalPipes());

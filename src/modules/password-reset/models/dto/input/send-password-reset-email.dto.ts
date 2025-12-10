@@ -13,4 +13,3 @@ export class SendPasswordResetEmailDto {
 	@ApiProperty({ description: 'The OTP code' })
 	otpCode: string;
 }
-

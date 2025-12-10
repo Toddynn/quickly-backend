@@ -1,10 +1,10 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
+import { generatePasswordResetToken } from '@/shared/helpers/password-reset-token.helper';
 import { OtpCode } from '@/shared/value-objects/otp-code';
 import type { ValidatePasswordResetOtpDto } from '../../models/dto/input/validate-password-reset-otp.dto';
 import { PASSWORD_RESET_STATUS } from '../../shared/interfaces/password-reset-status';
 import { GetExistingPasswordResetUseCase } from '../get-existing-password-reset/get-existing-password-reset.use-case';
-import { MarkPasswordResetAsValidatedUseCase } from '../mark-password-reset-as-validated/mark-password-reset-as-used.use-case';
 import { ValidatePasswordResetExpirationUseCase } from '../validate-password-reset-expiration/validate-password-reset-expiration.use-case';
 
 @Injectable()
@@ -14,13 +14,11 @@ export class ValidatePasswordResetOtpUseCase {
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 		@Inject(GetExistingPasswordResetUseCase)
 		private readonly getExistingPasswordResetUseCase: GetExistingPasswordResetUseCase,
-		@Inject(MarkPasswordResetAsValidatedUseCase)
-		private readonly markPasswordResetAsValidatedUseCase: MarkPasswordResetAsValidatedUseCase,
 		@Inject(ValidatePasswordResetExpirationUseCase)
 		private readonly validatePasswordResetExpirationUseCase: ValidatePasswordResetExpirationUseCase,
 	) {}
 
-	async execute(validatePasswordResetOtpDto: ValidatePasswordResetOtpDto): Promise<{ valid: boolean }> {
+	async execute(validatePasswordResetOtpDto: ValidatePasswordResetOtpDto): Promise<{ reset_token: string }> {
 		const user = await this.getExistingUserUseCase.execute(
 			{
 				where: { email: validatePasswordResetOtpDto.email },
@@ -32,8 +30,7 @@ export class ValidatePasswordResetOtpUseCase {
 			throw new BadRequestException('Email ou código OTP inválido.');
 		}
 
-		const otpCode = new OtpCode(validatePasswordResetOtpDto.otp_code);
-
+		const otpCode = new OtpCode(validatePasswordResetOtpDto.code);
 		const passwordReset = await this.getExistingPasswordResetUseCase.execute(
 			{
 				where: {
@@ -51,8 +48,11 @@ export class ValidatePasswordResetOtpUseCase {
 
 		await this.validatePasswordResetExpirationUseCase.execute(passwordReset);
 
-		await this.markPasswordResetAsValidatedUseCase.execute(passwordReset.id);
+		const reset_token = generatePasswordResetToken({
+			userId: user.id,
+			passwordResetId: passwordReset.id,
+		});
 
-		return { valid: true };
+		return { reset_token };
 	}
 }

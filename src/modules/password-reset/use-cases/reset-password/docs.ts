@@ -7,11 +7,11 @@ export function ResetPasswordDocs() {
 		ApiOperation({
 			summary: 'Reset password after OTP validation',
 			description:
-				'Resets the user password. Requires that the OTP code has been previously validated through the validation endpoint. The password must meet security criteria: at least 8 characters, one uppercase letter, one lowercase letter, one number and one symbol.',
+				'Resets the user password using the temporary token received after OTP validation. The token expires in 2 minutes. The password must meet security criteria: at least 8 characters, one uppercase letter, one lowercase letter, one number and one symbol.',
 		}),
 		ApiBody({
 			type: ResetPasswordDto,
-			description: 'Email and new password for reset',
+			description: 'Temporary token and new password for reset',
 		}),
 		ApiResponse({
 			status: HttpStatus.OK,
@@ -27,16 +27,16 @@ export function ResetPasswordDocs() {
 			description: 'Invalid data or OTP not validated.',
 			schema: {
 				examples: {
-					otp_nao_validado: {
-						summary: 'OTP not validated',
+					token_invalido: {
+						summary: 'Invalid or expired token',
 						value: {
-							message: 'Nenhum código OTP validado encontrado. Por favor, valide o código OTP primeiro.',
+							message: 'Token inválido ou expirado. Por favor, valide o código OTP novamente.',
 						},
 					},
-					otp_expirado: {
-						summary: 'OTP expired',
+					token_nao_encontrado: {
+						summary: 'Token not found',
 						value: {
-							message: 'Código OTP expirado.',
+							message: 'Token inválido. O código OTP já foi utilizado ou não existe.',
 						},
 					},
 					senha_invalida: {
