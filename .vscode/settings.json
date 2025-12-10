@@ -145,7 +145,7 @@
 	"console-ninja.outputMode": "In View",
 	"console-ninja.captureFunctions": true,
 	"diffEditor.ignoreTrimWhitespace": false,
-	"workbench.colorTheme": "Acid Purple (Pink)",
+	"workbench.colorTheme": "Dracula Theme",
 	"editor.cursorBlinking": "smooth",
 	"editor.cursorSmoothCaretAnimation": "on",
 	"editor.fontLigatures": true,

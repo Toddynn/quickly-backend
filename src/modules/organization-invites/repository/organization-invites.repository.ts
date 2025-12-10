@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { type DataSource, Repository } from 'typeorm';
 import type { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
-import type { ListOrganizationInviteResponseDto } from '../models/dto/output/list-organization-invite-response.dto';
 import { OrganizationInvite } from '../models/entities/organization-invite.entity';
 import type { OrganizationInvitesRepositoryInterface } from '../models/interfaces/repository.interface';
 
@@ -11,27 +10,27 @@ export class OrganizationInvitesRepository extends Repository<OrganizationInvite
 		super(OrganizationInvite, dataSource.createEntityManager());
 	}
 
-	async findAllPaginated(paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationInviteResponseDto>> {
+	async findAllPaginatedByOrganizationId(organization_id: string, paginationDto: PaginationDto): Promise<PaginatedResponseDto<OrganizationInvite>> {
 		const { page = 1, limit = 10 } = paginationDto;
 		const skip = (page - 1) * limit;
 
-		const [data, total] = await this.findAndCount({
-			relations: ['organization', 'inviter'],
-			skip,
-			take: limit,
-			order: {
-				created_at: 'DESC',
-			},
-		});
+		const queryBuilder = this.createQueryBuilder('organization_invite')
+			.leftJoinAndSelect('organization_invite.inviter', 'inviter')
+			.where('organization_invite.organization_id = :organization_id', { organization_id })
+			.skip(skip)
+			.take(limit)
+			.orderBy('organization_invite.created_at', 'DESC');
 
-		const totalPages = Math.ceil(total / limit);
+		const [data, total] = await queryBuilder.getManyAndCount();
+
+		const total_pages = Math.ceil(total / limit);
 
 		return {
 			data,
 			page,
 			limit,
 			total,
-			totalPages,
+			total_pages,
 		};
 	}
 }

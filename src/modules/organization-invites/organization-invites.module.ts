@@ -15,8 +15,8 @@ import { CancelOrganizationInviteUseCase } from './use-cases/cancel-organization
 import { CreateOrganizationInviteController } from './use-cases/create-organization-invite/create-organization-invite.controller';
 import { CreateOrganizationInviteUseCase } from './use-cases/create-organization-invite/create-organization-invite.use-case';
 import { GetExistingOrganizationInviteUseCase } from './use-cases/get-existing-organization-invite/get-existing-organization-invite.use-case';
-import { ListOrganizationInvitesController } from './use-cases/list-organization-invites/list-organization-invites.controller';
-import { ListOrganizationInvitesUseCase } from './use-cases/list-organization-invites/list-organization-invites.use-case';
+import { ListOrganizationInvitesByOrganizationController } from './use-cases/list-organization-invites-by-organization/list-organization-invites-by-organization.controller';
+import { ListOrganizationInvitesByOrganizationUseCase } from './use-cases/list-organization-invites-by-organization/list-organization-invites-by-organization.use-case';
 import { RejectOrganizationInviteController } from './use-cases/reject-organization-invite/reject-organization-invite.controller';
 import { RejectOrganizationInviteUseCase } from './use-cases/reject-organization-invite/reject-organization-invite.use-case';
 import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organization-invite-email/send-organization-invite-email.use-case';
@@ -28,7 +28,7 @@ import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organizatio
 		AcceptOrganizationInviteController,
 		RejectOrganizationInviteController,
 		CancelOrganizationInviteController,
-		ListOrganizationInvitesController,
+		ListOrganizationInvitesByOrganizationController,
 	],
 	providers: [
 		{
@@ -43,7 +43,7 @@ import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organizatio
 		AcceptOrganizationInviteUseCase,
 		RejectOrganizationInviteUseCase,
 		CancelOrganizationInviteUseCase,
-		ListOrganizationInvitesUseCase,
+		ListOrganizationInvitesByOrganizationUseCase,
 		SendOrganizationInviteEmailUseCase,
 	],
 	exports: [ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY],

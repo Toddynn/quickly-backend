@@ -16,8 +16,12 @@ export class SendOrganizationInviteEmailUseCase {
 	) {}
 
 	async execute(data: SendOrganizationInviteEmailDto): Promise<void> {
-		const frontendUrl = this.configService.get<string>('FRONT_END_URL') || 'http://localhost:5173';
-		const inviteLink = `${frontendUrl}/invite/${data.inviteId}`;
+		const frontEndProtocol = this.configService.get<string>('FRONT_END_PROTOCOL');
+		const frontEndDomain = this.configService.get<string>('FRONT_END_DOMAIN');
+		const frontEndPort = this.configService.get<string>('FRONT_END_PORT');
+		const frontEndUrl = `${frontEndProtocol}://${frontEndDomain}:${frontEndPort}`;
+
+		const inviteLink = `${frontEndUrl}/accept-organization-invite/${data.inviteId}`;
 
 		const organization = await this.getExistingOrganizationUseCase.execute({ where: { id: data.organizationId } });
 

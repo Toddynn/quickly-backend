@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Query } from '@nestjs/common';
+import { Controller, Get, Inject, Param, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
 import { ListOrganizationResponseDto } from '../../models/dto/output/list-organization-response.dto';
@@ -13,9 +13,9 @@ export class ListOrganizationsController {
 		private readonly listOrganizationsUseCase: ListOrganizationsUseCase,
 	) {}
 
-	@Get()
+	@Get(':user_id/paginated')
 	@ListOrganizationsDocs()
-	async execute(@Query() paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
-		return await this.listOrganizationsUseCase.execute(paginationDto);
+	async execute(@Param('user_id') user_id: string, @Query() paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
+		return await this.listOrganizationsUseCase.execute(user_id, paginationDto);
 	}
 }

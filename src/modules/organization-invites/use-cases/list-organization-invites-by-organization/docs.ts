@@ -1,14 +1,19 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
-import { ApiExtraModels, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiExtraModels, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { getPaginatedResponseSchema } from '@/shared/helpers/paginated-response-schema.helper';
 import { OrganizationInvite } from '../../models/entities/organization-invite.entity';
 
-export function ListOrganizationInvitesDocs() {
+export function ListOrganizationInvitesByOrganizationDocs() {
 	return applyDecorators(
 		ApiExtraModels(OrganizationInvite),
 		ApiOperation({
-			summary: 'List all organization invites',
-			description: 'Returns a paginated list with all sent invites.',
+			summary: 'List organization invites by organization',
+			description: 'Returns a paginated list with all invites for a specific organization. Used by organization clients.',
+		}),
+		ApiParam({
+			name: 'organization_id',
+			description: 'Organization ID',
+			type: String,
 		}),
 		ApiQuery({
 			name: 'page',

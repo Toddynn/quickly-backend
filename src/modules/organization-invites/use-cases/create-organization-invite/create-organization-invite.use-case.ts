@@ -39,20 +39,25 @@ export class CreateOrganizationInviteUseCase {
 			{ throwIfFound: true },
 		);
 
-		const user = await this.getExistingUserUseCase.execute({
-			where: { email: createOrganizationInviteDto.email },
-		});
-
-		await this.getExistingOrganizationMemberUseCase.execute(
+		const user = await this.getExistingUserUseCase.execute(
 			{
-				where: {
-					user_id: user.id,
-					organization_id: createOrganizationInviteDto.organization_id,
-					active: true,
-				},
+				where: { email: createOrganizationInviteDto.email },
 			},
-			{ throwIfFound: true },
+			{ throwIfNotFound: false },
 		);
+
+		if (user) {
+			await this.getExistingOrganizationMemberUseCase.execute(
+				{
+					where: {
+						user_id: user.id,
+						organization_id: createOrganizationInviteDto.organization_id,
+						active: true,
+					},
+				},
+				{ throwIfFound: true },
+			);
+		}
 
 		const organization = await this.getExistingOrganizationUseCase.execute({
 			where: { id: createOrganizationInviteDto.organization_id },

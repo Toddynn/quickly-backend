@@ -39,14 +39,14 @@ export class OrganizationServicesRepository extends Repository<OrganizationServi
 			take: limit,
 		});
 
-		const totalPages = Math.ceil(total / limit);
+		const total_pages = Math.ceil(total / limit);
 
 		return {
 			data,
 			page,
 			limit,
 			total,
-			totalPages,
+			total_pages,
 		};
 	}
 }

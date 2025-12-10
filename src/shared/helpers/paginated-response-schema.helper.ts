@@ -21,7 +21,7 @@ export function getPaginatedResponseSchema<T>(itemClass: Type<T>) {
 				type: 'number',
 				description: 'Total de itens',
 			},
-			totalPages: {
+			total_pages: {
 				type: 'number',
 				description: 'Total de páginas',
 			},

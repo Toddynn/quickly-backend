@@ -18,8 +18,8 @@ export class ListOrganizationsUseCase {
 		private readonly organizationsRepository: OrganizationsRepositoryInterface,
 	) {}
 
-	async execute(paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
-		const result = await this.organizationsRepository.findAllPaginated(paginationDto);
+	async execute(user_id: string, paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
+		const result = await this.organizationsRepository.findAllPaginated(user_id, paginationDto);
 
 		const mappedData = result.data.map((organization) => {
 			if (!isListOrganizationResponseDto(organization)) throw new InternalServerErrorException('Organization is not a ListOrganizationResponseDto');

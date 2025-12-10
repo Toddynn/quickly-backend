@@ -39,14 +39,14 @@ export class CustomersRepository extends Repository<Customer> implements Custome
 
 		const [data, total] = await queryBuilder.getManyAndCount();
 
-		const totalPages = Math.ceil(total / limit);
+		const total_pages = Math.ceil(total / limit);
 
 		return {
 			data,
 			page,
 			limit,
 			total,
-			totalPages,
+			total_pages,
 		};
 	}
 }

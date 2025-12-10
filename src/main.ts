@@ -13,9 +13,14 @@ async function bootstrap() {
 
 	app.set('trust proxy', 1);
 
+	const frontEndProtocol = configService.get<string>('FRONT_END_PROTOCOL');
+	const frontEndDomain = configService.get<string>('FRONT_END_DOMAIN');
+	const frontEndPort = configService.get<string>('FRONT_END_PORT');
+	const frontEndUrl = `${frontEndProtocol}://${frontEndDomain}:${frontEndPort}`;
+
 	app.enableCors({
 		credentials: true,
-		origin: [`http://192.168.155.61:3737`, 'http://localhost:3737'],
+		origin: [frontEndUrl, 'http://localhost:3737'],
 	});
 
 	app.useGlobalPipes(setupGlobalPipes());
