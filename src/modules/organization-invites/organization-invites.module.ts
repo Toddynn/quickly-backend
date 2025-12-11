@@ -15,6 +15,8 @@ import { CancelOrganizationInviteUseCase } from './use-cases/cancel-organization
 import { CreateOrganizationInviteController } from './use-cases/create-organization-invite/create-organization-invite.controller';
 import { CreateOrganizationInviteUseCase } from './use-cases/create-organization-invite/create-organization-invite.use-case';
 import { GetExistingOrganizationInviteUseCase } from './use-cases/get-existing-organization-invite/get-existing-organization-invite.use-case';
+import { GetOrganizationInviteByIdController } from './use-cases/get-organization-invite-by-id/get-organization-invite-by-id.controller';
+import { GetOrganizationInviteByIdUseCase } from './use-cases/get-organization-invite-by-id/get-organization-invite-by-id.use-case';
 import { ListOrganizationInvitesByOrganizationController } from './use-cases/list-organization-invites-by-organization/list-organization-invites-by-organization.controller';
 import { ListOrganizationInvitesByOrganizationUseCase } from './use-cases/list-organization-invites-by-organization/list-organization-invites-by-organization.use-case';
 import { RejectOrganizationInviteController } from './use-cases/reject-organization-invite/reject-organization-invite.controller';
@@ -29,6 +31,7 @@ import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organizatio
 		RejectOrganizationInviteController,
 		CancelOrganizationInviteController,
 		ListOrganizationInvitesByOrganizationController,
+		GetOrganizationInviteByIdController,
 	],
 	providers: [
 		{
@@ -39,6 +42,7 @@ import { SendOrganizationInviteEmailUseCase } from './use-cases/send-organizatio
 			inject: [DataSource],
 		},
 		GetExistingOrganizationInviteUseCase,
+		GetOrganizationInviteByIdUseCase,
 		CreateOrganizationInviteUseCase,
 		AcceptOrganizationInviteUseCase,
 		RejectOrganizationInviteUseCase,

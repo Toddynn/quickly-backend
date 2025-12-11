@@ -22,6 +22,6 @@ export class CancelOrganizationInviteUseCase {
 			throw new BadRequestException('Apenas convites pendentes podem ser cancelados.');
 		}
 
-		await this.organizationInvitesRepository.update(invite.id, { status: INVITE_STATUS.CANCELED });
+		await this.organizationInvitesRepository.update(invite.id, { status: INVITE_STATUS.CANCELED, expiration_date: new Date() });
 	}
 }
