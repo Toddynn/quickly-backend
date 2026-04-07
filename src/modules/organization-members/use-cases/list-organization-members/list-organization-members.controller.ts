@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
 import { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
@@ -9,6 +9,7 @@ import { ListOrganizationMembersDocs } from './docs';
 import { ListOrganizationMembersUseCase } from './list-organization-members.use-case';
 
 @ApiTags('Organization Members')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('organization-members')
 export class ListOrganizationMembersController {

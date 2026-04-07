@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
@@ -12,6 +12,7 @@ import { CreateOrganizationInviteUseCase } from './create-organization-invite.us
 import { CreateOrganizationInviteDocs } from './docs';
 
 @ApiTags('Organization Invites')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('organization-invites')
 export class CreateOrganizationInviteController {

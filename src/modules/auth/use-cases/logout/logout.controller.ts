@@ -1,10 +1,11 @@
 import { Controller, HttpCode, HttpStatus, Inject, Post, Req, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { LogoutDocs } from './docs';
 import { LogoutUseCase } from './logout.use-case';
 
 @ApiTags('Auth')
+@ApiCookieAuth()
 @Controller('auth')
 export class LogoutController {
 	constructor(

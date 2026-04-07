@@ -1,13 +1,14 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { SessionUser } from '@/modules/auth/models/interfaces/session-user.interface';
+import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
 import { CreateOrganizationDto } from '../../models/dto/input/create-organization.dto';
 import { Organization } from '../../models/entities/organization.entity';
 import { CreateOrganizationUseCase } from './create-organization.use-case';
 import { CreateOrganizationDocs } from './docs';
 
 @ApiTags('Organizations')
+@ApiCookieAuth()
 @Controller('organizations')
 export class CreateOrganizationController {
 	constructor(

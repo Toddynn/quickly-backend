@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
@@ -10,6 +10,7 @@ import { LinkCustomerToUserDocs } from './docs';
 import { LinkCustomerToUserUseCase } from './link-customer-to-user.use-case';
 
 @ApiTags('Customers')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('customers')
 export class LinkCustomerToUserController {

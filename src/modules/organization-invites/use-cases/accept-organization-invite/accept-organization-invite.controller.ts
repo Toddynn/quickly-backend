@@ -1,5 +1,5 @@
 import { Controller, Inject, Param, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
 import { SessionUser } from '@/modules/auth/models/interfaces/session-user.interface';
 import { AcceptOrganizationInviteResponseDto } from '../../models/dto/output/accept-organization-invite-response.dto';
@@ -7,6 +7,7 @@ import { AcceptOrganizationInviteUseCase } from './accept-organization-invite.us
 import { AcceptOrganizationInviteDocs } from './docs';
 
 @ApiTags('Organization Invites')
+@ApiCookieAuth()
 @Controller('organization-invites')
 export class AcceptOrganizationInviteController {
 	constructor(

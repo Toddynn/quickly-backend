@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
 import { UpdateCustomerDto } from '../../models/dto/input/update-customer.dto';
@@ -8,6 +8,7 @@ import { UpdateCustomerDocs } from './docs';
 import { UpdateCustomerUseCase } from './update-customer.use-case';
 
 @ApiTags('Customers')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('customers')
 export class UpdateCustomerController {

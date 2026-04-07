@@ -32,6 +32,7 @@ export class CreateOrganizationUseCase {
 
 		const organization = this.organizationsRepository.create({
 			...createOrganizationDto,
+			owner_id: ownerId,
 			slug: normalizedSlug,
 		});
 		await this.organizationsRepository.save(organization);

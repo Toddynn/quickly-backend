@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import type { Request } from 'express';
 import { GetExistingOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/get-existing-organization-member/get-existing-organization-member.use-case';
-import type { UsersRepositoryInterface } from '@/modules/users/models/interfaces/users-repository.interface';
-import { USER_REPOSITORY_INTERFACE_KEY } from '@/modules/users/shared/constants/repository-interface-key';
+import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import { env } from '@/shared/constants/env-variables';
 import { InvalidRefreshTokenException } from '../../errors/invalid-refresh-token.error';
 import type { SessionUser } from '../../models/interfaces/session-user.interface';
@@ -11,8 +10,8 @@ import { destroySession, getSessionUser, saveSession } from '../../shared/helper
 @Injectable()
 export class RefreshSessionUseCase {
 	constructor(
-		@Inject(USER_REPOSITORY_INTERFACE_KEY)
-		private readonly usersRepository: UsersRepositoryInterface,
+		@Inject(GetExistingUserUseCase)
+		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 		@Inject(GetExistingOrganizationMemberUseCase)
 		private readonly getExistingOrganizationMemberUseCase: GetExistingOrganizationMemberUseCase,
 	) {}
@@ -25,9 +24,12 @@ export class RefreshSessionUseCase {
 			throw new InvalidRefreshTokenException();
 		}
 
-		const user = await this.usersRepository.findOne({
-			where: { id: currentSession.userId },
-		});
+		const user = await this.getExistingUserUseCase.execute(
+			{
+				where: { id: currentSession.userId },
+			},
+			{ throwIfFound: false, throwIfNotFound: false },
+		);
 
 		if (!user) {
 			await destroySession(request);

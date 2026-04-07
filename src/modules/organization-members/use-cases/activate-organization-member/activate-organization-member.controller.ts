@@ -1,5 +1,5 @@
 import { Controller, Inject, Param, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
 import { OrganizationRole } from '@/shared/constants/organization-roles';
@@ -7,6 +7,7 @@ import { ActivateOrganizationMemberUseCase } from './activate-organization-membe
 import { ActivateOrganizationMemberDocs } from './docs';
 
 @ApiTags('Organization Members')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('organization-members')
 export class ActivateOrganizationMemberController {

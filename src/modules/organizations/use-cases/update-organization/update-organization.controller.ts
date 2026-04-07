@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
@@ -10,6 +10,7 @@ import { UpdateOrganizationDocs } from './docs';
 import { UpdateOrganizationUseCase } from './update-organization.use-case';
 
 @ApiTags('Organizations')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('organizations')
 export class UpdateOrganizationController {

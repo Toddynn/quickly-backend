@@ -3,8 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { RedisStore } from 'connect-redis';
 import session from 'express-session';
 import { type RedisClientType, createClient } from 'redis';
-
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+import { IS_PRODUCTION } from '@/shared/constants/env-variables';
 
 @Injectable()
 export class SessionConfigService {

@@ -1,5 +1,5 @@
-import type { Request } from 'express';
 import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import type { Request } from 'express';
 import type { SessionUser } from '../../models/interfaces/session-user.interface';
 
 export function saveSession(request: Request): Promise<void> {

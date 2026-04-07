@@ -5,6 +5,6 @@ export interface User extends TimestampedEntityInterface {
 	name: string;
 	email: string;
 	password: string;
-	refresh_token_hash: string | null;
+	email_verified: boolean;
 	organization_memberships: OrganizationMember[];
 }

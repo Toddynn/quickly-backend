@@ -97,5 +97,7 @@ export const env = envSchema.parse(rawEnv);
 
 const with_port = (protocol: string, domain: string, port?: string) => (port ? `${protocol}://${domain}:${port}` : `${protocol}://${domain}`);
 
+export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
 export const BACK_END_URL = with_port(env.APP_PROTOCOL, env.APP_DOMAIN, env.APP_PORT);
 export const FRONT_END_URL = with_port(env.FRONT_END_PROTOCOL, env.FRONT_END_DOMAIN, env.FRONT_END_PORT);

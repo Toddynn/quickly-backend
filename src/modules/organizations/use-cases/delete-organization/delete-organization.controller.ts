@@ -1,5 +1,5 @@
 import { Controller, Delete, Inject } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
@@ -8,6 +8,7 @@ import { DeleteOrganizationUseCase } from './delete-organization.use-case';
 import { DeleteOrganizationDocs } from './docs';
 
 @ApiTags('Organizations')
+@ApiCookieAuth()
 @TenantScoped()
 @Controller('organizations')
 export class DeleteOrganizationController {
