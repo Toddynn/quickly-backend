@@ -6,12 +6,12 @@ export function setupDocumentationConfig(app: INestApplication) {
 	const config = new DocumentBuilder().setTitle(`Quickly API`).setDescription(`The Quickly API description`).setVersion(`1.0`).addBearerAuth().build();
 
 	const document = SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup(`api/docs`, app, document, {
+	SwaggerModule.setup(`api/swagger/reference`, app, document, {
 		swaggerOptions: {
 			persistAuthorization: true,
 		},
-		customSiteTitle: 'Quickly API reference',
+		customSiteTitle: 'API / Quickly',
 	});
 
-	app.use('/reference', apiReference({ content: document }));
+	app.use('/api/scalar/reference', apiReference({ content: document }));
 }

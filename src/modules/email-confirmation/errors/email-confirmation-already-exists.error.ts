@@ -6,4 +6,3 @@ export class EmailConfirmationAlreadyExistsException extends ConflictException {
 		this.name = 'EmailConfirmationAlreadyExistsException';
 	}
 }
-

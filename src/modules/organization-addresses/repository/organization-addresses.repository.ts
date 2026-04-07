@@ -16,15 +16,12 @@ export class OrganizationAddressesRepository extends Repository<OrganizationAddr
 		const { page = 1, limit = 10, organization_id } = listDto;
 		const skip = (page - 1) * limit;
 
-		const where: FindOptionsWhere<OrganizationAddress> = {};
-
-		if (organization_id) {
-			where.organization_id = organization_id;
-		}
+		const where: FindOptionsWhere<OrganizationAddress> = {
+			organization_id,
+		};
 
 		const [data, total] = await this.findAndCount({
 			where,
-			relations: ['organization'],
 			skip,
 			take: limit,
 		});

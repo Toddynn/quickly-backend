@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { Organization } from '@/modules/organizations/models/entities/organization.entity';
 import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
 
 @Entity('organization_addresses')
+@Index(['organization_id'])
 export class OrganizationAddress extends TimestampedEntity {
 	@Column({ name: 'organization_id' })
 	organization_id: string;

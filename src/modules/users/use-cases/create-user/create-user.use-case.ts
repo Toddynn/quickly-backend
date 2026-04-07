@@ -16,15 +16,12 @@ export class CreateUserUseCase {
 	) {}
 
 	async execute(createUserDto: CreateUserDto): Promise<User> {
-		const passwordHash = await hashPassword(createUserDto.password);
-
 		await this.getExistingUserUseCase.execute({ where: { email: createUserDto.email } }, { throwIfFound: true });
 
-		const user = this.usersRepository.create({
-			...createUserDto,
-			password: passwordHash,
-		});
+		const hashedPassword = await hashPassword(createUserDto.password);
+		const user = this.usersRepository.create({ ...createUserDto, password: hashedPassword });
+		const savedUser = await this.usersRepository.save(user);
 
-		return await this.usersRepository.save(user);
+		return (await this.usersRepository.findOneBy({ id: savedUser.id })) as User;
 	}
 }

@@ -18,4 +18,3 @@ export class ListCustomersDto extends PaginationDto {
 	@ApiPropertyOptional({ description: 'Search by name, email or phone' })
 	search?: string;
 }
-

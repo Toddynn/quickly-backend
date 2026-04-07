@@ -39,4 +39,3 @@ export class OrganizationAddressDto extends TimestampedEntityDto {
 	@ApiProperty({ description: 'The organization', type: () => Organization })
 	organization: Organization;
 }
-

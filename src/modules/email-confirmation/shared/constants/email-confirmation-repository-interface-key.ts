@@ -1,2 +1,1 @@
 export const EMAIL_CONFIRMATION_REPOSITORY_INTERFACE_KEY = 'EmailConfirmationRepositoryInterface';
-

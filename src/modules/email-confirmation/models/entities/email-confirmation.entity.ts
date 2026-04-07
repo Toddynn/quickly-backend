@@ -41,4 +41,3 @@ export class EmailConfirmation extends TimestampedEntity {
 	@JoinColumn({ name: 'user_id' })
 	user: User;
 }
-

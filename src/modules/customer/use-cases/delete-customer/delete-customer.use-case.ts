@@ -12,8 +12,8 @@ export class DeleteCustomerUseCase {
 		private readonly getExistingCustomerUseCase: GetExistingCustomerUseCase,
 	) {}
 
-	async execute(id: string): Promise<void> {
-		const customer = await this.getExistingCustomerUseCase.execute({ where: { id } });
+	async execute(id: string, organizationId: string): Promise<void> {
+		const customer = await this.getExistingCustomerUseCase.execute({ where: { id, organization_id: organizationId } });
 		await this.customersRepository.delete({ id: customer.id });
 	}
 }

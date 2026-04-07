@@ -8,6 +8,3 @@ export class ListServiceCategoriesDto extends PaginationDto {
 	@ApiPropertyOptional({ description: 'Filter by organization ID' })
 	organization_id?: string;
 }
-
-
-

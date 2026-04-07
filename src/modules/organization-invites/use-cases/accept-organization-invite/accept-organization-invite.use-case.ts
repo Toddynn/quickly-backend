@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ActivateOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/activate-organization-member/activate-organization-member.use-case';
 import { CreateOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/create-organization-member/create-organization-member.use-case';
 import { GetExistingOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/get-existing-organization-member/get-existing-organization-member.use-case';
+import { OrganizationRole } from '@/shared/constants/organization-roles';
 import { InvalidOrganizationInviteException } from '../../errors/invalid-organization-invite.error';
 import type { OrganizationInvitesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
@@ -18,6 +20,8 @@ export class AcceptOrganizationInviteUseCase {
 		private readonly createOrganizationMemberUseCase: CreateOrganizationMemberUseCase,
 		@Inject(GetExistingOrganizationInviteUseCase)
 		private readonly getExistingOrganizationInviteUseCase: GetExistingOrganizationInviteUseCase,
+		@Inject(ActivateOrganizationMemberUseCase)
+		private readonly activateOrganizationMemberUseCase: ActivateOrganizationMemberUseCase,
 	) {}
 
 	async execute(id: string, userId: string): Promise<{ message: string }> {
@@ -36,21 +40,25 @@ export class AcceptOrganizationInviteUseCase {
 			throw new InvalidOrganizationInviteException('Convite expirado.');
 		}
 
-		await this.getExistingOrganizationMemberUseCase.execute(
+		const existingOrganizationMember = await this.getExistingOrganizationMemberUseCase.execute(
 			{
 				where: {
 					user_id: userId,
 					organization_id: invite.organization_id,
-					active: true,
 				},
 			},
-			{ throwIfFound: true },
+			{ throwIfFound: false, throwIfNotFound: false },
 		);
 
-		await this.createOrganizationMemberUseCase.execute({
-			organization_id: invite.organization_id,
-			user_id: userId,
-		});
+		if (existingOrganizationMember) {
+			await this.activateOrganizationMemberUseCase.execute(existingOrganizationMember.id);
+		} else {
+			await this.createOrganizationMemberUseCase.execute({
+				organization_id: invite.organization_id,
+				user_id: userId,
+				role: OrganizationRole.PROFESSIONAL,
+			});
+		}
 
 		await this.organizationInvitesRepository.update(invite.id, { status: INVITE_STATUS.ACCEPTED });
 

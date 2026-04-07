@@ -1,11 +1,17 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
+import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
+import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
+import { OrganizationRole } from '@/shared/constants/organization-roles';
 import type { LinkCustomerToUserDto } from '../../models/dto/input/link-customer-to-user.dto';
 import { Customer } from '../../models/entities/customer.entity';
-import { LinkCustomerToUserUseCase } from './link-customer-to-user.use-case';
 import { LinkCustomerToUserDocs } from './docs';
+import { LinkCustomerToUserUseCase } from './link-customer-to-user.use-case';
 
 @ApiTags('Customers')
+@ApiBearerAuth()
+@TenantScoped()
 @Controller('customers')
 export class LinkCustomerToUserController {
 	constructor(
@@ -14,9 +20,13 @@ export class LinkCustomerToUserController {
 	) {}
 
 	@Patch(':id/link-user')
+	@Roles(OrganizationRole.OWNER)
 	@LinkCustomerToUserDocs()
-	async execute(@Param('id') id: string, @Body() linkCustomerToUserDto: LinkCustomerToUserDto): Promise<Customer> {
-		return await this.linkCustomerToUserUseCase.execute(id, linkCustomerToUserDto);
+	async execute(
+		@ActiveOrganizationId() organizationId: string,
+		@Param('id') id: string,
+		@Body() linkCustomerToUserDto: LinkCustomerToUserDto,
+	): Promise<Customer> {
+		return await this.linkCustomerToUserUseCase.execute(id, organizationId, linkCustomerToUserDto);
 	}
 }
-

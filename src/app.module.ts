@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 import pgDatabaseConfig from './configs/database/pg-database.config';
 import { PgTypeOrmConfigService } from './configs/database/pg-typeorm-config.service';
 import mailerConfig from './configs/mailer/mailer.config';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
+import { RolesGuard } from './modules/auth/guards/roles.guard';
+import { TenantGuard } from './modules/auth/guards/tenant.guard';
 import { CustomerModule } from './modules/customer/customer.module';
 import { EmailModule } from './modules/email/email.module';
 import { EmailConfirmationModule } from './modules/email-confirmation/email-confirmation.module';
@@ -17,6 +22,8 @@ import { OrganizationsModule } from './modules/organizations/organizations.modul
 import { PasswordResetModule } from './modules/password-reset/password-reset.module';
 import { ServiceCategoriesModule } from './modules/service-categories/service-categories.module';
 import { UsersModule } from './modules/users/users.module';
+import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
+
 @Module({
 	imports: [
 		ConfigModule.forRoot({
@@ -38,6 +45,7 @@ import { UsersModule } from './modules/users/users.module';
 			},
 			inject: [ConfigService],
 		}),
+		AuthModule,
 		UsersModule,
 		PasswordResetModule,
 		OrganizationsModule,
@@ -50,7 +58,20 @@ import { UsersModule } from './modules/users/users.module';
 		EmailConfirmationModule,
 		CustomerModule,
 	],
-	controllers: [],
-	providers: [],
+	providers: [
+		ReflectionGuardValidationPipe,
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: TenantGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: RolesGuard,
+		},
+	],
 })
 export class AppModule {}

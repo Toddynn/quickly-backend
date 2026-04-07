@@ -18,4 +18,3 @@ export class CheckSlugAvailabilityController {
 		return await this.checkSlugAvailabilityUseCase.execute(slug);
 	}
 }
-

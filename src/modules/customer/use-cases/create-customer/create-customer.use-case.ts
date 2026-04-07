@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import type { CreateCustomerDto } from '../../models/dto/input/create-customer.dto';
 import type { Customer } from '../../models/entities/customer.entity';
@@ -12,8 +11,6 @@ export class CreateCustomerUseCase {
 	constructor(
 		@Inject(CUSTOMER_REPOSITORY_INTERFACE_KEY)
 		private readonly customersRepository: CustomersRepositoryInterface,
-		@Inject(GetExistingOrganizationUseCase)
-		private readonly getExistingOrganizationUseCase: GetExistingOrganizationUseCase,
 		@Inject(GetExistingUserUseCase)
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 		@Inject(GetExistingCustomerUseCase)
@@ -21,14 +18,10 @@ export class CreateCustomerUseCase {
 	) {}
 
 	async execute(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-		// Verificar se a organização existe
-		await this.getExistingOrganizationUseCase.execute({ where: { id: createCustomerDto.organization_id } });
-
 		if (createCustomerDto.user_id) {
 			await this.getExistingUserUseCase.execute({ where: { id: createCustomerDto.user_id } });
 		}
 
-		// Verificar se já existe um cliente com o mesmo email na mesma organização
 		await this.getExistingCustomerUseCase.execute(
 			{
 				where: {

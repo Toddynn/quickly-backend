@@ -1,11 +1,14 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
+import type { JwtPayload } from '@/modules/auth/strategies/jwt.strategy';
 import { CreateOrganizationDto } from '../../models/dto/input/create-organization.dto';
 import { Organization } from '../../models/entities/organization.entity';
 import { CreateOrganizationUseCase } from './create-organization.use-case';
 import { CreateOrganizationDocs } from './docs';
 
 @ApiTags('Organizations')
+@ApiBearerAuth()
 @Controller('organizations')
 export class CreateOrganizationController {
 	constructor(
@@ -15,7 +18,10 @@ export class CreateOrganizationController {
 
 	@Post()
 	@CreateOrganizationDocs()
-	async execute(@Body() createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
-		return await this.createOrganizationUseCase.execute(createOrganizationDto);
+	async execute(@CurrentUser() currentUser: JwtPayload, @Body() createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
+		return await this.createOrganizationUseCase.execute({
+			...createOrganizationDto,
+			owner_id: currentUser.sub,
+		});
 	}
 }

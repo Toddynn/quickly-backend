@@ -14,4 +14,3 @@ export class UpdateEmailConfirmationUseCase {
 		await this.emailConfirmationRepository.update(emailConfirmationId, updateEmailConfirmationDto);
 	}
 }
-

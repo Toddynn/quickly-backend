@@ -1,32 +1,33 @@
-import { ConfigService } from '@nestjs/config';
+import 'dotenv/config';
+import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
-import 'reflect-metadata';
 import { AppModule } from './app.module';
-import { setupDocumentationConfig } from './configs/documentation.configs';
-import { setupGlobalPipes } from './configs/validation-pipe.configs';
+import { setupDocumentationConfig } from './configs/documentation/documentation.config';
+import { FRONT_END_URL, env } from './shared/constants/env-variables';
+import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-	const configService = app.get(ConfigService);
+	app.useGlobalPipes(app.get(ReflectionGuardValidationPipe));
 
 	app.set('trust proxy', 1);
 
-	const frontEndProtocol = configService.get<string>('FRONT_END_PROTOCOL');
-	const frontEndDomain = configService.get<string>('FRONT_END_DOMAIN');
-	const frontEndPort = configService.get<string>('FRONT_END_PORT');
-	const frontEndUrl = `${frontEndProtocol}://${frontEndDomain}:${frontEndPort}`;
-
-	app.enableCors({
+	const corsOptions: CorsOptions = {
+		origin: [FRONT_END_URL],
 		credentials: true,
-		origin: [frontEndUrl, `${frontEndProtocol}://localhost:${frontEndPort}`],
-	});
+	};
+	app.enableCors(corsOptions);
 
-	app.useGlobalPipes(setupGlobalPipes());
+	if (process.env.NODE_ENV !== 'production') {
+		setupDocumentationConfig(app);
+	}
 
-	setupDocumentationConfig(app);
-
-	await app.listen(configService.get<string>('APP_PORT') ?? 3000, '0.0.0.0');
+	await app.listen(env.APP_PORT ?? 3000, '0.0.0.0');
 }
-bootstrap();
+
+bootstrap().catch((error) => {
+	console.error('Falha ao iniciar a aplicação:', error);
+	process.exit(1);
+});

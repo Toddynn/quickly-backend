@@ -7,7 +7,8 @@ import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
 import { APPOINTMENT_STATUS } from '../../shared/interfaces/appointment-status';
 
 @Entity('appointments')
-@Index(['organization_id', 'professional_id', 'appointment_date'])
+// Impede conflito de horário e acelera consultas de agenda por organização/profissional/data.
+@Index(['organization_id', 'professional_id', 'appointment_date'], { unique: true })
 export class Appointment extends TimestampedEntity {
 	@Column({ name: 'appointment_date', type: 'timestamp with time zone' })
 	appointment_date: Date;

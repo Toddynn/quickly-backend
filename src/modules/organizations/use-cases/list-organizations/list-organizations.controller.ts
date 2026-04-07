@@ -1,11 +1,14 @@
-import { Controller, Get, Inject, Param, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
+import type { JwtPayload } from '@/modules/auth/strategies/jwt.strategy';
 import { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
 import { ListOrganizationResponseDto } from '../../models/dto/output/list-organization-response.dto';
 import { ListOrganizationsDocs } from './docs';
 import { ListOrganizationsUseCase } from './list-organizations.use-case';
 
 @ApiTags('Organizations')
+@ApiBearerAuth()
 @Controller('organizations')
 export class ListOrganizationsController {
 	constructor(
@@ -13,9 +16,9 @@ export class ListOrganizationsController {
 		private readonly listOrganizationsUseCase: ListOrganizationsUseCase,
 	) {}
 
-	@Get(':user_id/paginated')
+	@Get()
 	@ListOrganizationsDocs()
-	async execute(@Param('user_id') user_id: string, @Query() paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
-		return await this.listOrganizationsUseCase.execute(user_id, paginationDto);
+	async execute(@CurrentUser() currentUser: JwtPayload, @Query() paginationDto: PaginationDto): Promise<PaginatedResponseDto<ListOrganizationResponseDto>> {
+		return await this.listOrganizationsUseCase.execute(currentUser.sub, paginationDto);
 	}
 }

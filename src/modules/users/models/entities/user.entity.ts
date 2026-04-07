@@ -19,6 +19,9 @@ export class User extends TimestampedEntity {
 	@Column({ name: 'email_verified', type: 'boolean', default: false })
 	email_verified: boolean;
 
+	@Column({ name: 'refresh_token_hash', type: 'varchar', nullable: true, select: false })
+	refresh_token_hash: string | null;
+
 	@OneToMany(
 		() => OrganizationMember,
 		(organizationMember) => organizationMember.user,

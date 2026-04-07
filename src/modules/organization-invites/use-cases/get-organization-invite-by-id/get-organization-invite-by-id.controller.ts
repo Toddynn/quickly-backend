@@ -18,5 +18,3 @@ export class GetOrganizationInviteByIdController {
 		return await this.getOrganizationInviteByIdUseCase.execute(id);
 	}
 }
-
-

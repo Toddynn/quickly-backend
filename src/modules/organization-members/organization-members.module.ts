@@ -38,6 +38,11 @@ import { ListOrganizationMembersUseCase } from './use-cases/list-organization-me
 		InactivateOrganizationMemberUseCase,
 		ListOrganizationMembersUseCase,
 	],
-	exports: [ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY, GetExistingOrganizationMemberUseCase, CreateOrganizationMemberUseCase],
+	exports: [
+		ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY,
+		GetExistingOrganizationMemberUseCase,
+		CreateOrganizationMemberUseCase,
+		ActivateOrganizationMemberUseCase,
+	],
 })
 export class OrganizationMembersModule {}

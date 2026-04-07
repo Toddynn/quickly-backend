@@ -7,5 +7,3 @@ export class CheckSlugAvailabilityResponseDto {
 	@ApiProperty({ description: 'Whether the slug is available (not taken by another organization)' })
 	available: boolean;
 }
-
-

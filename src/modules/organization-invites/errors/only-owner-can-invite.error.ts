@@ -6,4 +6,3 @@ export class OnlyOwnerCanInviteException extends ForbiddenException {
 		this.name = 'OnlyOwnerCanInviteException';
 	}
 }
-

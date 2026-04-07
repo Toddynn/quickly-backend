@@ -20,7 +20,7 @@ export function GetCustomerDocs() {
 			description: 'Customer retrieved successfully.',
 			type: Customer,
 		}),
-		ApiResponse(getExceptionResponseSchema(NotFoundCustomerException, 'id=123', 'Customer not found.')),
+		ApiResponse(getExceptionResponseSchema(NotFoundCustomerException, ['id=123'], { description: 'Customer not found.' })),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
 			description: 'Unexpected error while fetching customer.',

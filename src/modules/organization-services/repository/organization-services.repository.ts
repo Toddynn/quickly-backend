@@ -16,11 +16,9 @@ export class OrganizationServicesRepository extends Repository<OrganizationServi
 		const { page = 1, limit = 10, organization_id, service_category_id, search, active } = listDto;
 		const skip = (page - 1) * limit;
 
-		const where: FindOptionsWhere<OrganizationService> = {};
-
-		if (organization_id) {
-			where.organization_id = organization_id;
-		}
+		const where: FindOptionsWhere<OrganizationService> = {
+			organization_id,
+		};
 		if (service_category_id) {
 			where.service_category_id = service_category_id;
 		}

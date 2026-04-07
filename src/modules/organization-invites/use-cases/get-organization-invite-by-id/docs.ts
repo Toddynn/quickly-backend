@@ -20,13 +20,10 @@ export function GetOrganizationInviteByIdDocs() {
 			description: 'Organization invite retrieved successfully.',
 			type: OrganizationInvite,
 		}),
-		ApiResponse(getExceptionResponseSchema(NotFoundOrganizationInviteException, 'id=123', 'Organization invite not found.')),
+		ApiResponse(getExceptionResponseSchema(NotFoundOrganizationInviteException, ['id=123'], { description: 'Organization invite not found.' })),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,
 			description: 'Unexpected error while fetching organization invite.',
 		}),
 	);
 }
-
-
-

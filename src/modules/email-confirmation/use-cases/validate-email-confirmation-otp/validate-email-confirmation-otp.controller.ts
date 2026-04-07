@@ -18,4 +18,3 @@ export class ValidateEmailConfirmationOtpController {
 		return await this.validateEmailConfirmationOtpUseCase.execute(validateEmailConfirmationOtpDto);
 	}
 }
-

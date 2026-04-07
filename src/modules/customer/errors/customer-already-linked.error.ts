@@ -6,4 +6,3 @@ export class CustomerAlreadyLinkedException extends BadRequestException {
 		this.name = 'CustomerAlreadyLinkedException';
 	}
 }
-

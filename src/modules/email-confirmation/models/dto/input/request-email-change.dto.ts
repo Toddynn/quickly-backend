@@ -13,4 +13,3 @@ export class RequestEmailChangeDto {
 	@ApiProperty({ description: 'The new email to confirm' })
 	newEmail: string;
 }
-

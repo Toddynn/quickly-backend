@@ -7,4 +7,3 @@ export class VerifyEmailDto {
 	@ApiProperty({ description: 'The user ID' })
 	userId: string;
 }
-

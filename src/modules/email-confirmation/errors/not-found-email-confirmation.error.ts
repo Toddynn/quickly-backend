@@ -6,4 +6,3 @@ export class NotFoundEmailConfirmationException extends NotFoundException {
 		this.name = 'NotFoundEmailConfirmationException';
 	}
 }
-

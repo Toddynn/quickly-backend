@@ -6,4 +6,3 @@ export class EmailAlreadyVerifiedException extends BadRequestException {
 		this.name = 'EmailAlreadyVerifiedException';
 	}
 }
-

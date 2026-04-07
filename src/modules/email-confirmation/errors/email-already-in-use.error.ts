@@ -6,4 +6,3 @@ export class EmailAlreadyInUseException extends ConflictException {
 		this.name = 'EmailAlreadyInUseException';
 	}
 }
-

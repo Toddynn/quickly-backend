@@ -17,4 +17,3 @@ export class DeleteOrganizationAddressController {
 		return await this.deleteOrganizationAddressUseCase.execute(id);
 	}
 }
-

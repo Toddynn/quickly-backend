@@ -1,8 +1,8 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ValidateEmailConfirmationOtpDto } from '../../models/dto/input/validate-email-confirmation-otp.dto';
-import { ConfirmEmailDocs } from './docs';
 import { ConfirmEmailUseCase } from './confirm-email.use-case';
+import { ConfirmEmailDocs } from './docs';
 
 @ApiTags('Email Confirmation')
 @Controller('email-confirmation')
@@ -19,4 +19,3 @@ export class ConfirmEmailController {
 		return { message: 'Email confirmado com sucesso.' };
 	}
 }
-

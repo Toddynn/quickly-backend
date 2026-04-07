@@ -19,4 +19,3 @@ export class RequestPasswordResetController {
 		return { message: 'Se o email existir, um código OTP foi enviado.' };
 	}
 }
-

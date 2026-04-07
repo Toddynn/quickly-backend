@@ -19,4 +19,3 @@ export class RequestEmailChangeController {
 		return { message: 'Código OTP enviado para o email atual.' };
 	}
 }
-

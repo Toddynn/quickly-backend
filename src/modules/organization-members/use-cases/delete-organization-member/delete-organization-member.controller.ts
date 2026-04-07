@@ -1,9 +1,14 @@
 import { Controller, Delete, Inject, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
+import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
+import { OrganizationRole } from '@/shared/constants/organization-roles';
 import { DeleteOrganizationMemberUseCase } from './delete-organization-member.use-case';
 import { DeleteOrganizationMemberDocs } from './docs';
 
 @ApiTags('Organization Members')
+@ApiBearerAuth()
+@TenantScoped()
 @Controller('organization-members')
 export class DeleteOrganizationMemberController {
 	constructor(
@@ -12,6 +17,7 @@ export class DeleteOrganizationMemberController {
 	) {}
 
 	@Delete(':id')
+	@Roles(OrganizationRole.OWNER)
 	@DeleteOrganizationMemberDocs()
 	async execute(@Param('id') id: string): Promise<void> {
 		return await this.deleteOrganizationMemberUseCase.execute(id);

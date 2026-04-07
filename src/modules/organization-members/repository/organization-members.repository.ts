@@ -13,10 +13,12 @@ export class OrganizationMembersRepository extends Repository<OrganizationMember
 	}
 
 	async findAllPaginated(listDto: ListOrganizationMembersDto): Promise<PaginatedResponseDto<ListOrganizationMemberResponseDto>> {
-		const { page = 1, limit = 10, is_active } = listDto;
+		const { page = 1, limit = 10, organization_id, is_active } = listDto;
 		const skip = (page - 1) * limit;
 
-		const where: FindOptionsWhere<OrganizationMember> = {};
+		const where: FindOptionsWhere<OrganizationMember> = {
+			organization_id,
+		};
 
 		if (is_active !== undefined) {
 			where.active = is_active;
@@ -24,7 +26,7 @@ export class OrganizationMembersRepository extends Repository<OrganizationMember
 
 		const [data, total] = await this.findAndCount({
 			where,
-			relations: ['organization', 'user'],
+			relations: ['user'],
 			skip,
 			take: limit,
 		});

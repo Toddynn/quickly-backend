@@ -1,10 +1,14 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '@/modules/users/models/entities/user.entity';
 import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
 import { Organization } from '../../../organizations/models/entities/organization.entity';
 import { INVITE_STATUS } from '../../shared/interfaces/invite-status';
 
 @Entity('organization_invites')
+// Acelera listagem de convites por organização e status.
+@Index(['organization_id', 'status'])
+// Evita corrida concorrente criando mais de um convite pendente para o mesmo email na mesma organização.
+@Index(['organization_id', 'email'], { unique: true, where: `"status" = 'PENDING'` })
 export class OrganizationInvite extends TimestampedEntity {
 	@Column({ name: 'organization_id' })
 	organization_id: string;

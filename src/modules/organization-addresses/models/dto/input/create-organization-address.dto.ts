@@ -59,4 +59,3 @@ export class CreateOrganizationAddressDto {
 	@ApiPropertyOptional({ description: 'The SIAFI code of the municipality' })
 	siafi_code?: string;
 }
-

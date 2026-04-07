@@ -17,21 +17,19 @@ export class UpdateCustomerUseCase {
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 	) {}
 
-	async execute(id: string, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
-		const customer = await this.getExistingCustomerUseCase.execute({ where: { id } });
+	async execute(id: string, organizationId: string, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
+		const customer = await this.getExistingCustomerUseCase.execute({ where: { id, organization_id: organizationId } });
 
-		// Verificar se o usuário existe (se fornecido)
 		if (updateCustomerDto.user_id) {
 			await this.getExistingUserUseCase.execute({ where: { id: updateCustomerDto.user_id } });
 		}
 
-		// Verificar se já existe outro cliente com o mesmo email na mesma organização (se email foi alterado)
 		if (updateCustomerDto.email && updateCustomerDto.email !== customer.email) {
 			await this.getExistingCustomerUseCase.execute(
 				{
 					where: {
 						email: updateCustomerDto.email,
-						organization_id: customer.organization_id,
+						organization_id: organizationId,
 					},
 				},
 				{ throwIfFound: true },
@@ -41,9 +39,8 @@ export class UpdateCustomerUseCase {
 		await this.customersRepository.update(id, updateCustomerDto);
 
 		return await this.getExistingCustomerUseCase.execute({
-			where: { id },
-			relations: ['organization', 'user'],
+			where: { id, organization_id: organizationId },
+			relations: ['user'],
 		});
 	}
 }
-

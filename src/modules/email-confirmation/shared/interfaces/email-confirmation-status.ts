@@ -3,4 +3,3 @@ export enum EMAIL_CONFIRMATION_STATUS {
 	USED = 'USED',
 	EXPIRED = 'EXPIRED',
 }
-

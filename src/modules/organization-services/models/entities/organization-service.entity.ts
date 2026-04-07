@@ -1,9 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { Organization } from '@/modules/organizations/models/entities/organization.entity';
 import { ServiceCategory } from '@/modules/service-categories/models/entities/service-category.entity';
 import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
 
 @Entity('organization_services')
+// Acelera consultas de serviços ativos por tenant.
+@Index(['organization_id', 'active'])
+// Evita serviços duplicados com o mesmo nome dentro da mesma organização.
+@Index(['organization_id', 'name'], { unique: true })
 export class OrganizationService extends TimestampedEntity {
 	@Column({ name: 'organization_id' })
 	organization_id: string;

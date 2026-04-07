@@ -9,10 +9,10 @@ export class GetCustomerUseCase {
 		private readonly getExistingCustomerUseCase: GetExistingCustomerUseCase,
 	) {}
 
-	async execute(id: string): Promise<Customer> {
+	async execute(id: string, organizationId: string): Promise<Customer> {
 		return await this.getExistingCustomerUseCase.execute({
-			where: { id },
-			relations: ['organization', 'user'],
+			where: { id, organization_id: organizationId },
+			relations: ['user'],
 		});
 	}
 }

@@ -19,4 +19,3 @@ export class UpdateOrganizationAddressController {
 		return await this.updateOrganizationAddressUseCase.execute(id, updateOrganizationAddressDto);
 	}
 }
-

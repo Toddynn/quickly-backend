@@ -6,4 +6,3 @@ export class SameEmailError extends BadRequestException {
 		this.name = 'SameEmailError';
 	}
 }
-

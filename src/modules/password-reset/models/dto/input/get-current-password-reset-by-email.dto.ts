@@ -8,4 +8,3 @@ export class GetCurrentPasswordResetByEmailDto {
 	@ApiProperty({ description: 'The email of the user' })
 	email: string;
 }
-

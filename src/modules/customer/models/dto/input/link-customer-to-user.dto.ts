@@ -7,4 +7,3 @@ export class LinkCustomerToUserDto {
 	@ApiProperty({ description: 'The user ID to link to the customer' })
 	user_id: string;
 }
-

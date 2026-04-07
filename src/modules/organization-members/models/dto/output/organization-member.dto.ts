@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Organization } from '@/modules/organizations/models/entities/organization.entity';
 import { User } from '@/modules/users/models/entities/user.entity';
+import { OrganizationRole } from '@/shared/constants/organization-roles';
 import { TimestampedEntityDto } from '@/shared/dto/timestamped-entity.dto';
 
 export class OrganizationMemberDto extends TimestampedEntityDto {
@@ -12,6 +13,9 @@ export class OrganizationMemberDto extends TimestampedEntityDto {
 
 	@ApiProperty({ description: 'Whether the member is active', default: true })
 	active: boolean;
+
+	@ApiProperty({ description: 'The role of the member in the organization', enum: OrganizationRole })
+	role: OrganizationRole;
 
 	@ApiProperty({ description: 'The organization', type: () => Organization })
 	organization: Organization;

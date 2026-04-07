@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { OrganizationRole } from '@/shared/constants/organization-roles';
 import { CreateOrganizationMemberUseCase } from '../../../organization-members/use-cases/create-organization-member/create-organization-member.use-case';
 import type { CreateOrganizationDto } from '../../models/dto/input/create-organization.dto';
 import type { Organization } from '../../models/entities/organization.entity';
@@ -19,11 +20,9 @@ export class CreateOrganizationUseCase {
 	) {}
 
 	async execute(createOrganizationDto: CreateOrganizationDto): Promise<Organization> {
-		// Validar e normalizar o slug usando a classe de valor
 		const organizationSlug = new OrganizationSlug(createOrganizationDto.slug);
 		const normalizedSlug = organizationSlug.getValue();
 
-		// Verificar se já existe uma organização com este slug
 		await this.getExistingOrganizationUseCase.execute(
 			{
 				where: { slug: normalizedSlug },
@@ -40,6 +39,7 @@ export class CreateOrganizationUseCase {
 		await this.createOrganizationMemberUseCase.execute({
 			organization_id: organization.id,
 			user_id: createOrganizationDto.owner_id,
+			role: OrganizationRole.OWNER,
 		});
 
 		return organization;

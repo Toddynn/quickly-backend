@@ -36,4 +36,3 @@ export class GetExistingPasswordResetUseCase {
 		return passwordReset;
 	}
 }
-

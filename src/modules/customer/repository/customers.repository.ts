@@ -17,9 +17,7 @@ export class CustomersRepository extends Repository<Customer> implements Custome
 
 		const queryBuilder = this.createQueryBuilder('customer');
 
-		if (organization_id) {
-			queryBuilder.andWhere('customer.organization_id = :organization_id', { organization_id });
-		}
+		queryBuilder.andWhere('customer.organization_id = :organization_id', { organization_id });
 
 		if (user_id !== undefined) {
 			queryBuilder.andWhere('customer.user_id = :user_id', { user_id });
@@ -31,7 +29,6 @@ export class CustomersRepository extends Repository<Customer> implements Custome
 			});
 		}
 
-		queryBuilder.leftJoinAndSelect('customer.organization', 'organization');
 		queryBuilder.leftJoinAndSelect('customer.user', 'user');
 		queryBuilder.skip(skip);
 		queryBuilder.take(limit);

@@ -21,7 +21,8 @@ export function CreateOrganizationInviteDocs() {
 		}),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
-			description: 'Invalid data for invite creation, or an active invite already exists, or the user is already a member of the organization (if they have an account).',
+			description:
+				'Invalid data for invite creation, or an active invite already exists, or the user is already a member of the organization (if they have an account).',
 		}),
 		ApiResponse({
 			status: HttpStatus.INTERNAL_SERVER_ERROR,

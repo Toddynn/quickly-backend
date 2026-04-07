@@ -7,4 +7,3 @@ export class AcceptOrganizationInviteDto {
 	@ApiProperty({ description: 'The user ID who is accepting the invite' })
 	user_id: string;
 }
-

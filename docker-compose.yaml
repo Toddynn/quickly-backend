@@ -1,6 +1,6 @@
 services:
      pgsql:
-          image: postgres:16-alpine
+          image: postgres:18-alpine
           ports:
                - '${DB_PORT:-5432}:5432'
           container_name: 'pgsql'
@@ -19,16 +19,7 @@ services:
                timeout: 5s
                retries: 5
           volumes:
-               - postgres_data:/var/lib/postgresql/data
-
-     adminer:
-          image: adminer:latest
-          restart: always
-          ports:
-               - '8080:8080'
-          depends_on:
-               pgsql:
-                    condition: service_healthy
+               - postgres_data:/var/lib/postgresql
 
      pgadmin:
           image: dpage/pgadmin4

@@ -18,23 +18,20 @@ export class LinkCustomerToUserUseCase {
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 	) {}
 
-	async execute(id: string, linkCustomerToUserDto: LinkCustomerToUserDto): Promise<Customer> {
-		const customer = await this.getExistingCustomerUseCase.execute({ where: { id } });
+	async execute(id: string, organizationId: string, linkCustomerToUserDto: LinkCustomerToUserDto): Promise<Customer> {
+		const customer = await this.getExistingCustomerUseCase.execute({ where: { id, organization_id: organizationId } });
 
-		// Verificar se o cliente já está vinculado a um usuário
 		if (customer.user_id) {
 			throw new CustomerAlreadyLinkedException();
 		}
 
-		// Verificar se o usuário existe
 		await this.getExistingUserUseCase.execute({ where: { id: linkCustomerToUserDto.user_id } });
 
-		// Verificar se já existe outro cliente com o mesmo email e user_id na mesma organização
 		await this.getExistingCustomerUseCase.execute(
 			{
 				where: {
 					email: customer.email,
-					organization_id: customer.organization_id,
+					organization_id: organizationId,
 					user_id: linkCustomerToUserDto.user_id,
 				},
 			},
@@ -44,8 +41,8 @@ export class LinkCustomerToUserUseCase {
 		await this.customersRepository.update(id, { user_id: linkCustomerToUserDto.user_id });
 
 		return await this.getExistingCustomerUseCase.execute({
-			where: { id },
-			relations: ['organization', 'user'],
+			where: { id, organization_id: organizationId },
+			relations: ['user'],
 		});
 	}
 }

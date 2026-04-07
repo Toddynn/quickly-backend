@@ -19,4 +19,3 @@ export class VerifyEmailController {
 		return { message: 'Código OTP enviado para o email.' };
 	}
 }
-
