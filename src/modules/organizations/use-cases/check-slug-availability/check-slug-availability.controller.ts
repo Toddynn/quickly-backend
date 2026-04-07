@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { CheckSlugAvailabilityResponseDto } from '../../models/dto/output/check-slug-availability-response.dto';
+import { CheckSlugAvailabilityResponseDto } from '../../models/dto/output/check-slug-availability-response.dto';
 import { CheckSlugAvailabilityUseCase } from './check-slug-availability.use-case';
 import { CheckSlugAvailabilityDocs } from './docs';
 

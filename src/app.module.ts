@@ -7,8 +7,10 @@ import pgDatabaseConfig from './configs/database/pg-database.config';
 import { PgTypeOrmConfigService } from './configs/database/pg-typeorm-config.service';
 import mailerConfig from './configs/mailer/mailer.config';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
+import { SessionConfigModule } from './configs/session/session-config.module';
+import sessionConfig from './configs/session/session.config';
 import { AuthModule } from './modules/auth/auth.module';
-import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
+import { SessionAuthGuard } from './modules/auth/guards/session-auth.guard';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { TenantGuard } from './modules/auth/guards/tenant.guard';
 import { CustomerModule } from './modules/customer/customer.module';
@@ -29,7 +31,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		ConfigModule.forRoot({
 			isGlobal: true,
 			envFilePath: ['.env'],
-			load: [pgDatabaseConfig, mailerConfig],
+			load: [pgDatabaseConfig, mailerConfig, sessionConfig],
 		}),
 		TypeOrmModule.forRootAsync({
 			useFactory: (configService: ConfigService) => {
@@ -45,6 +47,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 			},
 			inject: [ConfigService],
 		}),
+		SessionConfigModule,
 		AuthModule,
 		UsersModule,
 		PasswordResetModule,
@@ -62,7 +65,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		ReflectionGuardValidationPipe,
 		{
 			provide: APP_GUARD,
-			useClass: JwtAuthGuard,
+			useClass: SessionAuthGuard,
 		},
 		{
 			provide: APP_GUARD,

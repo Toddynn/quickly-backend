@@ -38,6 +38,14 @@ const envSchema = object({
 	MAIL_FROM_NAME: string({ error: 'MAIL_FROM_NAME is required.' }),
 	MAIL_FROM_EMAIL: string({ error: 'MAIL_FROM_EMAIL is required.' }),
 	MAIL_IGNORE_TLS: string({ error: 'MAIL_IGNORE_TLS is required.' }),
+
+	REDIS_DOMAIN: string({ error: 'REDIS_DOMAIN is required.' }),
+	REDIS_PORT: coerce.number({ error: 'REDIS_PORT is required.' }),
+	REDIS_SESSION_PREFIX: string({ error: 'REDIS_SESSION_PREFIX is required.' }),
+	REDIS_TTL: coerce.number({ error: 'REDIS_TTL is required.' }),
+
+	SESSION_SECRET: string({ error: 'SESSION_SECRET is required.' }),
+	SESSION_NAME: string({ error: 'SESSION_NAME is required.' }),
 });
 
 const rawEnv = {
@@ -75,6 +83,14 @@ const rawEnv = {
 	MAIL_FROM_NAME: process.env.MAIL_FROM_NAME,
 	MAIL_FROM_EMAIL: process.env.MAIL_FROM_EMAIL,
 	MAIL_IGNORE_TLS: process.env.MAIL_IGNORE_TLS,
+
+	REDIS_DOMAIN: process.env.REDIS_DOMAIN,
+	REDIS_PORT: process.env.REDIS_PORT,
+	REDIS_SESSION_PREFIX: process.env.REDIS_SESSION_PREFIX,
+	REDIS_TTL: process.env.REDIS_TTL,
+
+	SESSION_SECRET: process.env.SESSION_SECRET,
+	SESSION_NAME: process.env.SESSION_NAME,
 } as const;
 
 export const env = envSchema.parse(rawEnv);

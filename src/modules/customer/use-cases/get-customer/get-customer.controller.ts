@@ -1,5 +1,5 @@
 import { Controller, Get, Inject, Param } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
 import { Customer } from '../../models/entities/customer.entity';
@@ -7,7 +7,6 @@ import { GetCustomerDocs } from './docs';
 import { GetCustomerUseCase } from './get-customer.use-case';
 
 @ApiTags('Customers')
-@ApiBearerAuth()
 @TenantScoped()
 @Controller('customers')
 export class GetCustomerController {

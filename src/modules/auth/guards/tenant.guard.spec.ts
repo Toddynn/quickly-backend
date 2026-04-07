@@ -3,10 +3,10 @@ import { Reflector } from '@nestjs/core';
 import { MissingOrganizationContextException } from '../errors/missing-organization-context.error';
 import { TenantGuard } from './tenant.guard';
 
-const createMockContext = (user: Record<string, unknown> | undefined): ExecutionContext =>
+const createMockContext = (session: Record<string, unknown> | undefined): ExecutionContext =>
 	({
 		switchToHttp: () => ({
-			getRequest: () => ({ user }),
+			getRequest: () => ({ session }),
 		}),
 		getHandler: () => jest.fn(),
 		getClass: () => jest.fn(),
@@ -21,7 +21,7 @@ describe('TenantGuard', () => {
 		guard = new TenantGuard(reflector);
 	});
 
-	it('should allow access on public routes regardless of org context', () => {
+	it('should allow access on public routes regardless of session', () => {
 		jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(true);
 		const context = createMockContext(undefined);
 
@@ -30,26 +30,26 @@ describe('TenantGuard', () => {
 
 	it('should allow access on non-tenant-scoped routes without org context', () => {
 		jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(false).mockReturnValueOnce(false);
-		const context = createMockContext({ sub: 'user-1' });
+		const context = createMockContext({ userId: 'user-1' });
 
 		expect(guard.canActivate(context)).toBe(true);
 	});
 
-	it('should throw MissingOrganizationContextException on tenant-scoped routes without active_organization_id', () => {
+	it('should throw MissingOrganizationContextException on tenant-scoped routes without activeOrganizationId', () => {
 		jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(false).mockReturnValueOnce(true);
-		const context = createMockContext({ sub: 'user-1', active_organization_id: null });
+		const context = createMockContext({ userId: 'user-1', activeOrganizationId: null });
 
 		expect(() => guard.canActivate(context)).toThrow(MissingOrganizationContextException);
 	});
 
-	it('should allow access on tenant-scoped routes with valid active_organization_id', () => {
+	it('should allow access on tenant-scoped routes with valid activeOrganizationId', () => {
 		jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(false).mockReturnValueOnce(true);
-		const context = createMockContext({ sub: 'user-1', active_organization_id: 'org-1' });
+		const context = createMockContext({ userId: 'user-1', activeOrganizationId: 'org-1' });
 
 		expect(guard.canActivate(context)).toBe(true);
 	});
 
-	it('should throw when user is undefined on tenant-scoped routes', () => {
+	it('should throw when session is undefined on tenant-scoped routes', () => {
 		jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(false).mockReturnValueOnce(true);
 		const context = createMockContext(undefined);
 

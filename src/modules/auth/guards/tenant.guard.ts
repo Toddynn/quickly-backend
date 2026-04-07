@@ -19,8 +19,8 @@ export class TenantGuard implements CanActivate {
 			return true;
 		}
 
-		const { user } = context.switchToHttp().getRequest();
-		if (!user?.active_organization_id) {
+		const { session } = context.switchToHttp().getRequest();
+		if (!session?.activeOrganizationId) {
 			throw new MissingOrganizationContextException();
 		}
 

@@ -1,6 +1,5 @@
-import { createHash } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import type { Request } from 'express';
 import { GetExistingOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/get-existing-organization-member/get-existing-organization-member.use-case';
 import type { UsersRepositoryInterface } from '@/modules/users/models/interfaces/users-repository.interface';
 import { USER_REPOSITORY_INTERFACE_KEY } from '@/modules/users/shared/constants/repository-interface-key';
@@ -8,21 +7,19 @@ import { env } from '@/shared/constants/env-variables';
 import { comparePassword } from '@/shared/helpers/hash-password.helper';
 import { InvalidCredentialsException } from '../../errors/invalid-credentials.error';
 import type { LoginDto } from '../../models/dto/input/login.dto';
-import type { AuthTokensDto } from '../../models/dto/output/auth-tokens.dto';
-import type { JwtPayload } from '../../strategies/jwt.strategy';
+import type { SessionUser } from '../../models/interfaces/session-user.interface';
+import { saveSession } from '../../shared/helpers/session.helper';
 
 @Injectable()
-export class CreateAccessTokenUseCase {
+export class LoginUseCase {
 	constructor(
 		@Inject(USER_REPOSITORY_INTERFACE_KEY)
 		private readonly usersRepository: UsersRepositoryInterface,
 		@Inject(GetExistingOrganizationMemberUseCase)
 		private readonly getExistingOrganizationMemberUseCase: GetExistingOrganizationMemberUseCase,
-		@Inject(JwtService)
-		private readonly jwtService: JwtService,
 	) {}
 
-	async execute(loginDto: LoginDto): Promise<AuthTokensDto> {
+	async execute(request: Request, loginDto: LoginDto): Promise<SessionUser> {
 		const user = await this.usersRepository
 			.createQueryBuilder('user')
 			.addSelect('user.password')
@@ -46,22 +43,22 @@ export class CreateAccessTokenUseCase {
 			{ throwIfFound: false, throwIfNotFound: false },
 		);
 
-		const payload: JwtPayload = {
-			sub: user.id,
+		const sessionMaxAgeMs = env.REDIS_TTL * 1000;
+		request.session.cookie.maxAge = sessionMaxAgeMs;
+		request.session.cookie.expires = new Date(Date.now() + sessionMaxAgeMs);
+
+		request.session.userId = user.id;
+		request.session.email = user.email;
+		request.session.activeOrganizationId = activeMembership?.organization_id ?? null;
+		request.session.organizationRole = activeMembership?.role ?? null;
+
+		await saveSession(request);
+
+		return {
+			userId: user.id,
 			email: user.email,
-			active_organization_id: activeMembership?.organization_id ?? null,
-			organization_role: activeMembership?.role ?? null,
+			activeOrganizationId: activeMembership?.organization_id ?? null,
+			organizationRole: activeMembership?.role ?? null,
 		};
-
-		const access_token = this.jwtService.sign(payload);
-		const refresh_token = this.jwtService.sign(payload, {
-			secret: env.JWT_REFRESH_SECRET,
-			expiresIn: env.JWT_REFRESH_EXPIRES_IN,
-		});
-
-		const refresh_token_hash = createHash('sha256').update(refresh_token).digest('hex');
-		await this.usersRepository.update(user.id, { refresh_token_hash });
-
-		return { access_token, refresh_token };
 	}
 }

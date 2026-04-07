@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { UpdateResult } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 import { UpdateOrganizationServiceDto } from '../../models/dto/input/update-organization-service.dto';
 import { UpdateOrganizationServiceDocs } from './docs';
 import { UpdateOrganizationServiceUseCase } from './update-organization-service.use-case';

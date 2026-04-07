@@ -1,5 +1,5 @@
 import { Controller, Delete, Inject, Param } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
 import { OrganizationRole } from '@/shared/constants/organization-roles';
@@ -7,7 +7,6 @@ import { DeleteOrganizationMemberUseCase } from './delete-organization-member.us
 import { DeleteOrganizationMemberDocs } from './docs';
 
 @ApiTags('Organization Members')
-@ApiBearerAuth()
 @TenantScoped()
 @Controller('organization-members')
 export class DeleteOrganizationMemberController {

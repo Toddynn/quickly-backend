@@ -1,6 +1,6 @@
 import { Controller, Inject, Param, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import type { UpdateResult } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 import { InactivateOrganizationServiceDocs } from './docs';
 import { InactivateOrganizationServiceUseCase } from './inactivate-organization-service.use-case';
 

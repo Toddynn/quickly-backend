@@ -1,15 +1,14 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
-import type { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
-import type { ListServiceCategoriesDto } from '../../models/dto/output/list-service-categories.dto';
+import { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
+import { ListServiceCategoriesDto } from '../../models/dto/output/list-service-categories.dto';
 import { ServiceCategory } from '../../models/entities/service-category.entity';
 import { ListServiceCategoriesDocs } from './docs';
 import { ListServiceCategoriesUseCase } from './list-service-categories.use-case';
 
 @ApiTags('Service Categories')
-@ApiBearerAuth()
 @TenantScoped()
 @Controller('service-categories')
 export class ListServiceCategoriesController {

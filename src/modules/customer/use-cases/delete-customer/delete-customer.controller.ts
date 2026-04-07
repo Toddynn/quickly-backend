@@ -1,5 +1,5 @@
 import { Controller, Delete, Inject, Param } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
@@ -8,7 +8,6 @@ import { DeleteCustomerUseCase } from './delete-customer.use-case';
 import { DeleteCustomerDocs } from './docs';
 
 @ApiTags('Customers')
-@ApiBearerAuth()
 @TenantScoped()
 @Controller('customers')
 export class DeleteCustomerController {

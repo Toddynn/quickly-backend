@@ -1,14 +1,13 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SwitchOrganizationDto } from '../../models/dto/input/switch-organization.dto';
-import { AuthTokensDto } from '../../models/dto/output/auth-tokens.dto';
+import { SessionUserDto } from '../../models/dto/output/session-user.dto';
 
 export function SwitchOrganizationDocs() {
 	return applyDecorators(
-		ApiBearerAuth(),
 		ApiOperation({
 			summary: 'Switch active organization',
-			description: 'Switches the active organization context for the authenticated user, returning new tokens with the updated context.',
+			description: 'Switches the active organization context in the current session.',
 		}),
 		ApiBody({
 			type: SwitchOrganizationDto,
@@ -17,7 +16,7 @@ export function SwitchOrganizationDocs() {
 		ApiResponse({
 			status: HttpStatus.OK,
 			description: 'Organization switched successfully.',
-			type: AuthTokensDto,
+			type: SessionUserDto,
 		}),
 		ApiResponse({
 			status: HttpStatus.FORBIDDEN,

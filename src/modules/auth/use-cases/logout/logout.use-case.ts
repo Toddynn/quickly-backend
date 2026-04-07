@@ -1,16 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
-import type { UsersRepositoryInterface } from '@/modules/users/models/interfaces/users-repository.interface';
-import { USER_REPOSITORY_INTERFACE_KEY } from '@/modules/users/shared/constants/repository-interface-key';
-import type { JwtPayload } from '../../strategies/jwt.strategy';
+import { Injectable } from '@nestjs/common';
+import type { Request, Response } from 'express';
+import { env } from '@/shared/constants/env-variables';
+import { destroySession } from '../../shared/helpers/session.helper';
+
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 @Injectable()
 export class LogoutUseCase {
-	constructor(
-		@Inject(USER_REPOSITORY_INTERFACE_KEY)
-		private readonly usersRepository: UsersRepositoryInterface,
-	) {}
+	async execute(request: Request, response: Response): Promise<void> {
+		await destroySession(request);
 
-	async execute(currentUser: JwtPayload): Promise<void> {
-		await this.usersRepository.update(currentUser.sub, { refresh_token_hash: null });
+		response.clearCookie(env.SESSION_NAME, {
+			path: '/',
+			httpOnly: true,
+			secure: IS_PRODUCTION,
+			sameSite: IS_PRODUCTION ? 'none' : 'lax',
+		});
 	}
 }

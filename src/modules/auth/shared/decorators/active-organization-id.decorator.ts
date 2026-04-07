@@ -3,7 +3,7 @@ import { MissingOrganizationContextException } from '../../errors/missing-organi
 
 export const ActiveOrganizationId = createParamDecorator((_data: unknown, ctx: ExecutionContext): string => {
 	const request = ctx.switchToHttp().getRequest();
-	const organizationId = request.user?.active_organization_id;
+	const organizationId = request.session?.activeOrganizationId;
 
 	if (!organizationId) {
 		throw new MissingOrganizationContextException();

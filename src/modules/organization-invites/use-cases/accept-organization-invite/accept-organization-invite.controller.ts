@@ -1,13 +1,12 @@
 import { Controller, Inject, Param, Patch } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
-import type { JwtPayload } from '@/modules/auth/strategies/jwt.strategy';
+import { SessionUser } from '@/modules/auth/models/interfaces/session-user.interface';
 import { AcceptOrganizationInviteResponseDto } from '../../models/dto/output/accept-organization-invite-response.dto';
 import { AcceptOrganizationInviteUseCase } from './accept-organization-invite.use-case';
 import { AcceptOrganizationInviteDocs } from './docs';
 
 @ApiTags('Organization Invites')
-@ApiBearerAuth()
 @Controller('organization-invites')
 export class AcceptOrganizationInviteController {
 	constructor(
@@ -17,7 +16,7 @@ export class AcceptOrganizationInviteController {
 
 	@Patch(':id/accept')
 	@AcceptOrganizationInviteDocs()
-	async execute(@CurrentUser() currentUser: JwtPayload, @Param('id') id: string): Promise<AcceptOrganizationInviteResponseDto> {
-		return await this.acceptOrganizationInviteUseCase.execute(id, currentUser.sub);
+	async execute(@CurrentUser() currentUser: SessionUser, @Param('id') id: string): Promise<AcceptOrganizationInviteResponseDto> {
+		return await this.acceptOrganizationInviteUseCase.execute(id, currentUser.userId);
 	}
 }
