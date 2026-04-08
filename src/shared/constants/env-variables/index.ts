@@ -24,8 +24,6 @@ const envSchema = object({
 
 	JWT_SECRET: string({ error: 'JWT_SECRET is required.' }),
 	JWT_EXPIRES_IN: coerce.number({ error: 'JWT_EXPIRES_IN is required.' }),
-	JWT_REFRESH_SECRET: string({ error: 'JWT_REFRESH_SECRET is required.' }),
-	JWT_REFRESH_EXPIRES_IN: coerce.number({ error: 'JWT_REFRESH_EXPIRES_IN is required.' }),
 
 	SALT_ROUNDS: coerce.number({ error: 'SALT_ROUNDS is required.' }),
 
@@ -72,8 +70,6 @@ const rawEnv = {
 
 	JWT_SECRET: process.env.JWT_SECRET,
 	JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN,
-	JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
-	JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN,
 
 	SALT_ROUNDS: process.env.SALT_ROUNDS,
 
