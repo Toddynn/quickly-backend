@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { UnableToDeleteOrganizationException } from '../../errors/unable-to-delete-organization.error';
 import type { OrganizationsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 import { GetExistingOrganizationUseCase } from '../get-existing-organization/get-existing-organization.use-case';
@@ -12,8 +13,13 @@ export class DeleteOrganizationUseCase {
 		private readonly getExistingOrganizationUseCase: GetExistingOrganizationUseCase,
 	) {}
 
-	async execute(id: string): Promise<void> {
+	async execute(id: string, userId: string): Promise<void> {
 		const organization = await this.getExistingOrganizationUseCase.execute({ where: { id } });
-		await this.organizationsRepository.delete({ id: organization.id });
+
+		if (organization.owner_id !== userId) {
+			throw new UnableToDeleteOrganizationException();
+		}
+
+		await this.organizationsRepository.softDelete({ id: organization.id });
 	}
 }

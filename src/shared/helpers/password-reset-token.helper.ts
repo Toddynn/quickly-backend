@@ -1,7 +1,8 @@
 import { sign, verify } from 'jsonwebtoken';
+import { env } from '../constants/env-variables';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-const TOKEN_EXPIRATION_TIME = '5m';
+const JWT_SECRET = env.JWT_SECRET;
+const TOKEN_EXPIRATION_TIME = env.JWT_EXPIRES_IN;
 
 export interface PasswordResetTokenPayload {
 	userId: string;

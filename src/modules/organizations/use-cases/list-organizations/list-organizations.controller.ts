@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
 import { SessionUser } from '@/modules/auth/models/interfaces/session-user.interface';
+import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
 import { PaginatedResponseDto, PaginationDto } from '@/shared/dto/pagination.dto';
 import { ListOrganizationResponseDto } from '../../models/dto/output/list-organization-response.dto';
 import { ListOrganizationsDocs } from './docs';

@@ -1,5 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { getExceptionResponseSchema } from '@/shared/helpers/exception-response-schema.helper';
+import { UnableToDeleteOrganizationException } from '../../errors/unable-to-delete-organization.error';
 
 export function DeleteOrganizationDocs() {
 	return applyDecorators(
@@ -12,6 +14,9 @@ export function DeleteOrganizationDocs() {
 			description: 'Organization ID',
 			type: String,
 		}),
+		ApiForbiddenResponse(
+			getExceptionResponseSchema(UnableToDeleteOrganizationException, [], { description: 'Somente o dono da organização pode excluí-la.' }),
+		),
 		ApiResponse({
 			status: HttpStatus.NO_CONTENT,
 			description: 'Organization deleted successfully.',

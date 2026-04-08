@@ -1,10 +1,12 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from '@/modules/auth/shared/decorators/public.decorator';
 import { RequestPasswordResetDto } from '../../models/dto/input/request-password-reset.dto';
 import { RequestPasswordResetDocs } from './docs';
 import { RequestPasswordResetUseCase } from './request-password-reset.use-case';
 
 @ApiTags('Password Reset')
+@Public()
 @Controller('password-reset')
 export class RequestPasswordResetController {
 	constructor(

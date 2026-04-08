@@ -34,6 +34,19 @@ services:
         timeout: 3s
         retries: 10
 
+     redis-commander:
+      image: ghcr.io/joeferner/redis-commander:latest
+      container_name: redis-commander
+      hostname: redis-commander
+      restart: always
+      environment:
+        - REDIS_HOSTS=local:redis:${REDIS_PORT:-6379}
+      ports:
+        - "${REDIS_COMMANDER_PORT:-8081}:8081"
+      depends_on:
+        redis:
+          condition: service_healthy
+
      pgadmin:
           image: dpage/pgadmin4
           environment:

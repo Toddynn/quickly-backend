@@ -1,4 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import { UpdateUserPasswordUseCase } from '@/modules/users/use-cases/update-user-password/update-user-password.use-case';
 import { type PasswordResetTokenPayload, verifyPasswordResetToken } from '@/shared/helpers/password-reset-token.helper';
@@ -20,7 +21,7 @@ export class ResetPasswordUseCase {
 		private readonly getExistingPasswordResetUseCase: GetExistingPasswordResetUseCase,
 	) {}
 
-	async execute(resetPasswordDto: ResetPasswordDto): Promise<void> {
+	async execute(request: Request, response: Response, resetPasswordDto: ResetPasswordDto): Promise<void> {
 		let tokenPayload: PasswordResetTokenPayload;
 		try {
 			tokenPayload = verifyPasswordResetToken(resetPasswordDto.reset_token);
@@ -51,6 +52,6 @@ export class ResetPasswordUseCase {
 
 		await this.markPasswordResetAsUsedUseCase.execute(tokenPayload.passwordResetId);
 
-		await this.updateUserPasswordUseCase.execute(user.id, resetPasswordDto.new_password);
+		await this.updateUserPasswordUseCase.execute(user.id, resetPasswordDto.new_password, request, response);
 	}
 }

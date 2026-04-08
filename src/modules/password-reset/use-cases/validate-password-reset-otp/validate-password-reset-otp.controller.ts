@@ -3,8 +3,10 @@ import { ApiTags } from '@nestjs/swagger';
 import { ValidatePasswordResetOtpDto } from '../../models/dto/input/validate-password-reset-otp.dto';
 import { ValidatePasswordResetOtpDocs } from './docs';
 import { ValidatePasswordResetOtpUseCase } from './validate-password-reset-otp.use-case';
+import { Public } from '@/modules/auth/shared/decorators/public.decorator';
 
 @ApiTags('Password Reset')
+@Public()
 @Controller('password-reset')
 export class ValidatePasswordResetOtpController {
 	constructor(

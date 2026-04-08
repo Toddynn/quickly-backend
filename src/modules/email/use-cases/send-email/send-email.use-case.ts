@@ -10,6 +10,6 @@ export class SendEmailUseCase {
 	) {}
 
 	async execute(data: SendEmailDto): Promise<void> {
-		await this.mailerService.sendMail(data);
+		await this.mailerService.sendMail({ to: data.to, subject: data.subject, html: data.html });
 	}
 }

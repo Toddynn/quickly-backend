@@ -47,7 +47,7 @@ export class UpdateOrganizationUseCase {
 		);
 
 		if (existingOrganization) {
-			throw new OrganizationAlreadyExistsException(`slug: ${slug}`);
+			throw new OrganizationAlreadyExistsException(`O slug: ${slug} já está em uso.`);
 		}
 	}
 }
