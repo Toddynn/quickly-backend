@@ -5,7 +5,7 @@ import { AlreadyLoggedInOrganizationException } from '../../errors/already-logge
 import { NotMemberOfOrganizationException } from '../../errors/not-member-of-organization.error';
 import type { SwitchOrganizationDto } from '../../models/dto/input/switch-organization.dto';
 import type { SessionUser } from '../../models/interfaces/session-user.interface';
-import { getSessionUser, saveSession } from '../../shared/helpers/session.helper';
+import { alignAuthenticatedSessionExpiry, getSessionUser, saveSession } from '../../shared/helpers/session.helper';
 
 @Injectable()
 export class SwitchOrganizationUseCase {
@@ -38,6 +38,8 @@ export class SwitchOrganizationUseCase {
 
 		request.session.activeOrganizationId = membership.organization_id;
 		request.session.organizationRole = membership.role;
+
+		alignAuthenticatedSessionExpiry(request);
 
 		await saveSession(request);
 

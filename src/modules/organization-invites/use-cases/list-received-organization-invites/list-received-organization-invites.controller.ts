@@ -18,10 +18,7 @@ export class ListReceivedOrganizationInvitesController {
 
 	@Get('received')
 	@ListReceivedOrganizationInvitesDocs()
-	async execute(
-		@CurrentUser() currentUser: SessionUser,
-		@Query() paginationDto: PaginationDto,
-	): Promise<PaginatedResponseDto<OrganizationInviteDto>> {
+	async execute(@CurrentUser() currentUser: SessionUser, @Query() paginationDto: PaginationDto): Promise<PaginatedResponseDto<OrganizationInviteDto>> {
 		return await this.listReceivedOrganizationInvitesUseCase.execute(currentUser.userId, paginationDto);
 	}
 }

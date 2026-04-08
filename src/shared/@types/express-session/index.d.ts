@@ -7,5 +7,7 @@ declare module 'express-session' {
 		email: string;
 		activeOrganizationId: string | null;
 		organizationRole: OrganizationRole | null;
+		rememberMe?: boolean;
+		sessionStartedAt?: number;
 	}
 }

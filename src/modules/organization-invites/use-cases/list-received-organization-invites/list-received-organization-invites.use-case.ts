@@ -19,8 +19,7 @@ export class ListReceivedOrganizationInvitesUseCase {
 		const result = await this.organizationInvitesRepository.findAllPaginatedByInvitedUserId(userId, paginationDto);
 
 		const mappedData = result.data.map((organizationInvite) => {
-			if (!isOrganizationInviteDto(organizationInvite))
-				throw new InternalServerErrorException('Organization invite is not a OrganizationInviteDto');
+			if (!isOrganizationInviteDto(organizationInvite)) throw new InternalServerErrorException('Organization invite is not a OrganizationInviteDto');
 
 			return organizationInvite;
 		});

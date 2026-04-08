@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type DataSource, type FindOptionsWhere, Repository } from 'typeorm';
+import { type DataSource, type FindOptionsWhere, ILike, Repository } from 'typeorm';
 import type { PaginatedResponseDto } from '@/shared/dto/pagination.dto';
 import type { ListServiceCategoriesDto } from '../models/dto/output/list-service-categories.dto';
 import { ServiceCategory } from '../models/entities/service-category.entity';
@@ -11,13 +11,17 @@ export class ServiceCategoriesRepository extends Repository<ServiceCategory> imp
 		super(ServiceCategory, dataSource.createEntityManager());
 	}
 
-	async findAllPaginated(listDto: ListServiceCategoriesDto): Promise<PaginatedResponseDto<ServiceCategory>> {
-		const { page = 1, limit = 10, organization_id } = listDto;
+	async findAllPaginated(listDto: ListServiceCategoriesDto, organization_id: string): Promise<PaginatedResponseDto<ServiceCategory>> {
+		const { page = 1, limit = 10, search } = listDto;
 		const skip = (page - 1) * limit;
 
 		const where: FindOptionsWhere<ServiceCategory> = {
 			organization_id,
 		};
+
+		if (search) {
+			where.name = ILike(`%${search}%`);
+		}
 
 		const [data, total] = await this.findAndCount({
 			where,

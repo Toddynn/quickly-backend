@@ -12,7 +12,7 @@ export class ListCustomersUseCase {
 		private readonly customersRepository: CustomersRepositoryInterface,
 	) {}
 
-	async execute(listDto: ListCustomersDto): Promise<PaginatedResponseDto<Customer>> {
-		return await this.customersRepository.findAllPaginated(listDto);
+	async execute(listDto: ListCustomersDto, organization_id: string): Promise<PaginatedResponseDto<Customer>> {
+		return await this.customersRepository.findAllPaginated(listDto, organization_id);
 	}
 }

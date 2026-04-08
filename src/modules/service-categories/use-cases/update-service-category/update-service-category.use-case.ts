@@ -14,8 +14,8 @@ export class UpdateServiceCategoryUseCase {
 		private readonly getExistingServiceCategoryUseCase: GetExistingServiceCategoryUseCase,
 	) {}
 
-	async execute(id: string, updateServiceCategoryDto: UpdateServiceCategoryDto): Promise<UpdateResult> {
-		const serviceCategory = await this.getExistingServiceCategoryUseCase.execute({ where: { id } });
+	async execute(id: string, organization_id: string, updateServiceCategoryDto: UpdateServiceCategoryDto): Promise<UpdateResult> {
+		const serviceCategory = await this.getExistingServiceCategoryUseCase.execute({ where: { id, organization_id } });
 
 		return await this.serviceCategoriesRepository.update(serviceCategory.id, updateServiceCategoryDto);
 	}

@@ -7,7 +7,8 @@ export function LoginDocs() {
 	return applyDecorators(
 		ApiOperation({
 			summary: 'User login',
-			description: 'Authenticates a user with email and password, creating a server-side session.',
+			description:
+				'Authenticates a user with email and password, creating a server-side session. Optional rememberMe extends idle timeout; absolute session lifetime is capped by SESSION_ABSOLUTE_MAX_SECONDS.',
 		}),
 		ApiBody({
 			type: LoginDto,

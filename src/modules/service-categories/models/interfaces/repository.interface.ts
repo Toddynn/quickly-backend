@@ -4,5 +4,5 @@ import type { ListServiceCategoriesDto } from '../dto/output/list-service-catego
 import type { ServiceCategory } from '../entities/service-category.entity';
 
 export interface ServiceCategoriesRepositoryInterface extends Repository<ServiceCategory> {
-	findAllPaginated(listDto: ListServiceCategoriesDto): Promise<PaginatedResponseDto<ServiceCategory>>;
+	findAllPaginated(listDto: ListServiceCategoriesDto, organization_id: string): Promise<PaginatedResponseDto<ServiceCategory>>;
 }

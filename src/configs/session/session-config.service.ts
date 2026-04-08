@@ -4,6 +4,7 @@ import { RedisStore } from 'connect-redis';
 import session from 'express-session';
 import { type RedisClientType, createClient } from 'redis';
 import { IS_PRODUCTION } from '@/shared/constants/env-variables';
+import { redisStoreTtlSeconds } from '@/shared/helpers/session-expiry.helper';
 
 @Injectable()
 export class SessionConfigService {
@@ -30,13 +31,7 @@ export class SessionConfigService {
 					client,
 					prefix: redisPrefix,
 					ttl(sess) {
-						const exp = sess.cookie.expires;
-						if (exp) {
-							const ts = typeof exp === 'string' ? Date.parse(exp) : new Date(exp).getTime();
-							return Math.max(1, Math.floor((ts - Date.now()) / 1000));
-						}
-						if (sess?.cookie?.maxAge) return Math.floor(sess.cookie.maxAge / 1000);
-						return redisTtl;
+						return redisStoreTtlSeconds(sess, redisTtl);
 					},
 				});
 				this.logger.log('Redis store configured successfully');
@@ -51,7 +46,7 @@ export class SessionConfigService {
 			secret: sessionSecret,
 			resave: false,
 			saveUninitialized: false,
-			rolling: false,
+			rolling: true,
 			cookie: {
 				path: '/',
 				httpOnly: true,

@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class LoginDto {
 	@IsString()
@@ -12,4 +12,12 @@ export class LoginDto {
 	@IsNotEmpty()
 	@ApiProperty({ description: 'The password of the user' })
 	password: string;
+
+	@IsOptional()
+	@IsBoolean()
+	@ApiPropertyOptional({
+		description: 'When true, idle timeout is extended (remember-me). Defaults to false.',
+		default: false,
+	})
+	rememberMe?: boolean;
 }

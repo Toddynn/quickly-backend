@@ -12,7 +12,7 @@ export class ListServiceCategoriesUseCase {
 		private readonly serviceCategoriesRepository: ServiceCategoriesRepositoryInterface,
 	) {}
 
-	async execute(listDto: ListServiceCategoriesDto): Promise<PaginatedResponseDto<ServiceCategory>> {
-		return this.serviceCategoriesRepository.findAllPaginated(listDto);
+	async execute(listDto: ListServiceCategoriesDto, organization_id: string): Promise<PaginatedResponseDto<ServiceCategory>> {
+		return this.serviceCategoriesRepository.findAllPaginated(listDto, organization_id);
 	}
 }

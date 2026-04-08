@@ -2,10 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { Request } from 'express';
 import { GetExistingOrganizationMemberUseCase } from '@/modules/organization-members/use-cases/get-existing-organization-member/get-existing-organization-member.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
-import { env } from '@/shared/constants/env-variables';
 import { InvalidRefreshTokenException } from '../../errors/invalid-refresh-token.error';
 import type { SessionUser } from '../../models/interfaces/session-user.interface';
-import { destroySession, getSessionUser, saveSession } from '../../shared/helpers/session.helper';
+import { alignAuthenticatedSessionExpiry, destroySession, getSessionUser, saveSession } from '../../shared/helpers/session.helper';
 
 @Injectable()
 export class RefreshSessionUseCase {
@@ -49,14 +48,15 @@ export class RefreshSessionUseCase {
 				)
 			: null;
 
-		const sessionMaxAgeMs = env.REDIS_TTL * 1000;
-		request.session.cookie.maxAge = sessionMaxAgeMs;
-		request.session.cookie.expires = new Date(Date.now() + sessionMaxAgeMs);
-
 		request.session.userId = user.id;
 		request.session.email = user.email;
 		request.session.activeOrganizationId = activeMembership?.organization_id ?? null;
 		request.session.organizationRole = activeMembership?.role ?? null;
+
+		if (!alignAuthenticatedSessionExpiry(request)) {
+			await destroySession(request);
+			throw new InvalidRefreshTokenException();
+		}
 
 		await saveSession(request);
 

@@ -4,5 +4,5 @@ import type { ListCustomersDto } from '../dto/input/list-customers.dto';
 import type { Customer } from '../entities/customer.entity';
 
 export interface CustomersRepositoryInterface extends Repository<Customer> {
-	findAllPaginated(listDto: ListCustomersDto): Promise<PaginatedResponseDto<Customer>>;
+	findAllPaginated(listDto: ListCustomersDto, organization_id: string): Promise<PaginatedResponseDto<Customer>>;
 }

@@ -21,9 +21,6 @@ export class ListServiceCategoriesController {
 	@Get()
 	@ListServiceCategoriesDocs()
 	async execute(@ActiveOrganizationId() organizationId: string, @Query() listDto: ListServiceCategoriesDto): Promise<PaginatedResponseDto<ServiceCategory>> {
-		return await this.listServiceCategoriesUseCase.execute({
-			...listDto,
-			organization_id: organizationId,
-		});
+		return await this.listServiceCategoriesUseCase.execute(listDto, organizationId);
 	}
 }

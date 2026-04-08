@@ -1,9 +1,9 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from '@/modules/auth/shared/decorators/public.decorator';
 import { ValidatePasswordResetOtpDto } from '../../models/dto/input/validate-password-reset-otp.dto';
 import { ValidatePasswordResetOtpDocs } from './docs';
 import { ValidatePasswordResetOtpUseCase } from './validate-password-reset-otp.use-case';
-import { Public } from '@/modules/auth/shared/decorators/public.decorator';
 
 @ApiTags('Password Reset')
 @Public()

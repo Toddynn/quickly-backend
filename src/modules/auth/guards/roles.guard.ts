@@ -1,4 +1,4 @@
-import { Inject, type CanActivate, type ExecutionContext, Injectable } from '@nestjs/common';
+import { type CanActivate, type ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import type { OrganizationRole } from '@/shared/constants/organization-roles';
 import { ROLES_KEY } from '../shared/decorators/roles.decorator';

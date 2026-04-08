@@ -42,7 +42,10 @@ const envSchema = object({
 	REDIS_DOMAIN: string({ error: 'REDIS_DOMAIN is required.' }),
 	REDIS_PORT: coerce.number({ error: 'REDIS_PORT is required.' }),
 	REDIS_SESSION_PREFIX: string({ error: 'REDIS_SESSION_PREFIX is required.' }),
-	REDIS_TTL: coerce.number({ error: 'REDIS_TTL is required.' }),
+
+	SESSION_ABSOLUTE_MAX_SECONDS: coerce.number({ error: 'SESSION_ABSOLUTE_MAX_SECONDS is required.' }),
+	SESSION_REMEMBER_ME_IDLE_SECONDS: coerce.number({ error: 'SESSION_REMEMBER_ME_IDLE_SECONDS is required.' }),
+	SESSION_IDLE_SECONDS: coerce.number({ error: 'SESSION_IDLE_SECONDS is required.' }),
 
 	SESSION_SECRET: string({ error: 'SESSION_SECRET is required.' }),
 	SESSION_NAME: string({ error: 'SESSION_NAME is required.' }),
@@ -87,7 +90,10 @@ const rawEnv = {
 	REDIS_DOMAIN: process.env.REDIS_DOMAIN,
 	REDIS_PORT: process.env.REDIS_PORT,
 	REDIS_SESSION_PREFIX: process.env.REDIS_SESSION_PREFIX,
-	REDIS_TTL: process.env.REDIS_TTL,
+
+	SESSION_ABSOLUTE_MAX_SECONDS: process.env.SESSION_ABSOLUTE_MAX_SECONDS,
+	SESSION_REMEMBER_ME_IDLE_SECONDS: process.env.SESSION_REMEMBER_ME_IDLE_SECONDS,
+	SESSION_IDLE_SECONDS: process.env.SESSION_IDLE_SECONDS,
 
 	SESSION_SECRET: process.env.SESSION_SECRET,
 	SESSION_NAME: process.env.SESSION_NAME,

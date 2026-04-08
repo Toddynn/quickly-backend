@@ -1,9 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SendEmailUseCase } from '@/modules/email/use-cases/send-email/send-email.use-case';
-import {
-	EmailConfirmationTemplateType,
-	type SendEmailConfirmationEmailDto,
-} from '../../models/dto/input/send-email-confirmation-email.dto';
+import { EmailConfirmationTemplateType, type SendEmailConfirmationEmailDto } from '../../models/dto/input/send-email-confirmation-email.dto';
 
 @Injectable()
 export class SendEmailConfirmationEmailUseCase {

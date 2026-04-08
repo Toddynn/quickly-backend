@@ -23,5 +23,4 @@ export class CreateOrganizationDto {
 	@IsOptional()
 	@ApiPropertyOptional({ description: 'The logo path of the organization' })
 	logo?: string;
-
 }

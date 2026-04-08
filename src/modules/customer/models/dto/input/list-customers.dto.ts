@@ -5,11 +5,6 @@ import { PaginationDto } from '@/shared/dto/pagination.dto';
 export class ListCustomersDto extends PaginationDto {
 	@IsUUID()
 	@IsOptional()
-	@ApiPropertyOptional({ description: 'Filter by organization ID' })
-	organization_id?: string;
-
-	@IsUUID()
-	@IsOptional()
 	@ApiPropertyOptional({ description: 'Filter by user ID' })
 	user_id?: string;
 

@@ -16,10 +16,7 @@ export class RequestEmailChangeController {
 
 	@Post('request-email-change')
 	@RequestEmailChangeDocs()
-	async execute(
-		@CurrentUser() currentUser: SessionUser,
-		@Body() requestEmailChangeDto: RequestEmailChangeDto,
-	): Promise<{ message: string }> {
+	async execute(@CurrentUser() currentUser: SessionUser, @Body() requestEmailChangeDto: RequestEmailChangeDto): Promise<{ message: string }> {
 		await this.requestEmailChangeUseCase.execute(currentUser.userId, requestEmailChangeDto);
 		return { message: 'Código OTP enviado para o email atual.' };
 	}

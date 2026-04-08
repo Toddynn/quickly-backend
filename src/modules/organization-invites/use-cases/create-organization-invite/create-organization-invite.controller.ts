@@ -1,10 +1,10 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import { SessionUser } from '@/modules/auth/models/interfaces/session-user.interface';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { CurrentUser } from '@/modules/auth/shared/decorators/current-user.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
-import { SessionUser } from '@/modules/auth/models/interfaces/session-user.interface';
 import { OrganizationRole } from '@/shared/constants/organization-roles';
 import { CreateOrganizationInviteDto } from '../../models/dto/input/create-organization-invite.dto';
 import { OrganizationInvite } from '../../models/entities/organization-invite.entity';

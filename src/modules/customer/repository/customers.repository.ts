@@ -11,8 +11,8 @@ export class CustomersRepository extends Repository<Customer> implements Custome
 		super(Customer, dataSource.createEntityManager());
 	}
 
-	async findAllPaginated(listDto: ListCustomersDto): Promise<PaginatedResponseDto<Customer>> {
-		const { page = 1, limit = 10, organization_id, user_id, search } = listDto;
+	async findAllPaginated(listDto: ListCustomersDto, organization_id: string): Promise<PaginatedResponseDto<Customer>> {
+		const { page = 1, limit = 10, user_id, search } = listDto;
 		const skip = (page - 1) * limit;
 
 		const queryBuilder = this.createQueryBuilder('customer');

@@ -5,7 +5,7 @@ export default registerAs('session', () => ({
 	redisHost: env.REDIS_DOMAIN,
 	redisPort: env.REDIS_PORT,
 	redisPrefix: env.REDIS_SESSION_PREFIX,
-	redisTtl: env.REDIS_TTL,
+	redisTtl: env.SESSION_ABSOLUTE_MAX_SECONDS,
 	sessionName: env.SESSION_NAME,
 	sessionSecret: env.SESSION_SECRET,
 }));

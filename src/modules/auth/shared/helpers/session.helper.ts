@@ -2,7 +2,22 @@ import { InternalServerErrorException, UnauthorizedException } from '@nestjs/com
 import type { Request, Response } from 'express';
 import type session from 'express-session';
 import { env } from '@/shared/constants/env-variables';
+import { computeEffectiveMaxAgeMs } from '@/shared/helpers/session-expiry.helper';
 import type { SessionUser } from '../../models/interfaces/session-user.interface';
+
+export function alignAuthenticatedSessionExpiry(request: Request): boolean {
+	const start = request.session.sessionStartedAt;
+	if (typeof start !== 'number') {
+		return false;
+	}
+	const maxAgeMs = computeEffectiveMaxAgeMs(request.session.rememberMe === true, start);
+	if (maxAgeMs === null) {
+		return false;
+	}
+	request.session.cookie.maxAge = maxAgeMs;
+	request.session.cookie.expires = new Date(Date.now() + maxAgeMs);
+	return true;
+}
 
 export function saveSession(request: Request): Promise<void> {
 	return new Promise((resolve, reject) => {

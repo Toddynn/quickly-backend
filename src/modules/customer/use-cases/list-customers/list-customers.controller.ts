@@ -20,10 +20,7 @@ export class ListCustomersController {
 
 	@Get()
 	@ListCustomersDocs()
-	async execute(@ActiveOrganizationId() organizationId: string, @Query() listDto: ListCustomersDto): Promise<PaginatedResponseDto<Customer>> {
-		return await this.listCustomersUseCase.execute({
-			...listDto,
-			organization_id: organizationId,
-		});
+	async execute(@ActiveOrganizationId() organization_id: string, @Query() listDto: ListCustomersDto): Promise<PaginatedResponseDto<Customer>> {
+		return await this.listCustomersUseCase.execute(listDto, organization_id);
 	}
 }

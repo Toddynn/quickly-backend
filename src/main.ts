@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { setupDocumentationConfig } from './configs/documentation/documentation.config';
+import { authenticatedSessionLifecycleMiddleware } from './configs/session/authenticated-session.middleware';
 import { SessionConfigService } from './configs/session/session-config.service';
 import { FRONT_END_URL, env } from './shared/constants/env-variables';
 import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
@@ -24,6 +25,7 @@ async function bootstrap() {
 	const sessionConfigService = app.get(SessionConfigService);
 	const sessionMiddleware = await sessionConfigService.getSessionMiddleware();
 	app.use(sessionMiddleware);
+	app.use(authenticatedSessionLifecycleMiddleware);
 
 	if (process.env.NODE_ENV !== 'production') {
 		setupDocumentationConfig(app);
