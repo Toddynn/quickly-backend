@@ -1,9 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import {
-	alignAuthenticatedSessionExpiry,
-	clearSessionCookie,
-	destroySession,
-} from '@/modules/auth/shared/helpers/session.helper';
+import { alignAuthenticatedSessionExpiry, clearSessionCookie, destroySession } from '@/modules/auth/shared/helpers/session.helper';
 import { remainingAbsoluteMs } from '@/shared/helpers/session-expiry.helper';
 
 export function authenticatedSessionLifecycleMiddleware(req: Request, res: Response, next: NextFunction): void {

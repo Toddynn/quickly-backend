@@ -47,6 +47,15 @@ const envSchema = object({
 
 	SESSION_SECRET: string({ error: 'SESSION_SECRET is required.' }),
 	SESSION_NAME: string({ error: 'SESSION_NAME is required.' }),
+
+	AMAZON_ACCESS_KEY_ID: string({ error: 'AMAZON_ACCESS_KEY_ID is required.' }),
+	AMAZON_SECRET_ACCESS_KEY: string({ error: 'AMAZON_SECRET_ACCESS_KEY is required.' }),
+	AMAZON_REGION: string({ error: 'AMAZON_REGION is required.' }),
+	AMAZON_S3_BUCKET: string({ error: 'AMAZON_S3_BUCKET is required.' }),
+	AMAZON_S3_MEDIA_BASE_PREFIX: string({ error: 'AMAZON_S3_MEDIA_BASE_PREFIX is required.' }),
+	AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS: coerce.number({
+		error: 'AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS must be a number.',
+	}),
 });
 
 const rawEnv = {
@@ -93,6 +102,13 @@ const rawEnv = {
 
 	SESSION_SECRET: process.env.SESSION_SECRET,
 	SESSION_NAME: process.env.SESSION_NAME,
+
+	AMAZON_ACCESS_KEY_ID: process.env.AMAZON_ACCESS_KEY_ID,
+	AMAZON_SECRET_ACCESS_KEY: process.env.AMAZON_SECRET_ACCESS_KEY,
+	AMAZON_REGION: process.env.AMAZON_REGION,
+	AMAZON_S3_BUCKET: process.env.AMAZON_S3_BUCKET,
+	AMAZON_S3_MEDIA_BASE_PREFIX: process.env.AMAZON_S3_MEDIA_BASE_PREFIX,
+	AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS: process.env.AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS ?? '3600',
 } as const;
 
 export const env = envSchema.parse(rawEnv);

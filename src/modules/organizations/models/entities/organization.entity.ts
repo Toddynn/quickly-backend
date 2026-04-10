@@ -1,5 +1,6 @@
 import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Customer } from '@/modules/customer/models/entities/customer.entity';
+import { Media } from '@/modules/media/models/entities/media.entity';
 import { OrganizationAddress } from '@/modules/organization-addresses/models/entities/organization-address.entity';
 import { OrganizationInvite } from '@/modules/organization-invites/models/entities/organization-invite.entity';
 import { OrganizationMember } from '@/modules/organization-members/models/entities/organization-member.entity';
@@ -76,4 +77,11 @@ export class Organization extends TimestampedEntity {
 		{ onDelete: 'CASCADE' },
 	)
 	invites: OrganizationInvite[];
+
+	@OneToMany(
+		() => Media,
+		(media) => media.organization,
+		{ onDelete: 'CASCADE' },
+	)
+	media: Media[];
 }

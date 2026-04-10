@@ -16,6 +16,7 @@ import { TenantGuard } from './modules/auth/guards/tenant.guard';
 import { CustomerModule } from './modules/customer/customer.module';
 import { EmailModule } from './modules/email/email.module';
 import { EmailConfirmationModule } from './modules/email-confirmation/email-confirmation.module';
+import { MediaModule } from './modules/media/media.module';
 import { OrganizationAddressesModule } from './modules/organization-addresses/organization-addresses.module';
 import { OrganizationInvitesModule } from './modules/organization-invites/organization-invites.module';
 import { OrganizationMembersModule } from './modules/organization-members/organization-members.module';
@@ -60,6 +61,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		EmailModule,
 		EmailConfirmationModule,
 		CustomerModule,
+		MediaModule,
 	],
 	providers: [
 		ReflectionGuardValidationPipe,

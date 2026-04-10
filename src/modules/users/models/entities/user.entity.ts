@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import { Media } from '@/modules/media/models/entities/media.entity';
 import { OrganizationMember } from '@/modules/organization-members/models/entities/organization-member.entity';
 import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
 
@@ -18,6 +19,12 @@ export class User extends TimestampedEntity {
 
 	@Column({ name: 'email_verified', type: 'boolean', default: false })
 	email_verified: boolean;
+
+	@OneToMany(
+		() => Media,
+		(media) => media.user,
+	)
+	medias: Media[];
 
 	@OneToMany(
 		() => OrganizationMember,
