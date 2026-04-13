@@ -1,26 +1,25 @@
 services:
      pgsql:
-          image: postgres:18-alpine
-          ports:
-               - '${DB_PORT:-5432}:5432'
-          container_name: 'pgsql'
-          restart: always
-          environment:
-               POSTGRES_DB: ${DB_DATABASE}
-               POSTGRES_USER: ${DB_USER}
-               POSTGRES_PASSWORD: ${DB_PASSWORD}
-          healthcheck:
-               test:
-                    [
-                         'CMD-SHELL',
-                         'pg_isready -U ${DB_USER} -d ${DB_DATABASE}',
-                    ]
-               interval: 5s
-               timeout: 5s
-               retries: 5
-          volumes:
-               - postgres_data:/var/lib/postgresql
-               
+      image: postgres:18-alpine
+      ports:
+        - '${DB_PORT:-5432}:5432'
+      container_name: 'pgsql'
+      restart: always
+      environment:
+        POSTGRES_DB: ${DB_DATABASE}
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+      healthcheck:
+        test:
+            [
+                  'CMD-SHELL',
+                  'pg_isready -U ${DB_USER} -d ${DB_DATABASE}',
+            ]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+      volumes:
+        - postgres_data:/var/lib/postgresql
      redis:
       image: redis:7-alpine
       hostname: redis
@@ -28,12 +27,12 @@ services:
       command: ["redis-server", "--appendonly", "yes"]
       ports:
         - "${REDIS_PORT:-6379}:6379"
+      restart: always
       healthcheck:
         test: ["CMD", "redis-cli", "ping"]
         interval: 5s
         timeout: 3s
         retries: 10
-
      redis-commander:
       image: ghcr.io/joeferner/redis-commander:latest
       container_name: redis-commander
@@ -46,63 +45,60 @@ services:
       depends_on:
         redis:
           condition: service_healthy
-
      pgadmin:
-          image: dpage/pgadmin4
-          environment:
-               PGADMIN_DEFAULT_EMAIL: 'admin@teste.com'
-               PGADMIN_DEFAULT_PASSWORD: 'Admin123'
-          ports:
-               - '8085:80'
-          restart: always
-          depends_on:
-               pgsql:
-                    condition: service_healthy
+      image: dpage/pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: 'admin@teste.com'
+        PGADMIN_DEFAULT_PASSWORD: 'Admin123'
+      ports:
+        - '8085:80'
+      restart: always
+      depends_on:
+        pgsql:
+          condition: service_healthy
 
      mailhog:
-          image: mailhog/mailhog
-          ports:
-               - '${MAIL_SMTP_PORT:-1025}:1025'
-               - '${MAIL_WEB_PORT:-8025}:8025'
-          restart: always
+      image: mailhog/mailhog
+      ports:
+        - '${MAIL_SMTP_PORT:-1025}:1025'
+        - '${MAIL_WEB_PORT:-8025}:8025'
+      restart: always
 
      app:
-          container_name: 'quickly-backend'
-          build:
-               context: .
-               dockerfile: Dockerfile
-          command: 'pnpm run start:dev'
-          ports:
-               - '${APP_PORT:-3000}:3000'
-          env_file:
-               - .env
-          volumes:
-               - .:/app
-               - /app/node_modules
-               - /app/dist
-          develop:
-               watch:
-                    - action: sync
-                      path: .
-                      target: /app
-                      ignore:
-                           - node_modules/
-                           - dist/
-                           - .git/
-
-                    - action: rebuild
-                      path: package.json
-                    - action: rebuild
-                      path: pnpm-lock.yaml
-          depends_on:
-               pgsql:
-                    condition: service_healthy
-        
+      container_name: 'quickly-backend'
+      build:
+        context: .
+        dockerfile: Dockerfile
+      command: 'pnpm run start:dev'
+      ports:
+        - '${APP_PORT:-3000}:3000'
+      env_file:
+        - .env
+      volumes:
+        - .:/app
+        - /app/node_modules
+        - /app/dist
+      develop:
+        watch:
+          - action: sync
+            path: .
+            target: /app
+            ignore:
+              - node_modules/
+              - dist/
+              - .git/
+          - action: rebuild
+            path: package.json
+          - action: rebuild
+            path: pnpm-lock.yaml
+      depends_on:
+        pgsql:
+          condition: service_healthy
 
 volumes:
-     postgres_data:
+  postgres_data:
 
 networks:
-     default:
-          name: quickly-network
-          driver: bridge
+  default:
+    name: quickly-network
+    driver: bridge
