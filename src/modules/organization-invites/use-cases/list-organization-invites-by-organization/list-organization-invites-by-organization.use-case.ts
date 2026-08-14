@@ -23,7 +23,7 @@ export class ListOrganizationInvitesByOrganizationUseCase {
 
 		const mappedData = result.data.map((organization) => {
 			if (!isListOrganizationInviteWithInviterResponseDto(organization))
-				throw new InternalServerErrorException('Organization invite is not a ListOrganizationInviteWithInviterResponseDto');
+				throw new InternalServerErrorException('Erro interno ao montar a lista de convites.');
 
 			return organization;
 		});

@@ -20,7 +20,7 @@ export class AbacatePayWebhookController {
 	async execute(@Req() request: Request & { rawBody?: Buffer }, @Headers('x-webhook-signature') signature: string | undefined): Promise<{ received: true }> {
 		const rawBody = request.rawBody;
 		if (!rawBody || !signature) {
-			throw new BadRequestException('Missing webhook signature or body');
+			throw new BadRequestException('Assinatura ou corpo do webhook ausente');
 		}
 
 		const expectedSignature = createHmac('sha256', env.ABACATE_PAY_WEBHOOK_PUBLIC_KEY).update(rawBody).digest('hex');
@@ -28,7 +28,7 @@ export class AbacatePayWebhookController {
 		const expectedBuffer = Buffer.from(expectedSignature);
 
 		if (signatureBuffer.length !== expectedBuffer.length || !timingSafeEqual(signatureBuffer, expectedBuffer)) {
-			throw new BadRequestException('Invalid webhook signature');
+			throw new BadRequestException('Assinatura do webhook inválida');
 		}
 
 		await this.handleAbacatePayWebhookUseCase.execute(request.body);

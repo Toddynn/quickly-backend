@@ -28,7 +28,7 @@ export class CreateScheduleExceptionUseCase {
 			throw new InvalidWorkingHoursRangeException('A data final não pode ser anterior à data inicial');
 		}
 		if (dto.is_available && (!dto.start_time || !dto.end_time)) {
-			throw new InvalidWorkingHoursRangeException('start_time e end_time são obrigatórios quando is_available é true');
+			throw new InvalidWorkingHoursRangeException('Horário de início e fim são obrigatórios quando o período está disponível');
 		}
 
 		const exception = this.exceptionsRepository.create({

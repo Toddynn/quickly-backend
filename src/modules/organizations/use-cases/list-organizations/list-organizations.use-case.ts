@@ -22,7 +22,7 @@ export class ListOrganizationsUseCase {
 		const result = await this.organizationsRepository.findAllPaginated(user_id, paginationDto);
 
 		const mappedData = result.data.map((organization) => {
-			if (!isListOrganizationResponseDto(organization)) throw new InternalServerErrorException('Organization is not a ListOrganizationResponseDto');
+			if (!isListOrganizationResponseDto(organization)) throw new InternalServerErrorException('Erro interno ao montar a lista de organizações.');
 
 			return organization;
 		});

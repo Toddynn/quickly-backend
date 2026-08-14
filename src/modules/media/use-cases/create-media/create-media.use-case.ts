@@ -72,31 +72,31 @@ export class CreateMediaUseCase {
 		switch (dto.owner_type) {
 			case MediaOwnerType.USER_PROFILE: {
 				if (!dto.user_id || dto.user_id !== dto.owner_id) {
-					throw new BadRequestException('USER_PROFILE exige user_id igual a owner_id.');
+					throw new BadRequestException('Foto de perfil exige que o usuário seja o dono do arquivo.');
 				}
 				if (dto.organization_service_id) {
-					throw new BadRequestException('USER_PROFILE não admite organization_service_id.');
+					throw new BadRequestException('Foto de perfil não pode estar vinculada a um serviço.');
 				}
 				break;
 			}
 			case MediaOwnerType.ORGANIZATION_LOGO: {
 				if (dto.owner_id !== dto.organization_id) {
-					throw new BadRequestException('ORGANIZATION_LOGO exige owner_id igual a organization_id.');
+					throw new BadRequestException('Logo da organização exige que a organização seja a dona do arquivo.');
 				}
 				if (dto.user_id) {
-					throw new BadRequestException('ORGANIZATION_LOGO não admite user_id.');
+					throw new BadRequestException('Logo da organização não pode estar vinculada a um usuário.');
 				}
 				if (dto.organization_service_id) {
-					throw new BadRequestException('ORGANIZATION_LOGO não admite organization_service_id.');
+					throw new BadRequestException('Logo da organização não pode estar vinculada a um serviço.');
 				}
 				break;
 			}
 			case MediaOwnerType.ORGANIZATION_SERVICE: {
 				if (!dto.organization_service_id || dto.organization_service_id !== dto.owner_id) {
-					throw new BadRequestException('ORGANIZATION_SERVICE exige organization_service_id igual a owner_id.');
+					throw new BadRequestException('Imagem de serviço exige que o serviço seja o dono do arquivo.');
 				}
 				if (dto.user_id) {
-					throw new BadRequestException('ORGANIZATION_SERVICE não admite user_id.');
+					throw new BadRequestException('Imagem de serviço não pode estar vinculada a um usuário.');
 				}
 				break;
 			}
