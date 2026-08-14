@@ -1,12 +1,12 @@
 # Graph Report - quickly-backend  (2026-08-14)
 
 ## Corpus Check
-- Corpus is ~43,417 words - fits in a single context window. You may not need a graph.
+- Corpus is ~43,443 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 2435 nodes · 5755 edges · 185 communities (126 shown, 59 thin omitted)
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 201 edges (avg confidence: 0.8)
-- Token cost: 70,205 input · 0 output
+- 2445 nodes · 5765 edges · 194 communities (135 shown, 59 thin omitted)
+- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 202 edges (avg confidence: 0.8)
+- Token cost: 37,299 input · 0 output
 
 ## Community Hubs (Navigation)
 - Community 0
@@ -190,9 +190,18 @@
 - Community 178
 - Community 179
 - Community 180
+- Community 181
 - Community 182
 - Community 183
 - Community 184
+- Community 185
+- Community 186
+- Community 187
+- Community 188
+- Community 189
+- Community 191
+- Community 192
+- Community 193
 
 ## God Nodes (most connected - your core abstractions)
 1. `PaginatedResponseDto` - 69 edges
@@ -226,367 +235,375 @@
 - **Domain Error Handling Pattern (NotFound + AlreadyExists exceptions, thrown by GetExisting use case, documented via docs.ts)** — _claude_rules_nestjs_module_structure_notfound_exception, _claude_rules_nestjs_module_structure_alreadyexists_exception, _claude_rules_nestjs_module_structure_getexisting_usecase, _claude_rules_nestjs_module_structure_docs_pattern [INFERRED 0.85]
 - **Standard Module Request Pipeline: Controller -> UseCase -> Repository -> Mapper** — _claude_rules_nestjs_module_structure_controller_pattern, _claude_rules_nestjs_module_structure_getexisting_usecase, _claude_rules_nestjs_module_structure_repository_interface, _claude_rules_nestjs_module_structure_mapper_pattern [INFERRED 0.85]
 
-## Communities (185 total, 59 thin omitted)
+## Communities (194 total, 59 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.08
-Nodes (27): InvalidRefreshTokenException, NotMemberOfOrganizationException, SessionUser, CurrentUser, alignAuthenticatedSessionExpiry(), getSessionUser(), saveSession(), SessionStoreRecord (+19 more)
+Cohesion: 0.07
+Nodes (31): CustomerDto, ApiProperty, ApiPropertyOptional, ListCustomerResponseDto, MediaReferenceDto, ApiProperty, ApiPropertyOptional, OrganizationAddressDto (+23 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.07
-Nodes (31): CustomerDto, ApiProperty, ApiPropertyOptional, ListCustomerResponseDto, ListCustomersDocs(), MediaReferenceDto, ApiProperty, ApiPropertyOptional (+23 more)
+Cohesion: 0.12
+Nodes (21): IsArray, FindAllOrganizationInvitesPaginationDto, ApiPropertyOptional, IsEnum, IsOptional, Transform, ListOrganizationInviteWithInviterResponseDto, OrganizationInviteDto (+13 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.07
-Nodes (32): AlreadyLoggedInOrganizationException, SwitchOrganizationDto, ApiProperty, IsNotEmpty, IsUUID, SessionUserDto, ApiProperty, ApiPropertyOptional (+24 more)
+Cohesion: 0.11
+Nodes (19): NotFoundUserException, UsersRepositoryInterface, USER_REPOSITORY_INTERFACE_KEY, Inject, GetExistingUserUseCase, Inject, Injectable, Inject (+11 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.07
-Nodes (30): IsNumber, IsPositive, CreateOrganizationServiceDto, ApiProperty, ApiPropertyOptional, IsBoolean, IsNotEmpty, IsOptional (+22 more)
+Cohesion: 0.14
+Nodes (18): ReplaceUserProfilePictureMediaDto, DeleteMediaUseCase, Injectable, DeleteUserProfilePictureMediaUseCase, Inject, Injectable, ListMediaUseCase, Injectable (+10 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.14
-Nodes (16): ActiveOrganizationId, Roles(), ROLES_KEY, TenantScoped(), DeleteCustomerController, ApiCookieAuth, ApiTags, Controller (+8 more)
+Cohesion: 0.13
+Nodes (17): NotFoundOrganizationMemberException, OrganizationMemberAlreadyExistsException, OrganizationMembersRepositoryInterface, ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY, ActivateOrganizationMemberUseCase, Inject, Injectable, CreateOrganizationMemberUseCase (+9 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.09
-Nodes (25): IsInt, ListOrganizationResponseDto, ApiProperty, OrganizationDto, ApiProperty, ApiPropertyOptional, ListOrganizationsDocs(), ListOrganizationsController (+17 more)
+Cohesion: 0.10
+Nodes (21): ListOrganizationMembersDto, ApiPropertyOptional, IsBoolean, IsOptional, IsUUID, Type, ListOrganizationMemberResponseDto, OrganizationMemberDto (+13 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.15
-Nodes (17): NotFoundPasswordResetException, PasswordReset, Column, Entity, JoinColumn, ManyToOne, PasswordResetRepositoryInterface, PasswordResetRepository (+9 more)
+Cohesion: 0.06
+Nodes (28): MailerConfigService, Injectable, AuthModule, Module, CustomerModule, Module, EmailConfirmationModule, Module (+20 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.14
-Nodes (17): DeleteUserProfilePictureMediaDto, DeleteMediaUseCase, Injectable, DeleteUserProfilePictureMediaUseCase, Inject, Injectable, ListMediaUseCase, Injectable (+9 more)
+Nodes (6): GetExistingUserWithVerifiedEmailUseCase, Injectable, formatWhereClause(), NormalizedGetExistingOptions, normalizeGetExistingOptions(), GetExistingOptions
 
 ### Community 8 - "Community 8"
-Cohesion: 0.06
-Nodes (27): PgTypeOrmConfigService, Injectable, AuthModule, Module, CustomerModule, Module, EmailConfirmationModule, Module (+19 more)
+Cohesion: 0.12
+Nodes (17): InvalidOrganizationInviteException, OrganizationInviteAlreadyExistsException, OrganizationInvitesRepositoryInterface, ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY, AcceptOrganizationInviteUseCase, Inject, Injectable, CancelOrganizationInviteUseCase (+9 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.09
-Nodes (22): ResetPasswordDto, ApiProperty, IsNotEmpty, IsString, IsStrongPassword, MarkPasswordResetAsUsedUseCase, Inject, Injectable (+14 more)
+Cohesion: 0.10
+Nodes (22): IsInt, ListOrganizationResponseDto, ApiProperty, ListOrganizationsDocs(), ListOrganizationsController, ApiCookieAuth, ApiTags, Controller (+14 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.10
-Nodes (21): InvalidCredentialsException, LoginDto, ApiProperty, ApiPropertyOptional, IsBoolean, IsEmail, IsNotEmpty, IsOptional (+13 more)
-
-### Community 11 - "Community 11"
 Cohesion: 0.13
 Nodes (31): <Entity>AlreadyExistsException Domain Error Pattern, Controller Pattern (only talks to use cases, maps Entity->DTO via mapper, uses session auth guards), docs.ts Swagger Documentation Pattern (documents domain errors per endpoint), TypeORM Entity Pattern (extends TimestampedBigIntEntity), Module Folder Structure Convention (models/shared/use-cases), GetExisting<Entity>UseCase Pattern (mandatory; rationale: avoids scattered direct findOne/findById repository calls across the codebase), Input DTO Pattern (Create/Update/Pagination DTOs), DTO Mapper Pattern (Entity <-> DTO end-to-end typing) (+23 more)
 
+### Community 11 - "Community 11"
+Cohesion: 0.10
+Nodes (19): AlreadyLoggedInOrganizationException, NotMemberOfOrganizationException, SwitchOrganizationDto, ApiProperty, IsNotEmpty, IsUUID, SwitchOrganizationDocs(), SwitchOrganizationController (+11 more)
+
 ### Community 12 - "Community 12"
 Cohesion: 0.11
-Nodes (19): DeleteDateColumn, Organization, Column, Entity, JoinColumn, ManyToOne, OneToMany, OrganizationsRepository (+11 more)
+Nodes (11): EmailAlreadyInUseException, EmailConfirmationAlreadyExistsException, EmailConfirmationAttemptsExceededException, NotFoundEmailConfirmationException, SameEmailError, EmailConfirmationRepositoryInterface, EmailConfirmationRepository, Injectable (+3 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.08
-Nodes (20): Inject, EmailModule, Module, SendEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsString (+12 more)
+Nodes (11): DeleteMediaDto, DeleteUserProfilePictureMediaDto, UpdateMediaDto, Media, Column, Entity, Index, JoinColumn (+3 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.17
-Nodes (14): NotFoundMediaException, DeleteMediaDto, MediaRepositoryInterface, MEDIA_REPOSITORY_INTERFACE_KEY, STORAGE_PROVIDER_INTERFACE_KEY, GetExistingMediaUseCase, Inject, Injectable (+6 more)
-
-### Community 15 - "Community 15"
-Cohesion: 0.12
-Nodes (18): ListOrganizationServicesDto, ApiPropertyOptional, IsBoolean, IsOptional, IsUUID, ListOrganizationServiceResponseDto, OrganizationServicesRepository, Injectable (+10 more)
-
-### Community 16 - "Community 16"
 Cohesion: 0.06
 Nodes (30): compilerOptions, allowJs, allowSyntheticDefaultImports, declaration, emitDecoratorMetadata, esModuleInterop, experimentalDecorators, forceConsistentCasingInFileNames (+22 more)
 
+### Community 15 - "Community 15"
+Cohesion: 0.08
+Nodes (23): IsNumber, IsPositive, CreateOrganizationServiceDto, ApiProperty, ApiPropertyOptional, IsBoolean, IsNotEmpty, IsOptional (+15 more)
+
+### Community 16 - "Community 16"
+Cohesion: 0.10
+Nodes (19): ApiProperty, IsNotEmpty, IsString, Length, ValidateEmailConfirmationOtpDto, ConfirmEmailController, ApiTags, Body (+11 more)
+
 ### Community 17 - "Community 17"
-Cohesion: 0.09
-Nodes (19): Public(), RequestPasswordResetDto, ApiProperty, IsEmail, IsNotEmpty, IsString, CheckPasswordResetAttemptsUseCase, Inject (+11 more)
+Cohesion: 0.12
+Nodes (17): ListOrganizationAddressesDto, ApiPropertyOptional, IsOptional, IsUUID, ListOrganizationAddressResponseDto, OrganizationAddressesRepository, Injectable, ListOrganizationAddressesController (+9 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.14
-Nodes (16): InvalidOrganizationInviteException, OrganizationInviteAlreadyExistsException, OrganizationInvitesRepositoryInterface, ORGANIZATION_INVITE_REPOSITORY_INTERFACE_KEY, AcceptOrganizationInviteUseCase, Inject, Injectable, CancelOrganizationInviteUseCase (+8 more)
+Cohesion: 0.11
+Nodes (18): NotFoundOrganizationInviteException, OrganizationInvite, Column, Entity, Index, JoinColumn, ManyToOne, INVITE_STATUS (+10 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.14
-Nodes (13): Inject, Inject, Inject, NotFoundOrganizationMemberException, OrganizationMemberAlreadyExistsException, OrganizationMembersRepositoryInterface, ORGANIZATION_MEMBER_REPOSITORY_INTERFACE_KEY, ActivateOrganizationMemberUseCase (+5 more)
+Cohesion: 0.11
+Nodes (16): OrganizationService, Column, Entity, Index, JoinColumn, ManyToOne, GetOrganizationServiceDocs(), GetOrganizationServiceController (+8 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.10
-Nodes (19): CreateOrganizationDto, ApiProperty, ApiPropertyOptional, IsNotEmpty, IsOptional, IsString, CreateOrganizationController, ApiCookieAuth (+11 more)
+Cohesion: 0.18
+Nodes (13): NotFoundMediaException, MediaRepositoryInterface, MEDIA_REPOSITORY_INTERFACE_KEY, STORAGE_PROVIDER_INTERFACE_KEY, GetExistingMediaUseCase, Inject, Injectable, Inject (+5 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.15
-Nodes (10): EmailAlreadyInUseException, EmailAlreadyVerifiedException, EmailConfirmationAttemptsExceededException, SameEmailError, EmailConfirmationTemplateType, SendEmailConfirmationEmailDto, EMAIL_CONFIRMATION_REPOSITORY_INTERFACE_KEY, EMAIL_CONFIRMATION_TYPE (+2 more)
+Nodes (17): EMAIL_CONFIRMATION_STATUS, ConfirmEmailUseCase, Inject, Injectable, GetExistingEmailConfirmationUseCase, Injectable, MarkEmailConfirmationAsValidatedUseCase, Inject (+9 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.14
-Nodes (13): NotFoundOrganizationException, OrganizationAlreadyExistsException, OrganizationsRepositoryInterface, ORGANIZATION_REPOSITORY_INTERFACE_KEY, Inject, Inject, DeleteOrganizationUseCase, Inject (+5 more)
+Cohesion: 0.10
+Nodes (19): ListOrganizationServicesDto, ApiPropertyOptional, IsBoolean, IsOptional, IsUUID, ListOrganizationServiceResponseDto, OrganizationServicesRepository, Injectable (+11 more)
 
 ### Community 23 - "Community 23"
+Cohesion: 0.10
+Nodes (19): UserAlreadyExistsException, CreateUserDto, ApiProperty, ApiPropertyOptional, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber (+11 more)
+
+### Community 24 - "Community 24"
 Cohesion: 0.12
 Nodes (20): CreateDateColumn, PrimaryColumn, Appointment, Column, Entity, Index, JoinColumn, ManyToOne (+12 more)
 
-### Community 24 - "Community 24"
-Cohesion: 0.18
-Nodes (11): destroySessionById(), destroySessionByIdAndClearCookie(), UserWithoutPassword, UsersRepositoryInterface, Injectable, UsersRepository, USER_REPOSITORY_INTERFACE_KEY, Inject (+3 more)
-
 ### Community 25 - "Community 25"
-Cohesion: 0.10
-Nodes (20): CreateCustomerDto, ApiProperty, ApiPropertyOptional, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString (+12 more)
+Cohesion: 0.16
+Nodes (11): CustomerAlreadyExistsException, CustomerAlreadyLinkedException, CustomersRepositoryInterface, CUSTOMER_REPOSITORY_INTERFACE_KEY, Inject, Inject, GetExistingCustomerUseCase, Inject (+3 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.15
-Nodes (14): ListOrganizationMembersDto, ApiPropertyOptional, IsBoolean, IsOptional, IsUUID, Type, ListOrganizationMemberResponseDto, OrganizationMembersRepository (+6 more)
+Cohesion: 0.19
+Nodes (10): NotFoundOrganizationException, OrganizationAlreadyExistsException, OrganizationsRepositoryInterface, ORGANIZATION_REPOSITORY_INTERFACE_KEY, DeleteOrganizationUseCase, Inject, Injectable, GetExistingOrganizationUseCase (+2 more)
 
 ### Community 27 - "Community 27"
 Cohesion: 0.18
 Nodes (13): NotFoundOrganizationServiceException, OrganizationServicesRepositoryInterface, ORGANIZATION_SERVICE_REPOSITORY_INTERFACE_KEY, ActivateOrganizationServiceUseCase, Inject, Injectable, TODO: Implementar verificação de agendamentos futuros quando o módulo de…, GetExistingOrganizationServiceUseCase (+5 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.10
-Nodes (19): CreateUserDto, ApiProperty, ApiPropertyOptional, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString (+11 more)
+Cohesion: 0.36
+Nodes (5): ActiveOrganizationId, Roles(), ROLES_KEY, TenantScoped(), OrganizationRole
 
 ### Community 29 - "Community 29"
-Cohesion: 0.15
-Nodes (15): IsArray, FindAllOrganizationInvitesPaginationDto, ApiPropertyOptional, IsEnum, IsOptional, Transform, OrganizationInvite, Column (+7 more)
+Cohesion: 0.12
+Nodes (16): OrganizationAddress, Column, Entity, Index, JoinColumn, ManyToOne, GetOrganizationAddressDocs(), GetOrganizationAddressController (+8 more)
 
 ### Community 30 - "Community 30"
-Cohesion: 0.17
-Nodes (13): ListOrganizationAddressesDto, ApiPropertyOptional, IsOptional, IsUUID, ListOrganizationAddressResponseDto, OrganizationAddressesRepositoryInterface, OrganizationAddressesRepository, Injectable (+5 more)
+Cohesion: 0.11
+Nodes (13): NotFoundPasswordResetException, PasswordResetAlreadyExistsException, PasswordReset, Column, Entity, JoinColumn, ManyToOne, PasswordResetRepositoryInterface (+5 more)
 
 ### Community 31 - "Community 31"
-Cohesion: 0.28
-Nodes (8): CustomersRepositoryInterface, CUSTOMER_REPOSITORY_INTERFACE_KEY, GetExistingCustomerUseCase, Inject, Injectable, ListCustomersUseCase, Inject, Injectable
+Cohesion: 0.13
+Nodes (17): LoginDto, ApiProperty, ApiPropertyOptional, IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString (+9 more)
 
 ### Community 32 - "Community 32"
+Cohesion: 0.11
+Nodes (19): CreateCustomerDto, ApiProperty, ApiPropertyOptional, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString (+11 more)
+
+### Community 33 - "Community 33"
+Cohesion: 0.12
+Nodes (16): ListCustomersDto, ApiPropertyOptional, IsOptional, IsString, IsUUID, ListCustomersDocs(), ListCustomersController, ApiCookieAuth (+8 more)
+
+### Community 34 - "Community 34"
+Cohesion: 0.17
+Nodes (11): NotFoundOrganizationAddressException, OrganizationAddressAlreadyExistsException, OrganizationAddressesRepositoryInterface, ORGANIZATION_ADDRESS_REPOSITORY_INTERFACE_KEY, DeleteOrganizationAddressUseCase, Inject, Injectable, GetExistingOrganizationAddressUseCase (+3 more)
+
+### Community 35 - "Community 35"
 Cohesion: 0.10
 Nodes (18): CreateOrganizationAddressDto, ApiProperty, ApiPropertyOptional, IsNotEmpty, IsOptional, IsString, Length, CreateOrganizationAddressController (+10 more)
 
-### Community 33 - "Community 33"
-Cohesion: 0.13
-Nodes (16): OrganizationAddress, Column, Entity, Index, JoinColumn, ManyToOne, GetOrganizationAddressDocs(), GetOrganizationAddressController (+8 more)
-
-### Community 34 - "Community 34"
-Cohesion: 0.12
-Nodes (16): LinkCustomerToUserDto, ApiProperty, IsNotEmpty, IsUUID, LinkCustomerToUserDocs(), LinkCustomerToUserController, ApiCookieAuth, ApiTags (+8 more)
-
-### Community 35 - "Community 35"
-Cohesion: 0.20
-Nodes (12): EMAIL_CONFIRMATION_STATUS, MarkEmailConfirmationAsValidatedUseCase, Inject, Injectable, Injectable, UpdateEmailConfirmationUseCase, Inject, Injectable (+4 more)
-
 ### Community 36 - "Community 36"
-Cohesion: 0.21
-Nodes (3): formatWhereClause(), normalizeGetExistingOptions(), GetExistingOptions
+Cohesion: 0.18
+Nodes (13): ListServiceCategoriesDto, ServiceCategory, Column, Entity, Index, JoinColumn, ManyToOne, ServiceCategoriesRepositoryInterface (+5 more)
 
 ### Community 37 - "Community 37"
-Cohesion: 0.12
-Nodes (8): CreateMediaDto, UpdateMediaDto, StorageProviderInterface, CreateMediaUseCase, Inject, Injectable, Inject, Inject
+Cohesion: 0.09
+Nodes (23): globals, jest, @nestjs/cli, devDependencies, globals, jest, @nestjs/cli, source-map-support (+15 more)
 
 ### Community 38 - "Community 38"
-Cohesion: 0.14
-Nodes (14): OrganizationInviteDto, ApiProperty, ListReceivedOrganizationInvitesDocs(), ListReceivedOrganizationInvitesController, ApiCookieAuth, ApiTags, Controller, Get (+6 more)
+Cohesion: 0.18
+Nodes (16): authenticatedSessionLifecycleMiddleware(), alignAuthenticatedSessionExpiry(), clearSessionCookie(), destroySession(), destroySessionAndClearCookie(), destroySessionById(), destroySessionByIdAndClearCookie(), saveSession() (+8 more)
 
 ### Community 39 - "Community 39"
+Cohesion: 0.14
+Nodes (12): S3StorageProvider, Injectable, DeleteStorageObjectParams, PresignedGetObjectParams, StorageProviderInterface, UploadStorageObjectParams, UploadStorageObjectResult, MockGetExistingMediaUseCase (+4 more)
+
+### Community 40 - "Community 40"
 Cohesion: 0.11
 Nodes (13): CannotDeleteServiceWithFutureAppointmentsException, CheckFutureAppointmentsUseCase, Injectable, DeleteOrganizationServiceController, ApiTags, Controller, Delete, Inject (+5 more)
 
-### Community 40 - "Community 40"
-Cohesion: 0.12
-Nodes (12): EmailConfirmationAlreadyExistsException, NotFoundEmailConfirmationException, EmailConfirmation, Column, Entity, JoinColumn, ManyToOne, EmailConfirmationRepositoryInterface (+4 more)
-
 ### Community 41 - "Community 41"
-Cohesion: 0.15
-Nodes (14): ListOrganizationInviteWithInviterResponseDto, ListOrganizationInvitesByOrganizationController, ApiCookieAuth, ApiTags, Controller, Get, Inject, Query (+6 more)
+Cohesion: 0.21
+Nodes (9): SessionUser, CurrentUser, getSessionUser(), RequestEmailVerificationDocs(), Post, Delete, GetCurrentUserDocs(), Get (+1 more)
 
 ### Community 42 - "Community 42"
-Cohesion: 0.13
-Nodes (15): ApiProperty, IsEmail, IsNotEmpty, IsString, ValidatePasswordResetOtpDto, ValidatePasswordResetOtpDocs(), ApiTags, Body (+7 more)
+Cohesion: 0.14
+Nodes (15): Public(), RequestPasswordResetDto, ApiProperty, IsEmail, IsNotEmpty, IsString, RequestPasswordResetDocs(), RequestPasswordResetController (+7 more)
 
 ### Community 43 - "Community 43"
-Cohesion: 0.13
-Nodes (15): ApiPropertyOptional, IsBoolean, IsOptional, UpdateUserDto, UpdateUserDocs(), ApiCookieAuth, ApiTags, Body (+7 more)
+Cohesion: 0.10
+Nodes (17): DeleteDateColumn, Organization, Column, Entity, JoinColumn, ManyToOne, OneToMany, GetOrganizationDocs() (+9 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.10
-Nodes (21): globals, jest, @nestjs/cli, devDependencies, globals, jest, @nestjs/cli, source-map-support (+13 more)
+Cohesion: 0.20
+Nodes (11): PasswordResetAttemptsExceededException, PASSWORD_RESET_REPOSITORY_INTERFACE_KEY, CheckPasswordResetAttemptsUseCase, Injectable, GetExistingPasswordResetUseCase, Injectable, Inject, SendPasswordResetEmailUseCase (+3 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.13
-Nodes (6): NotFoundOrganizationAddressException, OrganizationAddressAlreadyExistsException, EmailNotVerifiedException, NotFoundUserException, UserAlreadyExistsException, NormalizedGetExistingOptions
+Cohesion: 0.16
+Nodes (11): AppModule, Module, setupDocumentationConfig(), bootstrap(), BuildMediaFileNameParams, BACK_END_URL, env, envSchema (+3 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.11
-Nodes (14): ListCustomersDto, ApiPropertyOptional, IsOptional, IsString, IsUUID, CustomersRepository, Injectable, ListCustomersController (+6 more)
-
-### Community 47 - "Community 47"
-Cohesion: 0.15
-Nodes (13): UpdateCustomerDto, UpdateCustomerDocs(), ApiCookieAuth, ApiTags, Body, Controller, Inject, Param (+5 more)
-
-### Community 48 - "Community 48"
-Cohesion: 0.13
-Nodes (11): NotFoundOrganizationInviteException, GetOrganizationInviteByIdDocs(), GetOrganizationInviteByIdController, ApiTags, Controller, Get, Inject, Param (+3 more)
-
-### Community 49 - "Community 49"
 Cohesion: 0.16
 Nodes (12): CheckSlugAvailabilityResponseDto, ApiProperty, CheckSlugAvailabilityController, ApiTags, Controller, Get, Inject, Param (+4 more)
 
-### Community 50 - "Community 50"
-Cohesion: 0.11
-Nodes (14): RequestEmailChangeController, ApiTags, Controller, Inject, RequestEmailChangeUseCase, Inject, Injectable, Inject (+6 more)
+### Community 47 - "Community 47"
+Cohesion: 0.15
+Nodes (14): ApiProperty, IsEmail, IsNotEmpty, IsString, ValidatePasswordResetOtpDto, ValidatePasswordResetOtpDocs(), ApiTags, Body (+6 more)
 
-### Community 51 - "Community 51"
-Cohesion: 0.16
-Nodes (12): UpdateOrganizationAddressDto, UpdateOrganizationAddressDocs(), ApiTags, Body, Controller, Inject, Param, Patch (+4 more)
-
-### Community 52 - "Community 52"
-Cohesion: 0.30
-Nodes (6): NotFoundServiceCategoryException, ServiceCategoriesRepositoryInterface, SERVICE_CATEGORY_REPOSITORY_INTERFACE_KEY, GetExistingServiceCategoryUseCase, Inject, Injectable
-
-### Community 53 - "Community 53"
-Cohesion: 0.16
-Nodes (11): ListServiceCategoriesDto, ServiceCategory, Column, Entity, Index, JoinColumn, ManyToOne, ServiceCategoriesRepository (+3 more)
-
-### Community 54 - "Community 54"
-Cohesion: 0.18
-Nodes (9): S3StorageProvider, Injectable, DeleteStorageObjectParams, PresignedGetObjectParams, UploadStorageObjectParams, UploadStorageObjectResult, MockGetExistingMediaUseCase, MockMediaRepository (+1 more)
-
-### Community 55 - "Community 55"
-Cohesion: 0.16
-Nodes (11): UpdateOrganizationServiceDto, UpdateOrganizationServiceDocs(), ApiTags, Body, Controller, Inject, Param, Patch (+3 more)
-
-### Community 56 - "Community 56"
-Cohesion: 0.18
-Nodes (11): UpdateOrganizationDto, UpdateOrganizationDocs(), ApiCookieAuth, ApiTags, Body, Controller, Inject, Patch (+3 more)
-
-### Community 57 - "Community 57"
+### Community 48 - "Community 48"
 Cohesion: 0.15
 Nodes (12): LogoutDocs(), LogoutController, ApiCookieAuth, ApiTags, Controller, HttpCode, Inject, Post (+4 more)
 
-### Community 58 - "Community 58"
+### Community 49 - "Community 49"
+Cohesion: 0.16
+Nodes (10): CustomersRepository, Injectable, GetCustomerController, ApiCookieAuth, ApiTags, Controller, Inject, GetCustomerUseCase (+2 more)
+
+### Community 50 - "Community 50"
+Cohesion: 0.14
+Nodes (14): ResetPasswordDto, ApiProperty, IsNotEmpty, IsString, IsStrongPassword, ResetPasswordDocs(), ResetPasswordController, ApiTags (+6 more)
+
+### Community 51 - "Community 51"
+Cohesion: 0.14
+Nodes (13): UpdateServiceCategoryDto, UpdateServiceCategoryDocs(), ApiCookieAuth, ApiTags, Body, Controller, Inject, Param (+5 more)
+
+### Community 52 - "Community 52"
+Cohesion: 0.17
+Nodes (12): UpdateCustomerDto, UpdateCustomerDocs(), ApiCookieAuth, ApiTags, Body, Controller, Inject, Param (+4 more)
+
+### Community 53 - "Community 53"
+Cohesion: 0.14
+Nodes (9): CheckEmailConfirmationAttemptsUseCase, Inject, Injectable, RequestEmailChangeUseCase, Inject, Injectable, RequestEmailVerificationUseCase, Inject (+1 more)
+
+### Community 54 - "Community 54"
 Cohesion: 0.12
-Nodes (11): UnableToDeleteOrganizationException, DeleteOrganizationController, ApiCookieAuth, ApiTags, Controller, Delete, DeleteOrganizationDocs(), AnyConstructorArgs (+3 more)
+Nodes (15): CreateOrganizationMemberDto, ApiProperty, ApiPropertyOptional, IsEnum, IsNotEmpty, IsOptional, IsUUID, CreateOrganizationMemberController (+7 more)
+
+### Community 55 - "Community 55"
+Cohesion: 0.16
+Nodes (12): RequestEmailChangeDto, ApiProperty, IsEmail, IsNotEmpty, IsString, RequestEmailChangeDocs(), RequestEmailChangeController, ApiTags (+4 more)
+
+### Community 56 - "Community 56"
+Cohesion: 0.15
+Nodes (5): CreateMediaDto, MediaFileName, CreateMediaUseCase, Inject, Injectable
+
+### Community 57 - "Community 57"
+Cohesion: 0.15
+Nodes (9): MediaImageProcessorService, ProcessMediaFileParams, ProcessMediaFileResult, Injectable, MockGetExistingMediaUseCase, MockMediaImageProcessorService, MockMediaRepository, MockPresignMediaUrlsUseCase (+1 more)
+
+### Community 58 - "Community 58"
+Cohesion: 0.18
+Nodes (11): UpdateOrganizationAddressDto, UpdateOrganizationAddressDocs(), ApiTags, Body, Controller, Inject, Param, Patch (+3 more)
 
 ### Community 59 - "Community 59"
-Cohesion: 0.15
-Nodes (10): NotFoundCustomerException, GetCustomerDocs(), GetCustomerController, ApiCookieAuth, ApiTags, Controller, Inject, GetCustomerUseCase (+2 more)
+Cohesion: 0.18
+Nodes (10): CreatePasswordResetDto, ApiProperty, IsDate, IsEnum, IsNotEmpty, IsString, PASSWORD_RESET_STATUS, MarkPasswordResetAsUsedUseCase (+2 more)
 
 ### Community 60 - "Community 60"
 Cohesion: 0.14
-Nodes (8): Media, Column, Entity, Index, JoinColumn, ManyToOne, MediaRepository, Injectable
+Nodes (12): CreateOrganizationInviteDto, ApiProperty, IsEmail, IsNotEmpty, CreateOrganizationInviteController, ApiCookieAuth, ApiTags, Body (+4 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.16
-Nodes (8): MediaImageProcessorService, ProcessMediaFileParams, ProcessMediaFileResult, Injectable, MockMediaImageProcessorService, MockMediaRepository, MockPresignMediaUrlsUseCase, MockStorageProvider
+Nodes (10): CreateOrganizationDto, ApiProperty, ApiPropertyOptional, IsNotEmpty, IsOptional, IsString, UpdateOrganizationDto, IsOrganizationSlug() (+2 more)
 
 ### Community 62 - "Community 62"
-Cohesion: 0.16
-Nodes (10): DeleteOrganizationAddressController, ApiTags, Controller, Delete, Inject, Param, DeleteOrganizationAddressUseCase, Inject (+2 more)
+Cohesion: 0.15
+Nodes (10): CreateServiceCategoryDto, ApiProperty, ApiPropertyOptional, IsNotEmpty, IsOptional, IsString, Inject, CreateServiceCategoryUseCase (+2 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.13
-Nodes (14): CreateOrganizationMemberDto, ApiProperty, ApiPropertyOptional, IsEnum, IsNotEmpty, IsOptional, IsUUID, CreateOrganizationMemberController (+6 more)
-
-### Community 64 - "Community 64"
 Cohesion: 0.16
 Nodes (10): DeleteServiceCategoryController, ApiTags, Controller, Delete, Inject, Param, DeleteServiceCategoryUseCase, Inject (+2 more)
 
-### Community 65 - "Community 65"
+### Community 64 - "Community 64"
 Cohesion: 0.16
 Nodes (10): GetServiceCategoryDocs(), GetServiceCategoryController, ApiTags, Controller, Get, Inject, Param, GetServiceCategoryUseCase (+2 more)
 
+### Community 65 - "Community 65"
+Cohesion: 0.16
+Nodes (10): NotFoundCustomerException, Customer, Column, Entity, Index, JoinColumn, ManyToOne, GetCustomerDocs() (+2 more)
+
 ### Community 66 - "Community 66"
-Cohesion: 0.19
-Nodes (11): CreateOrganizationInviteDto, ApiProperty, IsEmail, IsNotEmpty, CreateOrganizationInviteController, ApiCookieAuth, ApiTags, Body (+3 more)
+Cohesion: 0.15
+Nodes (12): LinkCustomerToUserDto, ApiProperty, IsNotEmpty, IsUUID, LinkCustomerToUserDocs(), LinkCustomerToUserController, ApiCookieAuth, ApiTags (+4 more)
 
 ### Community 67 - "Community 67"
-Cohesion: 0.14
-Nodes (11): SendOrganizationInviteEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsUUID, Inject, CreateOrganizationInviteUseCase, Inject (+3 more)
+Cohesion: 0.16
+Nodes (12): CreateEmailConfirmationDto, ApiProperty, ApiPropertyOptional, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty (+4 more)
 
 ### Community 68 - "Community 68"
 Cohesion: 0.19
 Nodes (10): AcceptOrganizationInviteResponseDto, ApiProperty, AcceptOrganizationInviteController, ApiCookieAuth, ApiTags, Controller, Inject, Param (+2 more)
 
 ### Community 69 - "Community 69"
-Cohesion: 0.14
-Nodes (11): ApiCookieAuth, ApiTags, Body, Controller, Inject, Param, Patch, UpdateServiceCategoryController (+3 more)
+Cohesion: 0.15
+Nodes (11): CreateOrganizationController, ApiCookieAuth, ApiTags, Body, Controller, Inject, Post, CreateOrganizationUseCase (+3 more)
 
 ### Community 70 - "Community 70"
 Cohesion: 0.14
-Nodes (14): jest, collectCoverageFrom, coverageDirectory, moduleFileExtensions, moduleNameMapper, rootDir, testEnvironment, testRegex (+6 more)
+Nodes (12): ApiPropertyOptional, IsBoolean, IsOptional, UpdateUserDto, UpdateUserDocs(), ApiCookieAuth, ApiTags, Body (+4 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.14
-Nodes (14): scripts, biome:check, biome:format, biome:lint, build, start, start:debug, start:dev (+6 more)
+Nodes (14): jest, collectCoverageFrom, coverageDirectory, moduleFileExtensions, moduleNameMapper, rootDir, testEnvironment, testRegex (+6 more)
 
 ### Community 72 - "Community 72"
-Cohesion: 0.21
-Nodes (9): AppModule, Module, setupDocumentationConfig(), bootstrap(), BACK_END_URL, envSchema, FRONT_END_URL, IS_PRODUCTION (+1 more)
+Cohesion: 0.14
+Nodes (14): scripts, biome:check, biome:format, biome:lint, build, start, start:debug, start:dev (+6 more)
 
 ### Community 73 - "Community 73"
-Cohesion: 0.26
-Nodes (11): authenticatedSessionLifecycleMiddleware(), clearSessionCookie(), destroySession(), destroySessionAndClearCookie(), absoluteWindowMs(), computeEffectiveMaxAgeMs(), cookieRemainingSeconds(), idleDurationMs() (+3 more)
+Cohesion: 0.14
+Nodes (11): RefreshSessionController, ApiCookieAuth, ApiTags, Controller, HttpCode, Inject, Post, Req (+3 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.16
-Nodes (9): RequestEmailVerificationController, ApiTags, Controller, Inject, RequestEmailVerificationUseCase, Inject, Injectable, SendEmailConfirmationEmailUseCase (+1 more)
+Cohesion: 0.15
+Nodes (10): DeleteOrganizationMemberController, ApiCookieAuth, ApiTags, Controller, Delete, Inject, Param, DeleteOrganizationMemberUseCase (+2 more)
 
 ### Community 75 - "Community 75"
-Cohesion: 0.16
-Nodes (8): ReplaceUserProfilePictureMediaDto, ReplaceUserProfilePictureMediaUseCase, Injectable, Inject, Inject, Injectable, UpdateProfilePictureInput, UpdateProfilePictureUseCase
+Cohesion: 0.19
+Nodes (8): InvalidDurationException, SCHEDULE_GRANULARITY_MINUTES, Inject, CreateOrganizationServiceUseCase, Inject, Injectable, Injectable, ValidateDurationUseCase
 
 ### Community 76 - "Community 76"
-Cohesion: 0.15
-Nodes (10): InactivateOrganizationMemberController, ApiCookieAuth, ApiTags, Controller, Inject, Param, Patch, InactivateOrganizationMemberUseCase (+2 more)
+Cohesion: 0.31
+Nodes (5): NotFoundServiceCategoryException, SERVICE_CATEGORY_REPOSITORY_INTERFACE_KEY, GetExistingServiceCategoryUseCase, Inject, Injectable
 
 ### Community 77 - "Community 77"
-Cohesion: 0.15
-Nodes (10): CreateServiceCategoryController, ApiCookieAuth, ApiTags, Body, Controller, Inject, Post, CreateServiceCategoryUseCase (+2 more)
+Cohesion: 0.17
+Nodes (10): SendOrganizationInviteEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsUUID, CreateOrganizationInviteUseCase, Inject, Injectable (+2 more)
 
 ### Community 78 - "Community 78"
-Cohesion: 0.15
-Nodes (10): ConfirmEmailController, ApiTags, Controller, Inject, ConfirmEmailUseCase, Inject, Injectable, GetExistingEmailConfirmationUseCase (+2 more)
+Cohesion: 0.27
+Nodes (7): Column, Entity, OneToMany, User, UserWithoutPassword, Injectable, UsersRepository
 
 ### Community 79 - "Community 79"
 Cohesion: 0.23
 Nodes (5): MissingOrganizationContextException, TenantGuard, Inject, Injectable, IS_TENANT_SCOPED_KEY
 
 ### Community 80 - "Community 80"
-Cohesion: 0.21
-Nodes (8): Customer, Column, Entity, Index, JoinColumn, ManyToOne, Get, Param
+Cohesion: 0.20
+Nodes (7): DeleteOrganizationAddressController, ApiTags, Controller, Delete, Inject, Param, DeleteOrganizationAddressDocs()
 
 ### Community 81 - "Community 81"
-Cohesion: 0.17
-Nodes (11): CreateEmailConfirmationDto, ApiProperty, ApiPropertyOptional, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty (+3 more)
-
-### Community 82 - "Community 82"
-Cohesion: 0.24
-Nodes (8): RequestEmailChangeDto, ApiProperty, IsEmail, IsNotEmpty, IsString, RequestEmailChangeDocs(), Body, Post
-
-### Community 84 - "Community 84"
-Cohesion: 0.32
-Nodes (6): ListOrganizationAddressesDocs(), ListOrganizationInvitesByOrganizationDocs(), ListOrganizationMembersDocs(), ListOrganizationServicesDocs(), ListServiceCategoriesDocs(), getPaginatedResponseSchema()
-
-### Community 85 - "Community 85"
 Cohesion: 0.20
 Nodes (7): CancelOrganizationInviteController, ApiTags, Controller, Inject, Param, Patch, CancelOrganizationInviteDocs()
 
-### Community 86 - "Community 86"
-Cohesion: 0.23
-Nodes (6): InvalidDurationException, SCHEDULE_GRANULARITY_MINUTES, Inject, Inject, Injectable, ValidateDurationUseCase
+### Community 82 - "Community 82"
+Cohesion: 0.17
+Nodes (8): RejectOrganizationInviteDocs(), RejectOrganizationInviteController, ApiCookieAuth, ApiTags, Controller, Inject, Param, Patch
 
-### Community 87 - "Community 87"
+### Community 83 - "Community 83"
+Cohesion: 0.17
+Nodes (8): InactivateOrganizationMemberDocs(), InactivateOrganizationMemberController, ApiCookieAuth, ApiTags, Controller, Inject, Param, Patch
+
+### Community 84 - "Community 84"
 Cohesion: 0.20
 Nodes (7): ActivateOrganizationServiceController, ApiTags, Controller, Inject, Param, Patch, ActivateOrganizationServiceDocs()
 
-### Community 88 - "Community 88"
+### Community 85 - "Community 85"
 Cohesion: 0.20
 Nodes (7): InactivateOrganizationServiceDocs(), InactivateOrganizationServiceController, ApiTags, Controller, Inject, Param, Patch
 
-### Community 89 - "Community 89"
-Cohesion: 0.18
-Nodes (9): PasswordResetDto, ApiProperty, Column, Entity, OneToMany, User, Inject, DeleteProfilePictureUseCase (+1 more)
+### Community 86 - "Community 86"
+Cohesion: 0.21
+Nodes (7): UnableToDeleteOrganizationException, DeleteOrganizationDocs(), AnyConstructorArgs, ExceptionClass, ExceptionConfig, ExceptionResponseOptions, getExceptionResponseSchema()
 
-### Community 90 - "Community 90"
+### Community 87 - "Community 87"
+Cohesion: 0.17
+Nodes (9): UpdateProfilePictureDocs(), ApiCookieAuth, ApiTags, Controller, Inject, Patch, UpdateProfilePictureController, UploadedFile (+1 more)
+
+### Community 88 - "Community 88"
 Cohesion: 0.18
 Nodes (11): noForEach, noStaticOnlyClass, noUselessSwitchCase, useFlatMap, noUnusedVariables, linter, enabled, rules (+3 more)
+
+### Community 89 - "Community 89"
+Cohesion: 0.31
+Nodes (5): EmailAlreadyVerifiedException, EmailConfirmationTemplateType, SendEmailConfirmationEmailDto, SendEmailConfirmationEmailUseCase, Injectable
+
+### Community 90 - "Community 90"
+Cohesion: 0.22
+Nodes (5): EmailConfirmation, Column, Entity, JoinColumn, ManyToOne
+
+### Community 91 - "Community 91"
+Cohesion: 0.18
+Nodes (8): ActivateOrganizationMemberController, ApiCookieAuth, ApiTags, Controller, Inject, Param, Patch, ActivateOrganizationMemberDocs()
 
 ### Community 93 - "Community 93"
 Cohesion: 0.20
@@ -597,156 +614,184 @@ Cohesion: 0.24
 Nodes (4): SessionAuthGuard, Inject, Injectable, IS_PUBLIC_KEY
 
 ### Community 95 - "Community 95"
-Cohesion: 0.40
-Nodes (4): ORGANIZATION_ADDRESS_REPOSITORY_INTERFACE_KEY, GetExistingOrganizationAddressUseCase, Inject, Injectable
+Cohesion: 0.20
+Nodes (7): DeleteCustomerController, ApiCookieAuth, ApiTags, Controller, Delete, Param, DeleteCustomerDocs()
 
 ### Community 96 - "Community 96"
 Cohesion: 0.20
-Nodes (8): ListServiceCategoriesController, ApiCookieAuth, ApiTags, Controller, Inject, ListServiceCategoriesUseCase, Inject, Injectable
+Nodes (6): Inject, SendEmailUseCase, Inject, Injectable, Inject, Inject
 
 ### Community 97 - "Community 97"
-Cohesion: 0.22
-Nodes (9): @aws-sdk/client-s3, @biomejs/biome, class-validator, dependencies, @aws-sdk/client-s3, @biomejs/biome, class-validator, rxjs (+1 more)
+Cohesion: 0.20
+Nodes (8): ListReceivedOrganizationInvitesController, ApiCookieAuth, ApiTags, Controller, Inject, ListReceivedOrganizationInvitesUseCase, Inject, Injectable
 
 ### Community 98 - "Community 98"
-Cohesion: 0.22
-Nodes (9): formatter, attributePosition, expand, formatWithErrors, indentStyle, indentWidth, lineEnding, lineWidth (+1 more)
+Cohesion: 0.20
+Nodes (5): UpdatePasswordResetDto, Inject, Injectable, ValidatePasswordResetExpirationUseCase, Inject
 
 ### Community 99 - "Community 99"
 Cohesion: 0.22
-Nodes (9): arrowParentheses, bracketSameLine, bracketSpacing, jsxQuoteStyle, quoteProperties, quoteStyle, semicolons, trailingCommas (+1 more)
+Nodes (9): @abacatepay/sdk, @aws-sdk/client-s3, dependencies, @abacatepay/sdk, @aws-sdk/client-s3, redis, rxjs, redis (+1 more)
 
 ### Community 100 - "Community 100"
 Cohesion: 0.22
-Nodes (9): suspicious, noArrayIndexKey, noDocumentImportInPage, noDoubleEquals, noExplicitAny, noHeadImportInDocument, noThenProperty, useGoogleFontDisplay (+1 more)
+Nodes (9): formatter, attributePosition, expand, formatWithErrors, indentStyle, indentWidth, lineEnding, lineWidth (+1 more)
 
 ### Community 101 - "Community 101"
-Cohesion: 0.25
-Nodes (4): SessionConfigModule, Module, SessionConfigService, Injectable
+Cohesion: 0.22
+Nodes (9): arrowParentheses, bracketSameLine, bracketSpacing, jsxQuoteStyle, quoteProperties, quoteStyle, semicolons, trailingCommas (+1 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.22
-Nodes (7): ActivateOrganizationMemberController, ApiCookieAuth, ApiTags, Controller, Param, Patch, ActivateOrganizationMemberDocs()
+Nodes (9): suspicious, noArrayIndexKey, noDocumentImportInPage, noDoubleEquals, noExplicitAny, noHeadImportInDocument, noThenProperty, useGoogleFontDisplay (+1 more)
 
 ### Community 103 - "Community 103"
-Cohesion: 0.22
-Nodes (7): DeleteOrganizationMemberController, ApiCookieAuth, ApiTags, Controller, Delete, Param, DeleteOrganizationMemberDocs()
+Cohesion: 0.25
+Nodes (4): SessionConfigModule, Module, SessionConfigService, Injectable
 
 ### Community 104 - "Community 104"
 Cohesion: 0.22
-Nodes (7): GetOrganizationServiceController, ApiTags, Controller, Inject, GetOrganizationServiceUseCase, Inject, Injectable
+Nodes (7): LoginController, ApiTags, Controller, Inject, LoginUseCase, Inject, Injectable
 
 ### Community 105 - "Community 105"
-Cohesion: 0.22
-Nodes (7): CreatePasswordResetDto, ApiProperty, IsDate, IsEnum, IsNotEmpty, IsString, UpdatePasswordResetDto
+Cohesion: 0.25
+Nodes (4): Inject, Inject, Injectable, UpdateOrganizationUseCase
 
 ### Community 106 - "Community 106"
-Cohesion: 0.25
-Nodes (7): CreateServiceCategoryDto, ApiProperty, ApiPropertyOptional, IsNotEmpty, IsOptional, IsString, UpdateServiceCategoryDto
+Cohesion: 0.22
+Nodes (7): CreateServiceCategoryController, ApiCookieAuth, ApiTags, Body, Controller, Post, CreateServiceCategoryDocs()
 
 ### Community 107 - "Community 107"
 Cohesion: 0.22
-Nodes (8): UpdateProfilePictureDocs(), ApiCookieAuth, ApiTags, Controller, Patch, UpdateProfilePictureController, UploadedFile, UseInterceptors
+Nodes (7): ListServiceCategoriesController, ApiCookieAuth, ApiTags, Controller, Get, Inject, Query
 
 ### Community 108 - "Community 108"
-Cohesion: 0.25
-Nodes (8): source, assist, actions, enabled, identifierOrder, level, options, organizeImports
+Cohesion: 0.22
+Nodes (7): DeleteProfilePictureController, ApiCookieAuth, ApiTags, Controller, Delete, Inject, DeleteProfilePictureDocs()
 
 ### Community 109 - "Community 109"
 Cohesion: 0.25
-Nodes (7): **/*spec.ts, test, ./tsconfig.json, exclude, extends, dist, node_modules
+Nodes (8): source, assist, actions, enabled, identifierOrder, level, options, organizeImports
 
 ### Community 110 - "Community 110"
 Cohesion: 0.25
-Nodes (5): MockGetExistingMediaUseCase, MockMediaImageProcessorService, MockMediaRepository, MockPresignMediaUrlsUseCase, MockStorageProvider
+Nodes (7): author, description, license, name, packageManager, private, version
 
 ### Community 111 - "Community 111"
+Cohesion: 0.25
+Nodes (7): **/*spec.ts, test, ./tsconfig.json, exclude, extends, dist, node_modules
+
+### Community 112 - "Community 112"
+Cohesion: 0.46
+Nodes (4): ListOrganizationAddressesDocs(), ListOrganizationMembersDocs(), ListServiceCategoriesDocs(), getPaginatedResponseSchema()
+
+### Community 113 - "Community 113"
+Cohesion: 0.25
+Nodes (7): CreateOrganizationServiceController, ApiCookieAuth, ApiTags, Body, Controller, Post, CreateOrganizationServiceDocs()
+
+### Community 114 - "Community 114"
+Cohesion: 0.25
+Nodes (7): UpdateOrganizationDocs(), ApiCookieAuth, ApiTags, Body, Controller, Patch, UpdateOrganizationController
+
+### Community 115 - "Community 115"
 Cohesion: 0.32
 Nodes (3): ReflectionGuardValidationPipe, Inject, Injectable
 
-### Community 112 - "Community 112"
-Cohesion: 0.29
-Nodes (6): author, description, license, name, private, version
-
-### Community 113 - "Community 113"
-Cohesion: 0.29
-Nodes (4): Inject, DeleteCustomerUseCase, Inject, Injectable
-
-### Community 114 - "Community 114"
-Cohesion: 0.29
-Nodes (4): Inject, DeleteOrganizationMemberUseCase, Inject, Injectable
-
-### Community 115 - "Community 115"
-Cohesion: 0.29
-Nodes (6): DeleteProfilePictureController, ApiCookieAuth, ApiTags, Controller, Delete, DeleteProfilePictureDocs()
-
 ### Community 116 - "Community 116"
 Cohesion: 0.33
-Nodes (5): collection, compilerOptions, deleteOutDir, $schema, sourceRoot
+Nodes (5): SendEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsString
 
 ### Community 117 - "Community 117"
-Cohesion: 0.33
-Nodes (5): ListOrganizationAddressesController, ApiCookieAuth, ApiTags, Controller, Inject
+Cohesion: 0.29
+Nodes (4): MockMediaImageProcessorService, MockMediaRepository, MockPresignMediaUrlsUseCase, MockStorageProvider
 
 ### Community 118 - "Community 118"
-Cohesion: 0.33
-Nodes (5): RejectOrganizationInviteController, ApiCookieAuth, ApiTags, Controller, Inject
+Cohesion: 0.29
+Nodes (5): SendPasswordResetEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsString
 
 ### Community 119 - "Community 119"
-Cohesion: 0.33
-Nodes (4): Inject, CreateOrganizationMemberUseCase, Inject, Injectable
-
-### Community 120 - "Community 120"
-Cohesion: 0.33
-Nodes (5): ListOrganizationMembersController, ApiCookieAuth, ApiTags, Controller, Inject
+Cohesion: 0.29
+Nodes (4): DeleteProfilePictureInput, DeleteProfilePictureUseCase, Inject, Injectable
 
 ### Community 121 - "Community 121"
 Cohesion: 0.33
-Nodes (5): GetCurrentPasswordResetByEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsString
-
-### Community 122 - "Community 122"
-Cohesion: 0.33
-Nodes (4): GetExistingPasswordResetUseCase, Inject, Injectable, Inject
+Nodes (5): collection, compilerOptions, deleteOutDir, $schema, sourceRoot
 
 ### Community 123 - "Community 123"
 Cohesion: 0.33
-Nodes (5): GetCurrentUserController, ApiCookieAuth, ApiTags, Controller, Inject
+Nodes (5): ListOrganizationInvitesByOrganizationController, ApiCookieAuth, ApiTags, Controller, Inject
+
+### Community 124 - "Community 124"
+Cohesion: 0.47
+Nodes (3): OrganizationDto, ApiProperty, ApiPropertyOptional
 
 ### Community 125 - "Community 125"
-Cohesion: 0.40
-Nodes (3): RolesGuard, Inject, Injectable
+Cohesion: 0.33
+Nodes (5): DeleteOrganizationController, ApiCookieAuth, ApiTags, Controller, Inject
 
 ### Community 126 - "Community 126"
-Cohesion: 0.40
-Nodes (4): ApiTags, Controller, Inject, ValidateEmailConfirmationOtpController
+Cohesion: 0.33
+Nodes (5): GetCurrentPasswordResetByEmailDto, ApiProperty, IsEmail, IsNotEmpty, IsString
 
 ### Community 127 - "Community 127"
-Cohesion: 0.50
-Nodes (4): indentScriptAndStyle, selfCloseVoidElements, html, formatter
+Cohesion: 0.33
+Nodes (5): GetCurrentUserController, ApiCookieAuth, ApiTags, Controller, Inject
 
 ### Community 128 - "Community 128"
 Cohesion: 0.50
+Nodes (5): Serena Project Configuration (quickly-backend), Ignore-all-files-in-gitignore setting, LSP Workspace Folders ("."), quickly-backend (Serena project_name), TypeScript Language Server (Serena LSP backend)
+
+### Community 130 - "Community 130"
+Cohesion: 0.40
+Nodes (3): RolesGuard, Inject, Injectable
+
+### Community 131 - "Community 131"
+Cohesion: 0.40
+Nodes (4): RequestEmailVerificationController, ApiTags, Controller, Inject
+
+### Community 134 - "Community 134"
+Cohesion: 0.40
+Nodes (3): ResetPasswordUseCase, Inject, Injectable
+
+### Community 135 - "Community 135"
+Cohesion: 0.50
+Nodes (4): indentScriptAndStyle, selfCloseVoidElements, html, formatter
+
+### Community 136 - "Community 136"
+Cohesion: 0.50
 Nodes (4): vcs, clientKind, enabled, useIgnoreFile
 
+### Community 138 - "Community 138"
+Cohesion: 0.50
+Nodes (3): Inject, DeleteCustomerUseCase, Injectable
+
+### Community 139 - "Community 139"
+Cohesion: 0.50
+Nodes (3): Inject, LinkCustomerToUserUseCase, Injectable
+
+### Community 140 - "Community 140"
+Cohesion: 0.50
+Nodes (3): generatePasswordResetToken(), PasswordResetTokenPayload, verifyPasswordResetToken()
+
 ## Knowledge Gaps
-- **207 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+202 more)
+- **212 isolated node(s):** `$schema`, `enabled`, `clientKind`, `useIgnoreFile`, `ignoreUnknown` (+207 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **59 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `GetExistingUserUseCase` connect `Community 50` to `Community 0`, `Community 6`, `Community 7`, `Community 9`, `Community 17`, `Community 18`, `Community 19`, `Community 21`, `Community 24`, `Community 25`, `Community 28`, `Community 29`, `Community 31`, `Community 34`, `Community 35`, `Community 36`, `Community 43`, `Community 47`, `Community 67`, `Community 74`, `Community 75`, `Community 78`, `Community 119`, `Community 122`?**
-  _High betweenness centrality (0.045) - this node is a cross-community bridge._
-- **Why does `Media` connect `Community 60` to `Community 3`, `Community 37`, `Community 7`, `Community 75`, `Community 12`, `Community 14`, `Community 110`, `Community 54`, `Community 23`, `Community 89`, `Community 61`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
-- **Why does `Organization` connect `Community 12` to `Community 1`, `Community 33`, `Community 3`, `Community 4`, `Community 5`, `Community 38`, `Community 7`, `Community 36`, `Community 80`, `Community 20`, `Community 53`, `Community 22`, `Community 23`, `Community 52`, `Community 89`, `Community 60`, `Community 29`, `Community 31`?**
+- **Why does `Media` connect `Community 13` to `Community 3`, `Community 26`, `Community 39`, `Community 43`, `Community 78`, `Community 19`, `Community 20`, `Community 117`, `Community 24`, `Community 57`, `Community 56`?**
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
+- **Why does `GetExistingUserUseCase` connect `Community 2` to `Community 3`, `Community 4`, `Community 134`, `Community 7`, `Community 8`, `Community 137`, `Community 12`, `Community 18`, `Community 21`, `Community 25`, `Community 44`, `Community 47`, `Community 53`, `Community 59`, `Community 73`, `Community 77`, `Community 89`, `Community 98`, `Community 119`?**
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
+- **Why does `TenantScoped()` connect `Community 28` to `Community 1`, `Community 5`, `Community 17`, `Community 22`, `Community 32`, `Community 33`, `Community 35`, `Community 36`, `Community 41`, `Community 49`, `Community 51`, `Community 52`, `Community 54`, `Community 60`, `Community 66`, `Community 74`, `Community 83`, `Community 87`, `Community 91`, `Community 95`, `Community 106`, `Community 107`, `Community 108`, `Community 113`, `Community 114`, `Community 123`, `Community 125`?**
   _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **What connects `$schema`, `enabled`, `clientKind` to the rest of the system?**
-  _207 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _212 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.07811447811447811 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07092198581560284 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.0700354609929078 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12280701754385964 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.06659619450317125 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11428571428571428 - nodes in this community are weakly interconnected._

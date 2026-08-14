@@ -56,6 +56,8 @@ const envSchema = object({
 	AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS: coerce.number({
 		error: 'AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS must be a number.',
 	}),
+
+	ABACATE_PAY_SECRET_KEY: string({ error: 'ABACATE_PAY_SECRET_KEY is required.' }),
 });
 
 const rawEnv = {
@@ -109,6 +111,8 @@ const rawEnv = {
 	AMAZON_S3_BUCKET: process.env.AMAZON_S3_BUCKET,
 	AMAZON_S3_MEDIA_BASE_PREFIX: process.env.AMAZON_S3_MEDIA_BASE_PREFIX,
 	AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS: process.env.AMAZON_S3_PRESIGNED_GET_EXPIRES_SECONDS ?? '3600',
+
+	ABACATE_PAY_SECRET_KEY: process.env.ABACATE_PAY_SECRET_KEY,
 } as const;
 
 export const env = envSchema.parse(rawEnv);

@@ -395,6 +395,61 @@
       "captured_at": null,
       "author": null,
       "contributor": null
+    },
+    {
+      "id": "serena_project_config",
+      "label": "Serena Project Configuration (quickly-backend)",
+      "file_type": "document",
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "serena_project_quickly_backend",
+      "label": "quickly-backend (Serena project_name)",
+      "file_type": "concept",
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "line 2",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "serena_project_typescript_language_server",
+      "label": "TypeScript Language Server (Serena LSP backend)",
+      "file_type": "concept",
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "lines 38-39",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "serena_project_ls_workspace_folders",
+      "label": "LSP Workspace Folders (\".\")",
+      "file_type": "concept",
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "lines 88-89",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "serena_project_gitignore_filtering",
+      "label": "Ignore-all-files-in-gitignore setting",
+      "file_type": "concept",
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "line 71",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
     }
   ],
   "edges": [
@@ -1027,6 +1082,56 @@
       "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/docker-compose.yaml",
       "source_location": null,
       "weight": 1.0
+    },
+    {
+      "source": "serena_project_config",
+      "target": "serena_project_quickly_backend",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "line 2",
+      "weight": 1.0
+    },
+    {
+      "source": "serena_project_config",
+      "target": "serena_project_typescript_language_server",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "lines 38-39",
+      "weight": 1.0
+    },
+    {
+      "source": "serena_project_config",
+      "target": "serena_project_ls_workspace_folders",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "lines 88-89",
+      "weight": 1.0
+    },
+    {
+      "source": "serena_project_config",
+      "target": "serena_project_gitignore_filtering",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": "line 71",
+      "weight": 1.0
+    },
+    {
+      "source": "serena_project_typescript_language_server",
+      "target": "serena_project_ls_workspace_folders",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.serena/project.yml",
+      "source_location": null,
+      "weight": 1.0
     }
   ],
   "hyperedges": [
@@ -1045,19 +1150,6 @@
       "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.claude/rules/nestjs-module-structure.md"
     },
     {
-      "id": "dev_admin_tooling_services",
-      "label": "Developer Inspection/Admin Tooling Services (pgadmin, redis-commander, mailhog)",
-      "nodes": [
-        "docker_compose_pgadmin",
-        "docker_compose_redis_commander",
-        "docker_compose_mailhog"
-      ],
-      "relation": "participate_in",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/docker-compose.yaml"
-    },
-    {
       "id": "domain_error_handling_pattern",
       "label": "Domain Error Handling Pattern (NotFound + AlreadyExists exceptions, thrown by GetExisting use case, documented via docs.ts)",
       "nodes": [
@@ -1070,8 +1162,21 @@
       "confidence": "INFERRED",
       "confidence_score": 0.85,
       "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/.claude/rules/nestjs-module-structure.md"
+    },
+    {
+      "id": "dev_admin_tooling_services",
+      "label": "Developer Inspection/Admin Tooling Services (pgadmin, redis-commander, mailhog)",
+      "nodes": [
+        "docker_compose_pgadmin",
+        "docker_compose_redis_commander",
+        "docker_compose_mailhog"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/Users/toddys/Documents/GitHub/quickly-backend/docker-compose.yaml"
     }
   ],
-  "input_tokens": 70205,
+  "input_tokens": 37299,
   "output_tokens": 0
 }
