@@ -16,7 +16,7 @@ export class Appointment extends TimestampedEntity {
 	@Column({ name: 'duration_minutes', type: 'int' })
 	duration_minutes: number;
 
-	@Column({ type: 'decimal', precision: 10, scale: 2 })
+	@Column({ type: 'numeric', precision: 15, scale: 2 })
 	price: number;
 
 	@Column({
