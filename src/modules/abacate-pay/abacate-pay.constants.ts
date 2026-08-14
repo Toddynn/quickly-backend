@@ -1,0 +1,1 @@
+export const ABACATE_PAY_CLIENT = 'ABACATE_PAY_CLIENT';

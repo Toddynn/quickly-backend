@@ -2,6 +2,7 @@ import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { OrganizationsModule } from '../organizations/organizations.module';
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 import { UsersModule } from '../users/users.module';
 import { Customer } from './models/entities/customer.entity';
 import { CustomersRepository } from './repository/customers.repository';
@@ -21,7 +22,7 @@ import { UpdateCustomerController } from './use-cases/update-customer/update-cus
 import { UpdateCustomerUseCase } from './use-cases/update-customer/update-customer.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Customer]), forwardRef(() => OrganizationsModule), forwardRef(() => UsersModule)],
+	imports: [TypeOrmModule.forFeature([Customer]), forwardRef(() => OrganizationsModule), forwardRef(() => UsersModule), SubscriptionsModule],
 	controllers: [
 		CreateCustomerController,
 		GetCustomerController,

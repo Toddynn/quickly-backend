@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
 import { GetExistingServiceCategoryUseCase } from '@/modules/service-categories/use-cases/get-existing-service-category/get-existing-service-category.use-case';
+import { EnforcePlanLimitUseCase } from '@/modules/subscriptions/use-cases/enforce-plan-limit/enforce-plan-limit.use-case';
 import type { CreateOrganizationServiceDto } from '../../models/dto/input/create-organization-service.dto';
 import type { OrganizationService } from '../../models/entities/organization-service.entity';
 import type { OrganizationServicesRepositoryInterface } from '../../models/interfaces/repository.interface';
@@ -18,6 +19,8 @@ export class CreateOrganizationServiceUseCase {
 		private readonly getExistingServiceCategoryUseCase: GetExistingServiceCategoryUseCase,
 		@Inject(ValidateDurationUseCase)
 		private readonly validateDurationUseCase: ValidateDurationUseCase,
+		@Inject(EnforcePlanLimitUseCase)
+		private readonly enforcePlanLimitUseCase: EnforcePlanLimitUseCase,
 	) {}
 
 	async execute(organizationId: string, createOrganizationServiceDto: CreateOrganizationServiceDto): Promise<OrganizationService> {
@@ -32,6 +35,9 @@ export class CreateOrganizationServiceUseCase {
 		}
 
 		this.validateDurationUseCase.execute(createOrganizationServiceDto.duration_minutes);
+
+		const currentServicesCount = await this.organizationServicesRepository.count({ where: { organization_id: organizationId, active: true } });
+		await this.enforcePlanLimitUseCase.execute(organizationId, 'services', currentServicesCount);
 
 		const organizationService = this.organizationServicesRepository.create({
 			...createOrganizationServiceDto,

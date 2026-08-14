@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@abacatepay/sdk": "^2.0.3",
+		"@abacatepay/types": "^3.0.3",
 		"@aws-sdk/client-s3": "^3.1109.0",
 		"@aws-sdk/s3-request-presigner": "^3.1109.0",
 		"@biomejs/biome": "^2.5.8",

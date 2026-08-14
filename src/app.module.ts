@@ -9,6 +9,7 @@ import mailerConfig from './configs/mailer/mailer.config';
 import { MailerConfigService } from './configs/mailer/mailer-config.service';
 import sessionConfig from './configs/session/session.config';
 import { SessionConfigModule } from './configs/session/session-config.module';
+import { AbacatePayModule } from './modules/abacate-pay/abacate-pay.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { SessionAuthGuard } from './modules/auth/guards/session-auth.guard';
@@ -23,7 +24,9 @@ import { OrganizationMembersModule } from './modules/organization-members/organi
 import { OrganizationServicesModule } from './modules/organization-services/organization-services.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { PasswordResetModule } from './modules/password-reset/password-reset.module';
+import { PlansModule } from './modules/plans/plans.module';
 import { ServiceCategoriesModule } from './modules/service-categories/service-categories.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { UsersModule } from './modules/users/users.module';
 import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
 
@@ -49,6 +52,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 			inject: [ConfigService],
 		}),
 		SessionConfigModule,
+		AbacatePayModule,
 		AuthModule,
 		UsersModule,
 		PasswordResetModule,
@@ -62,6 +66,8 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		EmailConfirmationModule,
 		CustomerModule,
 		MediaModule,
+		PlansModule,
+		SubscriptionsModule,
 	],
 	providers: [
 		ReflectionGuardValidationPipe,

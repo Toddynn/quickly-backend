@@ -1,0 +1,5 @@
+export enum PlanKey {
+	STARTER = 'STARTER',
+	PROFESSIONAL = 'PROFESSIONAL',
+	BUSINESS = 'BUSINESS',
+}
