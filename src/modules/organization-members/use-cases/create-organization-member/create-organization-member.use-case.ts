@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingOrganizationUseCase } from '@/modules/organizations/use-cases/get-existing-organization/get-existing-organization.use-case';
+import { EnforcePlanLimitUseCase } from '@/modules/subscriptions/use-cases/enforce-plan-limit/enforce-plan-limit.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import { OrganizationRole } from '@/shared/constants/organization-roles';
 import type { CreateOrganizationMemberDto } from '../../models/dto/input/create-organization-member.dto';
@@ -16,6 +17,8 @@ export class CreateOrganizationMemberUseCase {
 		private readonly getExistingOrganizationUseCase: GetExistingOrganizationUseCase,
 		@Inject(GetExistingUserUseCase)
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
+		@Inject(EnforcePlanLimitUseCase)
+		private readonly enforcePlanLimitUseCase: EnforcePlanLimitUseCase,
 	) {}
 
 	async execute(organizationId: string, createOrganizationMemberDto: CreateOrganizationMemberDto): Promise<OrganizationMember> {
@@ -23,6 +26,9 @@ export class CreateOrganizationMemberUseCase {
 			this.getExistingOrganizationUseCase.execute({ where: { id: organizationId } }),
 			this.getExistingUserUseCase.execute({ where: { id: createOrganizationMemberDto.user_id } }),
 		]);
+
+		const currentProfessionalsCount = await this.organizationMembersRepository.count({ where: { organization_id: organizationId, active: true } });
+		await this.enforcePlanLimitUseCase.execute(organizationId, 'professionals', currentProfessionalsCount);
 
 		const organizationMember = this.organizationMembersRepository.create({
 			organization_id: organization.id,
