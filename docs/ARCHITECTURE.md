@@ -44,7 +44,7 @@ Toda entidade tem um `GetExisting<Entity>UseCase` — é o único jeito "oficial
 |---|---|
 | Autenticação & Usuários | `auth`, `users`, `password-reset`, `email-confirmation`, `email` |
 | Organização & Tenancy | `organizations`, `organization-members`, `organization-invites`, `organization-addresses` |
-| Catálogo & Atendimento | `service-categories`, `organization-services`, `customer`, `appointments` (stub) |
+| Catálogo & Atendimento | `service-categories`, `organization-services`, `customer`, `working-hours`, `appointments` |
 | Mídia | `media` |
 | Planos & Cobrança | `plans`, `subscriptions`, `abacate-pay` |
 
@@ -108,9 +108,28 @@ O catálogo de serviços que a organização oferece: nome, descrição, preço,
 
 Os clientes da organização (quem agenda horários) — nome, email, telefone, opcionalmente vinculado a um `User` do sistema. Criar cliente também passa pelo `EnforcePlanLimitUseCase` (limite de clientes do plano).
 
-### `appointments` — ⚠️ stub, não implementado
+### `working-hours`
 
-Só existe a entidade (`Appointment`: data/hora, duração, preço, status, vínculos com organização/profissional/cliente/serviço) e o enum de status. **Não tem módulo, controller, repositório nem use-cases — não está registrado em `app.module.ts`.** É o próximo módulo core a ser construído (é o "agendamento" que dá nome ao produto). Já tem um índice único (`organization_id + professional_id + appointment_date`) pensado para impedir choque de horário do mesmo profissional.
+Configuração de "quando cada profissional atende", em 3 camadas de fallback (mais específico → mais genérico):
+1. **`ProfessionalScheduleException`** — exceção pontual pra um intervalo de datas de um profissional: folga/férias (`is_available: false`) ou horário estendido nesse período (`is_available: true` com `start_time`/`end_time` próprios).
+2. **`ProfessionalWorkingHours`** — horário semanal do profissional (linha só existe se ele tiver um horário diferente do padrão da organização naquele `day_of_week`).
+3. **`OrganizationWorkingHours`** — horário semanal padrão da organização (fallback final).
+
+`day_of_week` é inteiro 0–6, mesma convenção de `Date.prototype.getDay()` (0 = domingo). A peça central é `GetProfessionalAvailabilityWindowUseCase` — resolve a cadeia inteira e devolve `{available, start_time, end_time}` pra uma data; é consumida pelo módulo `appointments` (cálculo de vagas e validação de criação).
+
+Operações: `set/get-organization-working-hours` (`OWNER`-only pra escrita), `set/get-professional-working-hours` e `create/list/delete-schedule-exception` (`OWNER` ou o próprio profissional pra escrita, via `AssertOwnerOrSelfUseCase`).
+
+### `appointments`
+
+O núcleo do produto. `Appointment` guarda `appointment_date` (timestamp com timezone), `duration_minutes` e `price` — **snapshot** copiado de `OrganizationService` no momento da criação (histórico não muda se o serviço mudar de preço depois), `status` (`PENDING → CONFIRMED → COMPLETED`, `PENDING|CONFIRMED → CANCELED`, `CONFIRMED → NO_SHOW`; `RESCHEDULED`/`TRANSFERRED` existem no enum mas nenhum endpoint os produz ainda), e vínculos com organização/profissional/cliente/serviço.
+
+Operações:
+- `GET /appointments/available-slots` — o endpoint BFF: recebe profissional + serviço + data, combina `working-hours` (via `GetProfessionalAvailabilityWindowUseCase`) com os agendamentos já existentes, e devolve a lista pronta de horários clicáveis do tamanho exato da duração do serviço. O frontend não calcula nada — nem vaga, nem overlap, nem fuso.
+- `POST /appointments` — cria um agendamento com `status: PENDING`. Revalida servidor-side tudo que `available-slots` já tinha calculado (nunca confia num slot vindo do cliente).
+- `GET /appointments`, `GET /appointments/:id` — listagem paginada (filtros: profissional, cliente, status, intervalo de datas) e busca por id.
+- `PATCH /appointments/:id/confirm|complete|cancel|no-show` — transições de status, validadas contra uma tabela fixa de transições permitidas (`ALLOWED_STATUS_TRANSITIONS`).
+
+**Não-sobreposição de horário.** O índice único (`organization_id + professional_id + appointment_date`) só impede o mesmo timestamp exato duas vezes — não impede sobreposição de intervalos (ex: 10:00–10:30 e 10:15–10:45 passam por ele sem problema). A proteção real acontece em código de aplicação na criação: dentro de uma transação, `pg_advisory_xact_lock(hashtext(professional_id))` serializa criações concorrentes pro mesmo profissional, seguido de uma query de overlap (`appointment_date < fim_novo AND appointment_date + duration_minutes > início_novo`) antes do insert.
 
 ### `media`
 
@@ -160,6 +179,32 @@ ACTIVE    --(webhook subscription.cancelled)--> CANCELED
 ### Enforcement de limite de plano
 Toda criação de profissional/serviço/cliente conta quantos já existem na organização e chama `EnforcePlanLimitUseCase.execute(organizationId, 'professionals'|'services'|'customers', count)`. Se não houver assinatura vinculada, o enforcement não bloqueia (fail-open) — não deveria acontecer em produção, já que toda organização nasce com uma subscription.
 
+### Cálculo de disponibilidade (working-hours)
+```
+GetProfessionalAvailabilityWindowUseCase(professionalId, organizationId, date)
+  → existe ProfessionalScheduleException cobrindo essa data?
+      sim, is_available=false → { available: false }
+      sim, is_available=true  → { available: true, start_time, end_time }  (da exceção)
+  → existe ProfessionalWorkingHours pra esse day_of_week?
+      sim, is_closed=true  → { available: false }
+      sim, is_closed=false → { available: true, start_time, end_time }  (do profissional)
+  → OrganizationWorkingHours pra esse day_of_week (fallback final)
+      is_closed/ausente → { available: false }
+      caso contrário     → { available: true, start_time, end_time }  (da organização)
+```
+
+### Criar agendamento
+```
+POST /appointments { appointment_date, professional_id, customer_id, organization_service_id }
+  → valida serviço/cliente/profissional existem e pertencem à organização
+  → resolve availability window (fluxo acima) pra data do agendamento
+  → valida que [appointment_date, appointment_date + duration) cabe dentro da window
+  → abre transação:
+      pg_advisory_xact_lock(hashtext(professional_id))   // serializa concorrência pro mesmo profissional
+      SELECT overlap na agenda do profissional            // 409 se encontrar
+      INSERT Appointment status=PENDING
+```
+
 ---
 
 ## Coisas a saber antes de mexer no código
@@ -170,3 +215,5 @@ Toda criação de profissional/serviço/cliente conta quantos já existem na org
 - **Erros de domínio ficam em `<module>/errors/`**, não em `<module>/shared/errors/`.
 - **Controllers retornam a entidade direto**, tipada como o DTO de output por shape estrutural — não existe um `DtoMapper` implementado, apesar de `.claude/rules/nestjs-module-structure.md` sugerir esse padrão.
 - **`docs.ts` usa `applyDecorators(...)` cru** — não existem helpers `ApiDocsCreate`/`NotFound`/`Conflict`.
+- **Timezone fixo `America/Sao_Paulo` (`-03:00`), sem `date-fns-tz`.** `appointments`/`working-hours` montam datetime local com o offset fixo direto (`` `${date}T${time}-03:00` ``) — sistema é 100% BR e o país não observa horário de verão desde 2019. Se isso mudar, esse offset hardcoded quebra silenciosamente; não tem coluna de timezone em lugar nenhum.
+- **Sobreposição de agendamento é garantida em código, não em schema.** Sem sistema de migrations não dá pra usar `EXCLUDE USING gist` do Postgres. A exclusão mútua é `pg_advisory_xact_lock(hashtext(professional_id))` dentro da transação de criação, seguido de uma query de overlap — ver "Criar agendamento" acima. Se o projeto adotar migrations no futuro, trocar para `EXCLUDE CONSTRAINT` é o upgrade natural.
