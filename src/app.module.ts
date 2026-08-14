@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 import pgDatabaseConfig from './configs/database/pg-database.config';
@@ -54,6 +55,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 			inject: [ConfigService],
 		}),
 		SessionConfigModule,
+		ScheduleModule.forRoot(),
 		AbacatePayModule,
 		AuthModule,
 		UsersModule,
