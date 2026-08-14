@@ -1,4 +1,14 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "Bash(graphify query *)",
+      "Bash(graphify explain *)",
+      "Bash(graphify path *)",
+      "Bash(graphify list *)",
+      "Bash(graphify --help)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
@@ -12,13 +22,5 @@
         ]
       }
     ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(claude mcp *)"
-    ]
-  },
-  "env": {
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8787"
   }
 }
