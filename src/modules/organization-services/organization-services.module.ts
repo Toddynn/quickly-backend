@@ -1,6 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { AppointmentsModule } from '../appointments/appointments.module';
 import { OrganizationsModule } from '../organizations/organizations.module';
 import { ServiceCategoriesModule } from '../service-categories/service-categories.module';
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
@@ -30,6 +31,7 @@ import { ValidateDurationUseCase } from './use-cases/validate-duration/validate-
 		TypeOrmModule.forFeature([OrganizationService]),
 		forwardRef(() => OrganizationsModule),
 		forwardRef(() => ServiceCategoriesModule),
+		forwardRef(() => AppointmentsModule),
 		SubscriptionsModule,
 	],
 	controllers: [
