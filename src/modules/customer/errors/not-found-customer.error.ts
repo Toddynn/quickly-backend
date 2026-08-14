@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 
 export class NotFoundCustomerException extends NotFoundException {
 	constructor(fields: string) {
-		super(`Cliente não encontrado com os critérios: ${fields}`);
+		super({ message: 'Cliente não encontrado', fields });
 		this.name = 'NotFoundCustomerException';
 	}
 }

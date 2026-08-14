@@ -2,7 +2,7 @@ import { ConflictException } from '@nestjs/common';
 
 export class EmailConfirmationAlreadyExistsException extends ConflictException {
 	constructor(fields: string) {
-		super(`Confirmação de email já existe com os critérios: ${fields}`);
+		super({ message: 'Confirmação de email já existe', fields });
 		this.name = 'EmailConfirmationAlreadyExistsException';
 	}
 }

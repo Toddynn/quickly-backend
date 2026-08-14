@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 
 export class NotFoundOrganizationMemberException extends NotFoundException {
 	constructor(fields: string) {
-		super(`Membro da organização não encontrado com os critérios: ${fields}`);
+		super({ message: 'Membro da organização não encontrado', fields });
 		this.name = 'NotFoundOrganizationMemberException';
 	}
 }

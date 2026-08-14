@@ -1,6 +1,8 @@
-export class ActiveInviteAlreadyExistsException extends Error {
-	constructor(email: string, organizationId: string) {
-		super(`Já existe um convite ativo para o email ${email} na organização ${organizationId}`);
+import { ConflictException } from '@nestjs/common';
+
+export class ActiveInviteAlreadyExistsException extends ConflictException {
+	constructor() {
+		super({ message: 'Já existe um convite ativo para este email nesta organização' });
 		this.name = 'ActiveInviteAlreadyExistsException';
 	}
 }

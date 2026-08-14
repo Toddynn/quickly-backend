@@ -2,7 +2,7 @@ import { UnauthorizedException } from '@nestjs/common';
 
 export class InvalidRefreshTokenException extends UnauthorizedException {
 	constructor() {
-		super('Refresh token inválido ou expirado');
+		super('Sessão expirada ou inválida. Faça login novamente.');
 		this.name = 'InvalidRefreshTokenException';
 	}
 }

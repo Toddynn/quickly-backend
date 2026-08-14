@@ -1,6 +1,8 @@
-export class UserAlreadyMemberException extends Error {
-	constructor(userId: string, organizationId: string) {
-		super(`O usuário ${userId} já é membro da organização ${organizationId}`);
+import { ConflictException } from '@nestjs/common';
+
+export class UserAlreadyMemberException extends ConflictException {
+	constructor() {
+		super({ message: 'Este usuário já é membro da organização' });
 		this.name = 'UserAlreadyMemberException';
 	}
 }

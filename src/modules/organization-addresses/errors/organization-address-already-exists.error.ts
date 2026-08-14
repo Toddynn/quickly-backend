@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 
 export class OrganizationAddressAlreadyExistsException extends BadRequestException {
 	constructor(fields: string) {
-		super(`Endereço de organização já existe com os critérios: ${fields}`);
+		super({ message: 'Endereço da organização já existe', fields });
 		this.name = 'OrganizationAddressAlreadyExistsException';
 	}
 }

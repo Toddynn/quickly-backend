@@ -30,7 +30,7 @@ export class GetExistingOrganizationUseCase {
 		}
 
 		if (throwIfFound) {
-			throw new OrganizationAlreadyExistsException(`A organização já existe com os critérios: ${fields}`);
+			throw new OrganizationAlreadyExistsException(fields);
 		}
 
 		return organization;

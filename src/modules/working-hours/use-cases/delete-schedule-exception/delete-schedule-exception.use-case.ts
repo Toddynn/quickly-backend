@@ -16,7 +16,7 @@ export class DeleteScheduleExceptionUseCase {
 
 	async execute(exceptionId: string, organizationId: string, currentUser: SessionUser): Promise<void> {
 		const exception = await this.exceptionsRepository.findOne({ where: { id: exceptionId } });
-		if (!exception) throw new NotFoundScheduleExceptionException(`id=${exceptionId}`);
+		if (!exception) throw new NotFoundScheduleExceptionException('id');
 
 		await this.assertOwnerOrSelfUseCase.execute(exception.professional_id, organizationId, currentUser);
 

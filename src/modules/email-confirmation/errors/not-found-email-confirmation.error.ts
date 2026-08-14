@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 
 export class NotFoundEmailConfirmationException extends NotFoundException {
 	constructor(fields: string) {
-		super(`Confirmação de email não encontrada com os critérios: ${fields}`);
+		super({ message: 'Confirmação de email não encontrada', fields });
 		this.name = 'NotFoundEmailConfirmationException';
 	}
 }

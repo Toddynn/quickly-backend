@@ -27,7 +27,9 @@ export function UpdateUserDocs() {
 			description: 'User not found.',
 			schema: {
 				example: {
-					message: 'User não encontrado com os critérios: {"id":"..."}',
+					statusCode: 404,
+					message: 'Usuário não encontrado',
+					fields: 'id',
 				},
 			},
 		}),

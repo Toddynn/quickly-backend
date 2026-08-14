@@ -20,7 +20,7 @@ export function CreateUserDocs() {
 			description: 'User created successfully.',
 			type: UserDto,
 		}),
-		ApiResponse(getExceptionResponseSchema(UserAlreadyExistsException, ['{"email":"user@example.com"}'])),
+		ApiResponse(getExceptionResponseSchema(UserAlreadyExistsException, ['email'])),
 		ApiResponse({
 			status: HttpStatus.BAD_REQUEST,
 			description: 'Invalid data for user creation.',

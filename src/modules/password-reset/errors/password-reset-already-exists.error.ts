@@ -2,7 +2,7 @@ import { ConflictException } from '@nestjs/common';
 
 export class PasswordResetAlreadyExistsException extends ConflictException {
 	constructor(fields: string) {
-		super(`Recuperação de senha já solicitada com os critérios: ${fields}`);
+		super({ message: 'Recuperação de senha já solicitada', fields });
 		this.name = 'PasswordResetAlreadyExistsException';
 	}
 }

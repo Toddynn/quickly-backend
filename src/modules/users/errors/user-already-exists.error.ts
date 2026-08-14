@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 
 export class UserAlreadyExistsException extends BadRequestException {
 	constructor(fields: string) {
-		super(`Usuário já existe com os critérios: ${fields}`);
+		super({ message: 'Usuário já existe', fields });
 		this.name = 'UserAlreadyExistsException';
 	}
 }
