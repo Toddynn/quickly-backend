@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { OrganizationsModule } from '../organizations/organizations.module';
 import { ServiceCategoriesModule } from '../service-categories/service-categories.module';
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 import { OrganizationService } from './models/entities/organization-service.entity';
 import { OrganizationServicesRepository } from './repository/organization-services.repository';
 import { ORGANIZATION_SERVICE_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
@@ -25,7 +26,12 @@ import { UpdateOrganizationServiceUseCase } from './use-cases/update-organizatio
 import { ValidateDurationUseCase } from './use-cases/validate-duration/validate-duration.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([OrganizationService]), forwardRef(() => OrganizationsModule), forwardRef(() => ServiceCategoriesModule)],
+	imports: [
+		TypeOrmModule.forFeature([OrganizationService]),
+		forwardRef(() => OrganizationsModule),
+		forwardRef(() => ServiceCategoriesModule),
+		SubscriptionsModule,
+	],
 	controllers: [
 		CreateOrganizationServiceController,
 		GetOrganizationServiceController,
