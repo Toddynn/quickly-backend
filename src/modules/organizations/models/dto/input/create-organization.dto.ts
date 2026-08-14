@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { IsOrganizationSlug } from '@/shared/decorators/is-organization-slug.decorator';
 
 export class CreateOrganizationDto {
@@ -13,6 +13,16 @@ export class CreateOrganizationDto {
 	@IsNotEmpty()
 	@ApiProperty({ description: 'The name of the organization' })
 	name: string;
+
+	@IsUUID()
+	@IsNotEmpty()
+	@ApiProperty({ description: 'ID of the chosen plan' })
+	plan_id: string;
+
+	@IsString()
+	@IsNotEmpty()
+	@ApiProperty({ description: "Owner's CPF or CNPJ, required by AbacatePay to create the billing customer" })
+	owner_tax_id: string;
 
 	@IsString()
 	@IsOptional()

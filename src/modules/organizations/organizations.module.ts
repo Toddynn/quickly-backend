@@ -2,6 +2,7 @@ import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { OrganizationMembersModule } from '../organization-members/organization-members.module';
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 import { UsersModule } from '../users/users.module';
 import { Organization } from './models/entities/organization.entity';
 import { OrganizationsRepository } from './repository/organizations.repository';
@@ -21,7 +22,12 @@ import { UpdateOrganizationController } from './use-cases/update-organization/up
 import { UpdateOrganizationUseCase } from './use-cases/update-organization/update-organization.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Organization]), forwardRef(() => OrganizationMembersModule), forwardRef(() => UsersModule)],
+	imports: [
+		TypeOrmModule.forFeature([Organization]),
+		forwardRef(() => OrganizationMembersModule),
+		forwardRef(() => UsersModule),
+		forwardRef(() => SubscriptionsModule),
+	],
 	controllers: [
 		CheckSlugAvailabilityController,
 		CreateOrganizationController,
