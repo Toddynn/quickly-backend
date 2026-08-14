@@ -18,7 +18,7 @@ export class OrganizationService extends TimestampedEntity {
 	@Column({ nullable: true, name: 'description' })
 	description: string;
 
-	@Column({ type: 'decimal', precision: 10, scale: 2, name: 'price' })
+	@Column({ type: 'numeric', precision: 15, scale: 2, name: 'price' })
 	price: number;
 
 	@Column({ name: 'duration_minutes' })
