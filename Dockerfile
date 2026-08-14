@@ -1,28 +1,48 @@
-FROM node:22-alpine3.21 AS base
+FROM node:24-alpine3.22 AS base
 
-RUN npm install -g pnpm@latest
+RUN apk add --no-cache libc6-compat
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-FROM base AS builder
+# --- SCRIPTS ---
+COPY .docker/scripts/install-deps.sh /usr/local/bin/install-deps
+COPY .docker/scripts/build-app.sh /usr/local/bin/build-app
+COPY .docker/scripts/start-server.sh /usr/local/bin/start-server
 
+RUN chmod +x /usr/local/bin/install-deps \
+     /usr/local/bin/build-app \
+     /usr/local/bin/start-server
+
+# --- DEPS ---
+FROM base AS deps
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* ./
+COPY package.json pnpm-workspace.yaml yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-RUN pnpm install
+RUN install-deps
 
+# --- BUILDER ---
+FROM base AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN pnpm run build
+RUN build-app
 
 FROM base AS runner
-
 WORKDIR /app
+ENV NODE_ENV="development"
 
-ENV NODE_ENV=production
+ENV TZ="America/Sao_Paulo"
+RUN apk add --no-cache tzdata \
+     && cp /usr/share/zoneinfo/$TZ /etc/localtime \
+     && echo $TZ > /etc/timezone
 
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/pnpm-lock.yaml* ./
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["pnpm", "run", "start:prod"]
+CMD ["start-server"]

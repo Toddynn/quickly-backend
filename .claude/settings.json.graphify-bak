@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/toddys/.local/bin/graphify hook-guard search"
+            "command": "/home/viniciusgabriel/.local/bin/graphify hook-guard search"
           }
         ]
       },
@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/toddys/.local/bin/graphify hook-guard read"
+            "command": "/home/viniciusgabriel/.local/bin/graphify hook-guard read"
           }
         ]
       }
