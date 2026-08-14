@@ -10,6 +10,7 @@ import { MailerConfigService } from './configs/mailer/mailer-config.service';
 import sessionConfig from './configs/session/session.config';
 import { SessionConfigModule } from './configs/session/session-config.module';
 import { AbacatePayModule } from './modules/abacate-pay/abacate-pay.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { SessionAuthGuard } from './modules/auth/guards/session-auth.guard';
@@ -28,6 +29,7 @@ import { PlansModule } from './modules/plans/plans.module';
 import { ServiceCategoriesModule } from './modules/service-categories/service-categories.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { UsersModule } from './modules/users/users.module';
+import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
 import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
 
 @Module({
@@ -68,6 +70,8 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		MediaModule,
 		PlansModule,
 		SubscriptionsModule,
+		WorkingHoursModule,
+		AppointmentsModule,
 	],
 	providers: [
 		ReflectionGuardValidationPipe,

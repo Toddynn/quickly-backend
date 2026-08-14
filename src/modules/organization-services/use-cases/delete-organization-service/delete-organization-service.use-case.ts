@@ -1,4 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { In, MoreThan, Not } from 'typeorm';
+import type { AppointmentsRepositoryInterface } from '@/modules/appointments/models/interfaces/repository.interface';
+import { APPOINTMENT_REPOSITORY_INTERFACE_KEY } from '@/modules/appointments/shared/constants/repository-interface-key';
+import { APPOINTMENT_STATUS } from '@/modules/appointments/shared/interfaces/appointment-status';
 import type { OrganizationServicesRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { ORGANIZATION_SERVICE_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
 import { CheckFutureAppointmentsUseCase } from '../check-future-appointments/check-future-appointments.use-case';
@@ -13,14 +17,20 @@ export class DeleteOrganizationServiceUseCase {
 		private readonly getExistingOrganizationServiceUseCase: GetExistingOrganizationServiceUseCase,
 		@Inject(CheckFutureAppointmentsUseCase)
 		private readonly checkFutureAppointmentsUseCase: CheckFutureAppointmentsUseCase,
+		@Inject(APPOINTMENT_REPOSITORY_INTERFACE_KEY)
+		private readonly appointmentsRepository: AppointmentsRepositoryInterface,
 	) {}
 
 	async execute(id: string): Promise<void> {
 		const organizationService = await this.getExistingOrganizationServiceUseCase.execute({ where: { id } });
 
-		// TODO: Implementar verificação de agendamentos futuros quando o módulo de agendamentos estiver disponível
-		// Por enquanto, assumimos que não há agendamentos futuros
-		const hasFutureAppointments = false;
+		const hasFutureAppointments = await this.appointmentsRepository.exists({
+			where: {
+				organization_service_id: organizationService.id,
+				appointment_date: MoreThan(new Date()),
+				status: Not(In([APPOINTMENT_STATUS.CANCELED, APPOINTMENT_STATUS.NO_SHOW])),
+			},
+		});
 
 		this.checkFutureAppointmentsUseCase.execute(hasFutureAppointments);
 
