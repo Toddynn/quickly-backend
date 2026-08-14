@@ -1,6 +1,7 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import { GetExistingUserWithVerifiedEmailUseCase } from '@/modules/users/use-cases/get-existing-user-with-verified-email/get-existing-user-with-verified-email.use-case';
+import { rethrowHttpOrInternal } from '@/shared/helpers/rethrow-http-or-internal.helper';
 import { OtpCode } from '@/shared/value-objects/otp-code';
 import { EmailAlreadyInUseException } from '../../errors/email-already-in-use.error';
 import { SameEmailError } from '../../errors/same-email-error.error';
@@ -105,7 +106,7 @@ export class RequestEmailChangeUseCase {
 				newEmail: requestEmailChangeDto.newEmail,
 			});
 		} catch (error) {
-			throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+			rethrowHttpOrInternal(error);
 		}
 	}
 

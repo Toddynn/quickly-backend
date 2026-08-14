@@ -1,3 +1,4 @@
+import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { sign, verify } from 'jsonwebtoken';
 import { env } from '../constants/env-variables';
 
@@ -11,7 +12,7 @@ export interface PasswordResetTokenPayload {
 
 export function generatePasswordResetToken(payload: PasswordResetTokenPayload): string {
 	if (!JWT_SECRET) {
-		throw new Error('JWT_SECRET não configurado');
+		throw new InternalServerErrorException('Erro de configuração do servidor. Contate o suporte.');
 	}
 
 	return sign(payload, JWT_SECRET, {
@@ -21,13 +22,13 @@ export function generatePasswordResetToken(payload: PasswordResetTokenPayload): 
 
 export function verifyPasswordResetToken(token: string): PasswordResetTokenPayload {
 	if (!JWT_SECRET) {
-		throw new Error('JWT_SECRET não configurado');
+		throw new InternalServerErrorException('Erro de configuração do servidor. Contate o suporte.');
 	}
 
 	try {
 		const decoded = verify(token, JWT_SECRET) as PasswordResetTokenPayload;
 		return decoded;
 	} catch (_error) {
-		throw new Error('Token inválido ou expirado');
+		throw new BadRequestException('Token inválido ou expirado');
 	}
 }

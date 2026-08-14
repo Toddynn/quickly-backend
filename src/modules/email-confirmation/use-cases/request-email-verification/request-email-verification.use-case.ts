@@ -1,5 +1,6 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
+import { rethrowHttpOrInternal } from '@/shared/helpers/rethrow-http-or-internal.helper';
 import { OtpCode } from '@/shared/value-objects/otp-code';
 import { EmailAlreadyVerifiedException } from '../../errors/email-already-verified.error';
 import type { CreateEmailConfirmationDto } from '../../models/dto/input/create-email-confirmation.dto';
@@ -86,7 +87,7 @@ export class RequestEmailVerificationUseCase {
 				templateType: EmailConfirmationTemplateType.EMAIL_VERIFICATION,
 			});
 		} catch (error) {
-			throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+			rethrowHttpOrInternal(error);
 		}
 	}
 

@@ -36,7 +36,6 @@ export class ReflectionGuardValidationPipe extends ValidationPipe {
 			paramName: metadata.data ?? null,
 			metatypeName,
 			payloadKeys,
-			payload: value,
 			hints: [
 				'Missing reflect-metadata import at bootstrap',
 				'tsconfig missing emitDecoratorMetadata/experimentalDecorators',
@@ -52,11 +51,10 @@ export class ReflectionGuardValidationPipe extends ValidationPipe {
 			`• Parameter Name   : ${metadata.data ?? '(unknown)'}`,
 			`• Detected Metatype: ${metatypeName}`,
 			`• Payload Keys     : ${payloadKeys.length ? payloadKeys.join(', ') : 'N/A'}`,
-			`• Raw Payload      : ${String(value)}`,
 			'---------------------------------------------------',
 		];
 		for (const line of lines) process.stderr.write(`${line}\n`);
 
-		throw new BadRequestException('Backend Configuration Error: DTO metadata missing for request validation.');
+		throw new BadRequestException('Erro de configuração do servidor. Contate o suporte.');
 	}
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import { UpdateUserPasswordUseCase } from '@/modules/users/use-cases/update-user-password/update-user-password.use-case';
@@ -25,7 +25,10 @@ export class ResetPasswordUseCase {
 		let tokenPayload: PasswordResetTokenPayload;
 		try {
 			tokenPayload = verifyPasswordResetToken(resetPasswordDto.reset_token);
-		} catch {
+		} catch (error) {
+			if (error instanceof InternalServerErrorException) {
+				throw error;
+			}
 			throw new BadRequestException('Token inválido ou expirado. Por favor, valide o código OTP novamente.');
 		}
 
