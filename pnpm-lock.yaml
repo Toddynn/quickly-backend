@@ -17,6 +17,9 @@ importers:
       '@abacatepay/sdk':
         specifier: ^2.0.3
         version: 2.0.3
+      '@abacatepay/types':
+        specifier: ^3.0.3
+        version: 3.0.3
       '@aws-sdk/client-s3':
         specifier: ^3.1109.0
         version: 3.1109.0
