@@ -137,7 +137,13 @@ Upload e gestão de arquivos (fotos de perfil, logo de organização, imagens de
 
 ### `plans`
 
-Catálogo de planos — **campos rígidos** (não é um sistema de feature flags dinâmico, é decisão consciente pela simplicidade). Três planos seedados no boot da aplicação (`SeedPlansService`, idempotente por `key`): `STARTER`, `PROFESSIONAL`, `BUSINESS`. Cada plano tem `max_professionals`, `max_services`, `max_customers`, `integrations_limit`, `storage_limit_mb`, `landing_page_templates_count`, `inventory_enabled`/`inventory_max_skus`, `support_tier`. Não existe endpoint de escrita — só `GET /plans` (público, para tela de pricing).
+Catálogo de planos — **campos rígidos** (não é um sistema de feature flags dinâmico, é decisão consciente pela simplicidade). Três planos seedados no boot da aplicação (`SeedPlansService`, idempotente por `key`): `SOLO`, `TEAM`, `STUDIO`. Cada plano tem `price_cents`/`annual_price_cents` (anual cobrado à vista via Pix, sem subscription recorrente), `max_professionals` (`null` = ilimitado, caso do `STUDIO`), `max_services`, `storage_limit_mb`, `landing_page_templates_count`, `inventory_enabled`/`inventory_max_skus`, `support_tier`. Não existe endpoint de escrita — só `GET /plans` (público, para tela de pricing).
+
+Cada plano tem **dois** Products na AbacatePay, criados manualmente antes do boot (nunca em runtime), com os ids obrigatórios em env:
+- `abacate_product_id` (`ABACATE_PAY_PLAN_SOLO_PRODUCT_ID` / `_TEAM_` / `_STUDIO_`) — Product com `cycle: MONTHLY`, usado na subscription recorrente cobrada no cartão.
+- `abacate_annual_product_id` (`ABACATE_PAY_PLAN_SOLO_ANNUAL_PRODUCT_ID` / `_TEAM_` / `_STUDIO_`) — Product **avulso** (sem `cycle`), usado só como item de um checkout único via Pix. Não usa `cycle: ANNUALLY`: esse valor cobraria no cartão (taxa ~3,5% + R$0,60) em vez de Pix (R$0,80 fixo), anulando a vantagem de margem do plano anual.
+
+`SeedPlansService` (`src/modules/plans/services/seed-plans.service.ts`) só grava os ids que já vieram prontos do env.
 
 ### `subscriptions`
 
@@ -145,10 +151,25 @@ Liga uma `Organization` a um `Plan` e ao estado de cobrança na AbacatePay. Uma 
 
 Principais peças:
 - `CreateSubscriptionUseCase` — chamado durante a criação da organização; cria o customer e a subscription na AbacatePay, guarda `trial_ends_at` (30 dias) e retorna a URL de checkout onde o dono cadastra o cartão.
-- `EnforcePlanLimitUseCase` — use case reutilizável, injetado em `organization-members`, `organization-services` e `customer`, que barra criação além do limite do plano ativo.
+- `EnforcePlanLimitUseCase` — use case reutilizável, injetado em `organization-members` e `organization-services`, que barra criação além do limite do plano ativo (`professionals`/`services`; sem gate de clientes). Limite `null` no plano (ex: `max_professionals` do `STUDIO`) sempre passa.
 - `ChangeSubscriptionPlanUseCase` / `CancelSubscriptionUseCase` — endpoints `PATCH /organizations/subscription/plan` e `DELETE /organizations/subscription`, restritos a `OWNER`.
-- Webhook (`POST /webhooks/abacate-pay`) — recebe eventos `subscription.renewed`/`completed`/`cancelled` da AbacatePay e atualiza o status local. Autenticado via HMAC-SHA256 no header `X-Webhook-Signature`. Idempotente: cada evento é inserido em `AbacatePayWebhookEvent` (unique em `event_id`) antes de processar — se o insert falhar por duplicata (retry de entrega), o evento é ignorado. Outros eventos AbacatePay (`checkout.*`, `transparent.*`, `transfer.*`, `payout.*`) não se aplicam hoje — o app só cria `Subscription` via API, nunca checkout avulso, Pix transparente ou payout.
-- `ExpireStaleSubscriptionsUseCase` — cron diário (`@nestjs/schedule`, `EVERY_DAY_AT_3AM`) que cobre cobrança recorrente falha: **AbacatePay não avisa falha de cobrança por webhook**, só sucesso (`subscription.renewed`) ou cancelamento terminal (`subscription.cancelled`). A varredura marca `ACTIVE` com `current_period_end` vencido como `PAST_DUE`, e `PAST_DUE` vencido há mais de 9 dias (janela do `retryPolicy: {maxRetry: 3, retryEvery: 3}` configurado na criação da subscription) como `EXPIRED`.
+- `CreateAnnualCheckoutUseCase` — endpoint `POST /organizations/subscription/annual-checkout`, restrito a `OWNER`. Cancela a subscription recorrente de cartão (se houver) e cria um checkout avulso Pix (`frequency: ONE_TIME`, `methods: ['PIX']`) referenciando `Plan.abacate_annual_product_id`, com `externalId` = organizationId. Não marca a subscription como `ANNUAL`/`ACTIVE` sozinho — isso só acontece quando o webhook `checkout.completed` confirma o pagamento.
+- Webhook (`POST /webhooks/abacate-pay`) — recebe eventos `subscription.renewed`/`completed`/`cancelled` (lookup por `abacate_subscription_id`) e `checkout.completed` (lookup por `externalId` = organizationId, usado só pelo checkout avulso anual) e atualiza o status local. Autenticado via HMAC-SHA256 no header `X-Webhook-Signature`. Idempotente: cada evento é inserido em `AbacatePayWebhookEvent` (unique em `event_id`) antes de processar — se o insert falhar por duplicata (retry de entrega), o evento é ignorado. Outros eventos AbacatePay (`checkout.refunded`/`disputed`/`lost`, `transparent.*`, `transfer.*`, `payout.*`) não se aplicam hoje.
+- `ExpireStaleSubscriptionsUseCase` — cron diário (`@nestjs/schedule`, `EVERY_DAY_AT_3AM`) que cobre cobrança recorrente falha: **AbacatePay não avisa falha de cobrança por webhook**, só sucesso (`subscription.renewed`) ou cancelamento terminal (`subscription.cancelled`), e o Pix avulso do anual não tem retry nenhum. A varredura marca `ACTIVE` com `current_period_end` vencido como `PAST_DUE` (qualquer ciclo), depois `PAST_DUE` como `EXPIRED` após uma janela por ciclo: 9 dias pro `MONTHLY` (janela do `retryPolicy: {maxRetry: 3, retryEvery: 3}` da AbacatePay), 5 dias pro `ANNUAL` (carência de negócio, sem retry externo).
+- `SendRenewalReminderEmailsUseCase` — cron diário (`EVERY_DAY_AT_8AM`) que envia email ao dono nos 30/15/3 dias antes do `current_period_end` de assinaturas `ANNUAL` ativas. Idempotente via `Subscription.last_renewal_reminder_days_before` (reseta pra `null` a cada renovação).
+- `SubscriptionStatusGuard` (`src/modules/auth/guards`) — `APP_GUARD` global que bloqueia (403) qualquer rota `@TenantScoped()` quando `subscription.status` não é `ACTIVE`/`TRIALING`. Fail-open se a organização não tiver subscription (não deveria acontecer em produção). Os 4 endpoints do próprio módulo de billing (`GET/PATCH/DELETE /organizations/subscription`, `POST /organizations/subscription/annual-checkout`) usam `@SkipSubscriptionGuard()` — senão uma organização `PAST_DUE`/`EXPIRED` nunca conseguiria ver o problema nem pagar pra resolver.
+
+### Ciclo de vida da assinatura anual (Pix avulso)
+```
+POST /organizations/subscription/annual-checkout (OWNER)
+  → cancela subscription recorrente de cartão, se houver
+  → cria checkout avulso Pix (Plan.abacate_annual_product_id, ONE_TIME, methods: [PIX])
+  ← { checkoutUrl }
+webhook checkout.completed (externalId = organizationId)
+  → subscription.billing_cycle = ANNUAL, status = ACTIVE, current_period_end = agora + 365 dias
+cron diário (3AM): current_period_end vencido → PAST_DUE → (5 dias depois) EXPIRED
+cron diário (8AM): 30/15/3 dias antes do vencimento → email de renovação pro dono
+```
 
 ### `abacate-pay`
 
@@ -178,7 +199,7 @@ ACTIVE    --(webhook subscription.cancelled)--> CANCELED
 ```
 
 ### Enforcement de limite de plano
-Toda criação de profissional/serviço/cliente conta quantos já existem na organização e chama `EnforcePlanLimitUseCase.execute(organizationId, 'professionals'|'services'|'customers', count)`. Se não houver assinatura vinculada, o enforcement não bloqueia (fail-open) — não deveria acontecer em produção, já que toda organização nasce com uma subscription.
+Toda criação de profissional/serviço conta quantos já existem na organização e chama `EnforcePlanLimitUseCase.execute(organizationId, 'professionals'|'services', count)`. Se não houver assinatura vinculada, o enforcement não bloqueia (fail-open) — não deveria acontecer em produção, já que toda organização nasce com uma subscription. Sem limite de nº de clientes em nenhum plano.
 
 ### Cálculo de disponibilidade (working-hours)
 ```
