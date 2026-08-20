@@ -15,6 +15,7 @@ import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesGuard } from './modules/auth/guards/roles.guard';
 import { SessionAuthGuard } from './modules/auth/guards/session-auth.guard';
+import { SubscriptionStatusGuard } from './modules/auth/guards/subscription-status.guard';
 import { TenantGuard } from './modules/auth/guards/tenant.guard';
 import { CustomerModule } from './modules/customer/customer.module';
 import { EmailModule } from './modules/email/email.module';
@@ -88,6 +89,10 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		{
 			provide: APP_GUARD,
 			useClass: RolesGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: SubscriptionStatusGuard,
 		},
 	],
 })

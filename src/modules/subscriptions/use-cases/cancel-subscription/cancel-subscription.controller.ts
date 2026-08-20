@@ -2,6 +2,7 @@ import { Controller, Delete, Inject } from '@nestjs/common';
 import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { ActiveOrganizationId } from '@/modules/auth/shared/decorators/active-organization-id.decorator';
 import { Roles } from '@/modules/auth/shared/decorators/roles.decorator';
+import { SkipSubscriptionGuard } from '@/modules/auth/shared/decorators/skip-subscription-guard.decorator';
 import { TenantScoped } from '@/modules/auth/shared/decorators/tenant-scoped.decorator';
 import { OrganizationRole } from '@/shared/constants/organization-roles';
 import { Subscription } from '../../models/entities/subscription.entity';
@@ -18,6 +19,7 @@ export class CancelSubscriptionController {
 	) {}
 
 	@TenantScoped()
+	@SkipSubscriptionGuard()
 	@Roles(OrganizationRole.OWNER)
 	@Delete()
 	@CancelSubscriptionDocs()
