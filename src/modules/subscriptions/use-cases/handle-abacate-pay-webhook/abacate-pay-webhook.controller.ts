@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import type { WebhookEvent } from '@abacatepay/types/v2';
 import { BadRequestException, Controller, Headers, HttpCode, HttpStatus, Inject, Post, Req } from '@nestjs/common';
 import { ApiExcludeController } from '@nestjs/swagger';
 import type { Request } from 'express';
@@ -31,7 +32,7 @@ export class AbacatePayWebhookController {
 			throw new BadRequestException('Assinatura do webhook inválida');
 		}
 
-		await this.handleAbacatePayWebhookUseCase.execute(request.body);
+		await this.handleAbacatePayWebhookUseCase.execute(request.body as WebhookEvent);
 		return { received: true };
 	}
 }

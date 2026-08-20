@@ -2,6 +2,7 @@ import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
 import { Organization } from '@/modules/organizations/models/entities/organization.entity';
 import { Plan } from '@/modules/plans/models/entities/plan.entity';
 import { TimestampedEntity } from '@/shared/entities/timestamped.entity';
+import { BillingCycle } from '../../shared/enums/billing-cycle.enum';
 import { SubscriptionStatus } from '../../shared/enums/subscription-status.enum';
 
 @Entity('subscriptions')
@@ -21,6 +22,17 @@ export class Subscription extends TimestampedEntity {
 	})
 	status: SubscriptionStatus;
 
+	// ANNUAL cobra à vista via Pix (checkout único) — abacate_subscription_id fica null
+	// nesse caso, já que não existe subscription recorrente da AbacatePay pra cobrança anual.
+	@Column({
+		name: 'billing_cycle',
+		type: 'enum',
+		enum: BillingCycle,
+		enumName: 'billing_cycle_enum',
+		default: BillingCycle.MONTHLY,
+	})
+	billing_cycle: BillingCycle;
+
 	@Column({ name: 'abacate_customer_id', nullable: true })
 	abacate_customer_id: string | null;
 
@@ -33,6 +45,11 @@ export class Subscription extends TimestampedEntity {
 
 	@Column({ name: 'current_period_end', type: 'timestamp with time zone', nullable: true })
 	current_period_end: Date | null;
+
+	// Menor threshold de lembrete já enviado (30/15/3) — evita reenviar o mesmo aviso todo dia
+	// enquanto o cron roda. Resetado pra null sempre que a assinatura renova (ver handle-abacate-pay-webhook).
+	@Column({ name: 'last_renewal_reminder_days_before', type: 'int', nullable: true })
+	last_renewal_reminder_days_before: number | null;
 
 	@Column({ name: 'canceled_at', type: 'timestamp with time zone', nullable: true })
 	canceled_at: Date | null;
