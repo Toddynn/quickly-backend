@@ -3,12 +3,11 @@ import { GetExistingPlanUseCase } from '@/modules/plans/use-cases/get-existing-p
 import { PlanLimitExceededException } from '../../errors/plan-limit-exceeded.error';
 import { GetExistingSubscriptionUseCase } from '../get-existing-subscription/get-existing-subscription.use-case';
 
-export type PlanLimitKey = 'professionals' | 'services' | 'customers';
+export type PlanLimitKey = 'professionals' | 'services';
 
-const LIMIT_COLUMN_BY_KEY: Record<PlanLimitKey, 'max_professionals' | 'max_services' | 'max_customers'> = {
+const LIMIT_COLUMN_BY_KEY: Record<PlanLimitKey, 'max_professionals' | 'max_services'> = {
 	professionals: 'max_professionals',
 	services: 'max_services',
-	customers: 'max_customers',
 };
 
 @Injectable()
@@ -28,7 +27,7 @@ export class EnforcePlanLimitUseCase {
 		if (!plan) return;
 
 		const limit = plan[LIMIT_COLUMN_BY_KEY[limitKey]];
-		if (currentCount >= limit) {
+		if (limit !== null && currentCount >= limit) {
 			throw new PlanLimitExceededException(limitKey, limit);
 		}
 	}

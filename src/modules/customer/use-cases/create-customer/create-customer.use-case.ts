@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { EnforcePlanLimitUseCase } from '@/modules/subscriptions/use-cases/enforce-plan-limit/enforce-plan-limit.use-case';
 import { GetExistingUserUseCase } from '@/modules/users/use-cases/get-existing-user/get-existing-user.use-case';
 import type { CreateCustomerDto } from '../../models/dto/input/create-customer.dto';
 import type { Customer } from '../../models/entities/customer.entity';
@@ -16,8 +15,6 @@ export class CreateCustomerUseCase {
 		private readonly getExistingUserUseCase: GetExistingUserUseCase,
 		@Inject(GetExistingCustomerUseCase)
 		private readonly getExistingCustomerUseCase: GetExistingCustomerUseCase,
-		@Inject(EnforcePlanLimitUseCase)
-		private readonly enforcePlanLimitUseCase: EnforcePlanLimitUseCase,
 	) {}
 
 	async execute(organizationId: string, createCustomerDto: CreateCustomerDto): Promise<Customer> {
@@ -34,9 +31,6 @@ export class CreateCustomerUseCase {
 			},
 			{ throwIfFound: true },
 		);
-
-		const currentCustomersCount = await this.customersRepository.count({ where: { organization_id: organizationId } });
-		await this.enforcePlanLimitUseCase.execute(organizationId, 'customers', currentCustomersCount);
 
 		const customer = this.customersRepository.create({
 			...createCustomerDto,

@@ -32,6 +32,7 @@ import { ServiceCategoriesModule } from './modules/service-categories/service-ca
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { UsersModule } from './modules/users/users.module';
 import { WorkingHoursModule } from './modules/working-hours/working-hours.module';
+import { AppCacheModule } from './shared/cache/app-cache.module';
 import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
 
 @Module({
@@ -57,6 +58,7 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 		}),
 		SessionConfigModule,
 		ScheduleModule.forRoot(),
+		AppCacheModule,
 		AbacatePayModule,
 		AuthModule,
 		UsersModule,

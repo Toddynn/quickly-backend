@@ -56,6 +56,13 @@ export class SessionConfigService {
 		});
 	}
 
+	async getRedisClient(): Promise<RedisClientType | null> {
+		const redisHost = this.configService.get<string>('session.redisHost');
+		const redisPort = this.configService.get<number>('session.redisPort');
+
+		return this.connectRedisClient(redisHost, redisPort);
+	}
+
 	private async connectRedisClient(host: string, port: number): Promise<RedisClientType | null> {
 		if (this.redisClient && this.isRedisConnected) {
 			return this.redisClient;

@@ -3,7 +3,6 @@ import { ForbiddenException } from '@nestjs/common';
 const LIMIT_LABELS: Record<string, string> = {
 	professionals: 'profissionais',
 	services: 'serviços',
-	customers: 'clientes',
 };
 
 export class PlanLimitExceededException extends ForbiddenException {

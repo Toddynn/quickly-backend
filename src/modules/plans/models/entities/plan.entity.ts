@@ -14,17 +14,16 @@ export class Plan extends TimestampedEntity {
 	@Column({ name: 'price_cents', type: 'int' })
 	price_cents: number;
 
-	@Column({ name: 'max_professionals', type: 'int' })
-	max_professionals: number;
+	// Cobrado à vista via Pix (checkout único, não subscription recorrente da AbacatePay).
+	@Column({ name: 'annual_price_cents', type: 'int' })
+	annual_price_cents: number;
+
+	// null = sem limite (plano Estúdio).
+	@Column({ name: 'max_professionals', type: 'int', nullable: true })
+	max_professionals: number | null;
 
 	@Column({ name: 'max_services', type: 'int' })
 	max_services: number;
-
-	@Column({ name: 'max_customers', type: 'int' })
-	max_customers: number;
-
-	@Column({ name: 'integrations_limit', type: 'int', nullable: true })
-	integrations_limit: number | null;
 
 	@Column({ name: 'storage_limit_mb', type: 'int' })
 	storage_limit_mb: number;
@@ -41,11 +40,15 @@ export class Plan extends TimestampedEntity {
 	@Column({ name: 'support_tier', type: 'enum', enum: SupportTier, enumName: 'support_tier_enum' })
 	support_tier: SupportTier;
 
-	// Preenchido de forma preguiçosa (lazy) na primeira troca de plano de uma organização —
-	// a AbacatePay exige um Product cadastrado (com productId) só para o fluxo de change-plan,
-	// diferente da criação de subscription, que aceita amount/name direto sem Product.
-	@Column({ name: 'abacate_product_id', nullable: true })
-	abacate_product_id: string | null;
+	// Products criados manualmente na AbacatePay antes do boot (nunca em runtime) —
+	// ids vêm de env (ver ABACATE_PAY_PLAN_*_PRODUCT_ID / *_ANNUAL_PRODUCT_ID) e são gravados pelo SeedPlansService.
+	// mensal: cycle MONTHLY, usado na subscription recorrente de cartão.
+	@Column({ name: 'abacate_product_id' })
+	abacate_product_id: string;
+
+	// anual: produto avulso (sem cycle), usado só como item de checkout único via Pix — nunca em subscription.
+	@Column({ name: 'abacate_annual_product_id' })
+	abacate_annual_product_id: string;
 
 	@Column({ name: 'active', type: 'boolean', default: true })
 	active: boolean;

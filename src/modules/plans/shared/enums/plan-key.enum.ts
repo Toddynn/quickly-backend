@@ -1,5 +1,5 @@
 export enum PlanKey {
-	STARTER = 'STARTER',
-	PROFESSIONAL = 'PROFESSIONAL',
-	BUSINESS = 'BUSINESS',
+	SOLO = 'SOLO',
+	TEAM = 'TEAM',
+	STUDIO = 'STUDIO',
 }

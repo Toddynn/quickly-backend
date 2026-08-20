@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Plan } from './models/entities/plan.entity';
 import { PlansRepository } from './repository/plans.repository';
+import { SeedPlansService } from './services/seed-plans.service';
 import { PLAN_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
 import { GetExistingPlanUseCase } from './use-cases/get-existing-plan/get-existing-plan.use-case';
 import { ListPlansController } from './use-cases/list-plans/list-plans.controller';
 import { ListPlansUseCase } from './use-cases/list-plans/list-plans.use-case';
-import { SeedPlansService } from './use-cases/seed-plans/seed-plans.service';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([Plan])],

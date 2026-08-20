@@ -1,3 +1,4 @@
+import type { PaymentMethod } from '@abacatepay/types/v2';
 import { Inject, Injectable } from '@nestjs/common';
 import { AbacatePayService } from '@/modules/abacate-pay/abacate-pay.service';
 import { GetExistingPlanUseCase } from '@/modules/plans/use-cases/get-existing-plan/get-existing-plan.use-case';
@@ -31,7 +32,7 @@ export class CreateAnnualCheckoutUseCase {
 
 		const checkout = await this.abacatePayService.createCheckout({
 			items: [{ id: plan.abacate_annual_product_id, quantity: 1 }],
-			methods: ['PIX'],
+			methods: ['PIX'] as PaymentMethod[],
 			frequency: 'ONE_TIME',
 			customerId: subscription.abacate_customer_id ?? undefined,
 			externalId: organizationId,
