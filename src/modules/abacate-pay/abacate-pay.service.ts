@@ -3,6 +3,7 @@ import type {
 	APIResponse,
 	RESTPostChangeSubscriptionPlanBody,
 	RESTPostCreateCustomerBody,
+	RESTPostCreateNewCheckoutBody,
 	RESTPostCreateProductBody,
 	RESTPostCreateSubscriptionBody,
 } from '@abacatepay/types/v2';
@@ -38,5 +39,9 @@ export class AbacatePayService {
 
 	async createProduct(body: RESTPostCreateProductBody) {
 		return unwrap(await this.client.products.create(body));
+	}
+
+	async createCheckout(body: RESTPostCreateNewCheckoutBody) {
+		return unwrap(await this.client.checkouts.create(body));
 	}
 }

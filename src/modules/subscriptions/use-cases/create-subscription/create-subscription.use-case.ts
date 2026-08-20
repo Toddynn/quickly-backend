@@ -51,7 +51,8 @@ export class CreateSubscriptionUseCase {
 		});
 
 		// SDK type gap: `url` existe na resposta real da API (docs.abacatepay.com/pages/subscriptions/create)
-		// mas não está declarado em @abacatepay/types@3.0.3 — ver Constraint 3 do plano.
+		// mas não está declarado em RESTPostCreateSubscriptionData/APISubscription (@abacatepay/types@3.0.3).
+		// Gap específico dessa resposta — o checkout (APICheckout.url) já vem tipado certo, ver AbacatePayService.createCheckout.
 		const checkoutUrl = (abacateSubscription as unknown as { url: string }).url;
 
 		const subscription = this.subscriptionsRepository.create({
