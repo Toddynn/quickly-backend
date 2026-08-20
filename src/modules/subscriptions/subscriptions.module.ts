@@ -2,15 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { AbacatePayModule } from '@/modules/abacate-pay/abacate-pay.module';
+import { EmailModule } from '@/modules/email/email.module';
 import { PlansModule } from '@/modules/plans/plans.module';
 import { AbacatePayWebhookEvent } from './models/entities/abacate-pay-webhook-event.entity';
 import { Subscription } from './models/entities/subscription.entity';
 import { AbacatePayWebhookEventsRepository } from './repository/abacate-pay-webhook-events.repository';
 import { SubscriptionsRepository } from './repository/subscriptions.repository';
-import {
-	ABACATE_PAY_WEBHOOK_EVENT_REPOSITORY_INTERFACE_KEY,
-	SUBSCRIPTION_REPOSITORY_INTERFACE_KEY,
-} from './shared/constants/repository-interface-key';
+import { ABACATE_PAY_WEBHOOK_EVENT_REPOSITORY_INTERFACE_KEY, SUBSCRIPTION_REPOSITORY_INTERFACE_KEY } from './shared/constants/repository-interface-key';
 import { CancelSubscriptionController } from './use-cases/cancel-subscription/cancel-subscription.controller';
 import { CancelSubscriptionUseCase } from './use-cases/cancel-subscription/cancel-subscription.use-case';
 import { ChangeSubscriptionPlanController } from './use-cases/change-subscription-plan/change-subscription-plan.controller';
@@ -25,9 +23,10 @@ import { GetOrganizationSubscriptionController } from './use-cases/get-organizat
 import { GetOrganizationSubscriptionUseCase } from './use-cases/get-organization-subscription/get-organization-subscription.use-case';
 import { AbacatePayWebhookController } from './use-cases/handle-abacate-pay-webhook/abacate-pay-webhook.controller';
 import { HandleAbacatePayWebhookUseCase } from './use-cases/handle-abacate-pay-webhook/handle-abacate-pay-webhook.use-case';
+import { SendRenewalReminderEmailsUseCase } from './use-cases/send-renewal-reminder-emails/send-renewal-reminder-emails.use-case';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([Subscription, AbacatePayWebhookEvent]), PlansModule, AbacatePayModule],
+	imports: [TypeOrmModule.forFeature([Subscription, AbacatePayWebhookEvent]), PlansModule, AbacatePayModule, EmailModule],
 	controllers: [
 		GetOrganizationSubscriptionController,
 		ChangeSubscriptionPlanController,
@@ -55,6 +54,7 @@ import { HandleAbacatePayWebhookUseCase } from './use-cases/handle-abacate-pay-w
 		CreateAnnualCheckoutUseCase,
 		HandleAbacatePayWebhookUseCase,
 		ExpireStaleSubscriptionsUseCase,
+		SendRenewalReminderEmailsUseCase,
 	],
 	exports: [SUBSCRIPTION_REPOSITORY_INTERFACE_KEY, GetExistingSubscriptionUseCase, EnforcePlanLimitUseCase, CreateSubscriptionUseCase],
 })
