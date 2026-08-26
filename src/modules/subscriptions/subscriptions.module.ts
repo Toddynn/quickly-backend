@@ -16,6 +16,8 @@ import { ChangeSubscriptionPlanUseCase } from './use-cases/change-subscription-p
 import { CreateAnnualCheckoutController } from './use-cases/create-annual-checkout/create-annual-checkout.controller';
 import { CreateAnnualCheckoutUseCase } from './use-cases/create-annual-checkout/create-annual-checkout.use-case';
 import { CreateSubscriptionUseCase } from './use-cases/create-subscription/create-subscription.use-case';
+import { CreateSubscriptionCheckoutController } from './use-cases/create-subscription-checkout/create-subscription-checkout.controller';
+import { CreateSubscriptionCheckoutUseCase } from './use-cases/create-subscription-checkout/create-subscription-checkout.use-case';
 import { EnforcePlanLimitUseCase } from './use-cases/enforce-plan-limit/enforce-plan-limit.use-case';
 import { ExpireStaleSubscriptionsUseCase } from './use-cases/expire-stale-subscriptions/expire-stale-subscriptions.use-case';
 import { GetExistingSubscriptionUseCase } from './use-cases/get-existing-subscription/get-existing-subscription.use-case';
@@ -32,6 +34,7 @@ import { SendRenewalReminderEmailsUseCase } from './use-cases/send-renewal-remin
 		ChangeSubscriptionPlanController,
 		CancelSubscriptionController,
 		CreateAnnualCheckoutController,
+		CreateSubscriptionCheckoutController,
 		AbacatePayWebhookController,
 	],
 	providers: [
@@ -52,6 +55,7 @@ import { SendRenewalReminderEmailsUseCase } from './use-cases/send-renewal-remin
 		ChangeSubscriptionPlanUseCase,
 		CancelSubscriptionUseCase,
 		CreateAnnualCheckoutUseCase,
+		CreateSubscriptionCheckoutUseCase,
 		HandleAbacatePayWebhookUseCase,
 		ExpireStaleSubscriptionsUseCase,
 		SendRenewalReminderEmailsUseCase,

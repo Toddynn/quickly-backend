@@ -36,6 +36,12 @@ export class Subscription extends TimestampedEntity {
 	@Column({ name: 'abacate_customer_id', nullable: true })
 	abacate_customer_id: string | null;
 
+	// bill_… — resposta de POST /subscriptions/create (checkout de assinatura, não a assinatura em si)
+	@Index({ unique: true, where: 'abacate_checkout_id IS NOT NULL' })
+	@Column({ name: 'abacate_checkout_id', nullable: true })
+	abacate_checkout_id: string | null;
+
+	// subs_… — só existe depois do webhook subscription.completed / trial_started
 	@Index({ unique: true, where: 'abacate_subscription_id IS NOT NULL' })
 	@Column({ name: 'abacate_subscription_id', nullable: true })
 	abacate_subscription_id: string | null;

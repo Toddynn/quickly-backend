@@ -1324,7 +1324,7 @@ import { SkipSubscriptionGuard } from '@/modules/auth/shared/decorators/skip-sub
 - [ ] **Step 8: Run the full test suite**
 
 Run: `npx jest`
-Expected: same pre-existing pass/fail split as before this plan (7 suites still failing only on the unrelated missing `ABACATE_PAY_WEBHOOK_PUBLIC_KEY` local `.env` var), plus all new tests from Tasks 1–6 passing.
+Expected: same pre-existing pass/fail split as before this plan (7 suites still failing only on the unrelated missing `ABACATE_PAY_WEBHOOK_SECRET_KEY` local `.env` var), plus all new tests from Tasks 1–6 passing.
 
 - [ ] **Step 9: Commit**
 

@@ -22,28 +22,102 @@ describe('HandleAbacatePayWebhookUseCase', () => {
 		);
 	});
 
-	it('deve ativar a assinatura em subscription.renewed e atualizar current_period_end', async () => {
-		const subscription = { id: 'sub-1', status: SubscriptionStatus.PAST_DUE } as Subscription;
-		subscriptionsRepository.findOne.mockResolvedValue(subscription);
+	it('deve ativar a assinatura em subscription.completed via checkout.externalId e gravar subs_', async () => {
+		const subscription = {
+			id: 'sub-1',
+			status: SubscriptionStatus.TRIALING,
+			abacate_subscription_id: 'bill_legacy',
+			abacate_checkout_id: null,
+		} as Subscription;
+		subscriptionsRepository.findOne.mockResolvedValueOnce(null).mockResolvedValueOnce(subscription);
 
 		await useCase.execute({
 			id: 'evt-1',
-			event: 'subscription.renewed',
-			devMode: false,
-			data: { subscription: { id: 'abacate-sub-1', currentPeriodEnd: '2027-01-01T00:00:00.000Z' } },
+			event: 'subscription.completed',
+			devMode: true,
+			data: {
+				subscription: { id: 'subs_abc', status: 'ACTIVE' },
+				checkout: {
+					id: 'bill_abc',
+					externalId: 'org-1',
+					frequency: 'SUBSCRIPTION',
+					status: 'PAID',
+				},
+			},
 		} as never);
 
+		expect(subscriptionsRepository.findOne).toHaveBeenCalledWith({ where: { abacate_subscription_id: 'subs_abc' } });
+		expect(subscriptionsRepository.findOne).toHaveBeenCalledWith({ where: { organization_id: 'org-1' } });
 		expect(subscription.status).toBe(SubscriptionStatus.ACTIVE);
-		expect(subscription.current_period_end).toEqual(new Date('2027-01-01T00:00:00.000Z'));
+		expect(subscription.abacate_subscription_id).toBe('subs_abc');
+		expect(subscription.abacate_checkout_id).toBe('bill_abc');
 		expect(subscriptionsRepository.save).toHaveBeenCalledWith(subscription);
 	});
 
-	it('deve ativar a assinatura anual em checkout.completed, marcar billing_cycle ANNUAL e setar current_period_end +365 dias', async () => {
+	it('deve achar a linha local pelo bill_ legado em abacate_subscription_id', async () => {
+		const subscription = {
+			id: 'sub-1',
+			status: SubscriptionStatus.TRIALING,
+			abacate_subscription_id: 'bill_abc',
+			abacate_checkout_id: null,
+		} as Subscription;
+		subscriptionsRepository.findOne
+			.mockResolvedValueOnce(null)
+			.mockResolvedValueOnce(null)
+			.mockResolvedValueOnce(subscription);
+
+		await useCase.execute({
+			id: 'evt-legacy',
+			event: 'subscription.completed',
+			devMode: true,
+			data: {
+				subscription: { id: 'subs_abc' },
+				checkout: { id: 'bill_abc', externalId: null },
+			},
+		} as never);
+
+		expect(subscription.abacate_subscription_id).toBe('subs_abc');
+		expect(subscription.abacate_checkout_id).toBe('bill_abc');
+		expect(subscription.status).toBe(SubscriptionStatus.ACTIVE);
+	});
+
+	it('deve só amarrar o checkout em checkout.completed com frequency SUBSCRIPTION (não ativa como anual)', async () => {
+		const subscription = {
+			id: 'sub-1',
+			status: SubscriptionStatus.TRIALING,
+			billing_cycle: BillingCycle.MONTHLY,
+			abacate_checkout_id: null,
+			abacate_subscription_id: null,
+		} as Subscription;
+		subscriptionsRepository.findOne.mockResolvedValue(subscription);
+
+		await useCase.execute({
+			id: 'evt-checkout-sub',
+			event: 'checkout.completed',
+			devMode: true,
+			data: {
+				checkout: {
+					id: 'bill_abc',
+					externalId: 'org-1',
+					frequency: 'SUBSCRIPTION',
+					status: 'PAID',
+				},
+			},
+		} as never);
+
+		expect(subscription.status).toBe(SubscriptionStatus.TRIALING);
+		expect(subscription.billing_cycle).toBe(BillingCycle.MONTHLY);
+		expect(subscription.abacate_checkout_id).toBe('bill_abc');
+		expect(subscriptionsRepository.save).toHaveBeenCalledWith(subscription);
+	});
+
+	it('deve ativar a assinatura anual em checkout.completed ONE_TIME/Pix', async () => {
 		const subscription = {
 			id: 'sub-1',
 			status: SubscriptionStatus.PAST_DUE,
 			billing_cycle: BillingCycle.MONTHLY,
 			last_renewal_reminder_days_before: 15,
+			abacate_checkout_id: null,
 		} as Subscription;
 		subscriptionsRepository.findOne.mockResolvedValue(subscription);
 
@@ -81,18 +155,50 @@ describe('HandleAbacatePayWebhookUseCase', () => {
 		expect(subscriptionsRepository.save).not.toHaveBeenCalled();
 	});
 
-	it('deve pular o processamento quando o evento já foi registrado antes (idempotência)', async () => {
+	it('deve pular o processamento quando o evento já foi registrado e a assinatura não está TRIALING', async () => {
 		const uniqueViolation = new QueryFailedError('insert', [], new Error('duplicate key')) as QueryFailedError & { code: string };
 		uniqueViolation.code = '23505';
 		webhookEventsRepository.insert.mockRejectedValue(uniqueViolation);
+		subscriptionsRepository.findOne.mockResolvedValue({
+			id: 'sub-1',
+			status: SubscriptionStatus.ACTIVE,
+		} as Subscription);
 
 		await useCase.execute({
 			id: 'evt-1',
 			event: 'subscription.renewed',
 			devMode: false,
-			data: { subscription: { id: 'abacate-sub-1' } },
+			data: { subscription: { id: 'subs_abc' } },
 		} as never);
 
-		expect(subscriptionsRepository.findOne).not.toHaveBeenCalled();
+		expect(subscriptionsRepository.save).not.toHaveBeenCalled();
+	});
+
+	it('deve reprocessar subscription.completed já registrado se a assinatura local ainda está TRIALING', async () => {
+		const uniqueViolation = new QueryFailedError('insert', [], new Error('duplicate key')) as QueryFailedError & { code: string };
+		uniqueViolation.code = '23505';
+		webhookEventsRepository.insert.mockRejectedValue(uniqueViolation);
+
+		const subscription = {
+			id: 'sub-1',
+			status: SubscriptionStatus.TRIALING,
+			abacate_subscription_id: 'bill_abc',
+			abacate_checkout_id: null,
+		} as Subscription;
+		subscriptionsRepository.findOne.mockResolvedValue(subscription);
+
+		await useCase.execute({
+			id: 'evt-stuck',
+			event: 'subscription.completed',
+			devMode: true,
+			data: {
+				subscription: { id: 'subs_abc' },
+				checkout: { id: 'bill_abc', externalId: 'org-1' },
+			},
+		} as never);
+
+		expect(subscription.status).toBe(SubscriptionStatus.ACTIVE);
+		expect(subscription.abacate_subscription_id).toBe('subs_abc');
+		expect(subscriptionsRepository.save).toHaveBeenCalledWith(subscription);
 	});
 });

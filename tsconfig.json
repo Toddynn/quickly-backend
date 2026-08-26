@@ -1,32 +1,44 @@
 {
-	"compilerOptions": {
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"module": "commonjs",
-		"declaration": true,
-		"removeComments": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"target": "ES2021",
-		"sourceMap": true,
-		"outDir": "./dist",
-		"incremental": true,
-		"skipLibCheck": true,
-		"strictNullChecks": false,
-		"noImplicitAny": false,
-		"strictBindCallApply": false,
-		"forceConsistentCasingInFileNames": false,
-		"noFallthroughCasesInSwitch": false,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"allowJs": true,
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"pretty": true
-	},
-	"include": ["**/*.ts"],
-	"exclude": ["node_modules", "dist"]
+     "compilerOptions": {
+          "paths": {
+               "@/*": [
+                    "./src/*"
+               ]
+          },
+          "module": "commonjs",
+          "declaration": true,
+          "removeComments": true,
+          "emitDecoratorMetadata": true,
+          "experimentalDecorators": true,
+          "allowSyntheticDefaultImports": true,
+          "target": "ES2021",
+          "sourceMap": true,
+          "outDir": "./dist",
+          "incremental": true,
+          "skipLibCheck": true,
+          "strictNullChecks": false,
+          "noImplicitAny": false,
+          "strictBindCallApply": false,
+          "forceConsistentCasingInFileNames": false,
+          "noFallthroughCasesInSwitch": false,
+          "noUnusedLocals": true,
+          "noUnusedParameters": true,
+          "allowJs": true,
+          "esModuleInterop": true,
+          "resolveJsonModule": true,
+          "isolatedModules": true,
+          "pretty": true,
+          "types": [
+               "node",
+               "multer",
+               "jest"
+          ]
+     },
+     "include": [
+          "**/*.ts"
+     ],
+     "exclude": [
+          "node_modules",
+          "dist"
+     ]
 }

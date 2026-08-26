@@ -65,12 +65,12 @@ describe('SubscriptionStatusGuard', () => {
 		await expect(guard.canActivate(context)).resolves.toBe(true);
 	});
 
-	it('deve permitir acesso quando a subscription está TRIALING', async () => {
+	it('deve bloquear com ForbiddenException quando a subscription está TRIALING (aguardando checkout de cartão)', async () => {
 		jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(false).mockReturnValueOnce(true).mockReturnValueOnce(false);
 		getExistingSubscriptionUseCase.execute.mockResolvedValue({ status: SubscriptionStatus.TRIALING } as never);
 		const context = createMockContext({ activeOrganizationId: 'org-1' });
 
-		await expect(guard.canActivate(context)).resolves.toBe(true);
+		await expect(guard.canActivate(context)).rejects.toThrow(ForbiddenException);
 	});
 
 	it('deve bloquear com ForbiddenException quando a subscription está PAST_DUE', async () => {

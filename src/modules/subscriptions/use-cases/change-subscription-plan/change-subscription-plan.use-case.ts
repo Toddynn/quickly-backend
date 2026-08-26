@@ -4,6 +4,7 @@ import { GetExistingPlanUseCase } from '@/modules/plans/use-cases/get-existing-p
 import type { Subscription } from '../../models/entities/subscription.entity';
 import type { SubscriptionsRepositoryInterface } from '../../models/interfaces/repository.interface';
 import { SUBSCRIPTION_REPOSITORY_INTERFACE_KEY } from '../../shared/constants/repository-interface-key';
+import { isAbacateSubscriptionId } from '../../shared/functions/is-abacate-subscription-id';
 import { GetExistingSubscriptionUseCase } from '../get-existing-subscription/get-existing-subscription.use-case';
 
 @Injectable()
@@ -23,7 +24,7 @@ export class ChangeSubscriptionPlanUseCase {
 		const subscription = await this.getExistingSubscriptionUseCase.execute({ where: { organization_id: organizationId } });
 		const newPlan = await this.getExistingPlanUseCase.execute({ where: { id: newPlanId } });
 
-		if (subscription.abacate_subscription_id) {
+		if (subscription.abacate_subscription_id && isAbacateSubscriptionId(subscription.abacate_subscription_id)) {
 			await this.abacatePayService.changePlan(subscription.abacate_subscription_id, {
 				productId: newPlan.abacate_product_id,
 				quantity: 1,

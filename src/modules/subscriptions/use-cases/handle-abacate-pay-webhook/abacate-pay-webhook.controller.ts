@@ -10,29 +10,29 @@ import { HandleAbacatePayWebhookUseCase } from './handle-abacate-pay-webhook.use
 @ApiExcludeController()
 @Controller('webhooks/abacate-pay')
 export class AbacatePayWebhookController {
-	constructor(
-		@Inject(HandleAbacatePayWebhookUseCase)
-		private readonly handleAbacatePayWebhookUseCase: HandleAbacatePayWebhookUseCase,
-	) {}
+     constructor(
+          @Inject(HandleAbacatePayWebhookUseCase)
+          private readonly handleAbacatePayWebhookUseCase: HandleAbacatePayWebhookUseCase,
+     ) { }
 
-	@Public()
-	@Post()
-	@HttpCode(HttpStatus.OK)
-	async execute(@Req() request: Request & { rawBody?: Buffer }, @Headers('x-webhook-signature') signature: string | undefined): Promise<{ received: true }> {
-		const rawBody = request.rawBody;
-		if (!rawBody || !signature) {
-			throw new BadRequestException('Assinatura ou corpo do webhook ausente');
-		}
+     @Public()
+     @Post()
+     @HttpCode(HttpStatus.OK)
+     async execute(@Req() request: Request & { rawBody?: Buffer }, @Headers('x-webhook-signature') signature: string | undefined): Promise<{ received: true }> {
+          const rawBody = request.rawBody;
+          if (!rawBody || !signature) {
+               throw new BadRequestException('Assinatura ou corpo do webhook ausente');
+          }
 
-		const expectedSignature = createHmac('sha256', env.ABACATE_PAY_WEBHOOK_PUBLIC_KEY).update(rawBody).digest('hex');
-		const signatureBuffer = Buffer.from(signature);
-		const expectedBuffer = Buffer.from(expectedSignature);
+          const expectedSignature = createHmac('sha256', env.ABACATE_PAY_WEBHOOK_SECRET_KEY).update(rawBody).digest('hex');
+          const signatureBuffer = Buffer.from(signature);
+          const expectedBuffer = Buffer.from(expectedSignature);
 
-		if (signatureBuffer.length !== expectedBuffer.length || !timingSafeEqual(signatureBuffer, expectedBuffer)) {
-			throw new BadRequestException('Assinatura do webhook inválida');
-		}
+          if (signatureBuffer.length !== expectedBuffer.length || !timingSafeEqual(signatureBuffer, expectedBuffer)) {
+               throw new BadRequestException('Assinatura do webhook inválida');
+          }
 
-		await this.handleAbacatePayWebhookUseCase.execute(request.body as WebhookEvent);
-		return { received: true };
-	}
+          await this.handleAbacatePayWebhookUseCase.execute(request.body as WebhookEvent);
+          return { received: true };
+     }
 }

@@ -20,7 +20,10 @@ export class EnforcePlanLimitUseCase {
 	) {}
 
 	async execute(organizationId: string, limitKey: PlanLimitKey, currentCount: number): Promise<void> {
-		const subscription = await this.getExistingSubscriptionUseCase.execute({ where: { organization_id: organizationId } });
+		const subscription = await this.getExistingSubscriptionUseCase.execute(
+			{ where: { organization_id: organizationId } },
+			{ throwIfNotFound: false },
+		);
 		if (!subscription) return;
 
 		const plan = await this.getExistingPlanUseCase.execute({ where: { id: subscription.plan_id } });

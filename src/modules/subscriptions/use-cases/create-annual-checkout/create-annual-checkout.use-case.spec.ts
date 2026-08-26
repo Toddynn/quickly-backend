@@ -19,7 +19,7 @@ const createSubscriptionFixture = (overrides: Partial<Subscription> = {}): Subsc
 		plan_id: 'plan-1',
 		status: SubscriptionStatus.ACTIVE,
 		abacate_customer_id: 'cust-1',
-		abacate_subscription_id: 'abacate-sub-1',
+		abacate_subscription_id: 'subs_old',
 		billing_cycle: BillingCycle.MONTHLY,
 		...overrides,
 	}) as Subscription;
@@ -53,13 +53,15 @@ describe('CreateAnnualCheckoutUseCase', () => {
 
 		const result = await useCase.execute('org-1');
 
-		expect(abacatePayService.cancelSubscription).toHaveBeenCalledWith('abacate-sub-1');
+		expect(abacatePayService.cancelSubscription).toHaveBeenCalledWith('subs_old');
 		expect(abacatePayService.createCheckout).toHaveBeenCalledWith({
 			items: [{ id: 'prod_annual_1', quantity: 1 }],
 			methods: ['PIX'],
 			frequency: 'ONE_TIME',
 			customerId: 'cust-1',
 			externalId: 'org-1',
+			returnUrl: expect.stringContaining('/subscribe'),
+			completionUrl: expect.stringContaining('/subscribe'),
 		});
 		expect(subscription.abacate_subscription_id).toBeNull();
 		expect(subscriptionsRepository.save).toHaveBeenCalledWith(subscription);

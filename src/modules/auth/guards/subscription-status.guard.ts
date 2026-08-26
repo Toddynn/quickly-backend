@@ -6,7 +6,10 @@ import { IS_PUBLIC_KEY } from '../shared/decorators/public.decorator';
 import { IS_SUBSCRIPTION_GUARD_SKIPPED_KEY } from '../shared/decorators/skip-subscription-guard.decorator';
 import { IS_TENANT_SCOPED_KEY } from '../shared/decorators/tenant-scoped.decorator';
 
-const ALLOWED_STATUSES = [SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING];
+// TRIALING = assinatura criada, aguardando o checkout de cartão (nunca libera acesso sozinho).
+// O webhook `subscription.completed` promove pra ACTIVE assim que a AbacatePay confirma o cartão —
+// a cobrança real só acontece depois, no dia configurado em `dayOfProcessing` (fim do trial).
+const ALLOWED_STATUSES = [SubscriptionStatus.ACTIVE];
 
 @Injectable()
 export class SubscriptionStatusGuard implements CanActivate {
@@ -29,7 +32,10 @@ export class SubscriptionStatusGuard implements CanActivate {
 		const organizationId = session?.activeOrganizationId;
 		if (!organizationId) return true; // TenantGuard já cobre a ausência de contexto de organização
 
-		const subscription = await this.getExistingSubscriptionUseCase.execute({ where: { organization_id: organizationId } });
+		const subscription = await this.getExistingSubscriptionUseCase.execute(
+			{ where: { organization_id: organizationId } },
+			{ throwIfNotFound: false },
+		);
 		if (!subscription) return true; // fail-open — mesma filosofia do EnforcePlanLimitUseCase
 
 		if (!ALLOWED_STATUSES.includes(subscription.status)) {
