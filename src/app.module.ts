@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 import pgDatabaseConfig from './configs/database/pg-database.config';
@@ -57,6 +58,14 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 			inject: [ConfigService],
 		}),
 		SessionConfigModule,
+		ThrottlerModule.forRoot({
+			throttlers: [
+				{
+					ttl: 60000,
+					limit: 10,
+				},
+			],
+		}),
 		ScheduleModule.forRoot(),
 		AppCacheModule,
 		AbacatePayModule,
@@ -80,6 +89,10 @@ import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pi
 	],
 	providers: [
 		ReflectionGuardValidationPipe,
+		{
+			provide: APP_GUARD,
+			useClass: ThrottlerGuard,
+		},
 		{
 			provide: APP_GUARD,
 			useClass: SessionAuthGuard,

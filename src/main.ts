@@ -8,6 +8,7 @@ import { setupDocumentationConfig } from './configs/documentation/documentation.
 import { authenticatedSessionLifecycleMiddleware } from './configs/session/authenticated-session.middleware';
 import { SessionConfigService } from './configs/session/session-config.service';
 import { FRONT_END_URL, env } from './shared/constants/env-variables';
+import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 import { ReflectionGuardValidationPipe } from './shared/pipes/safe-validation.pipe';
 
 async function bootstrap() {
@@ -25,6 +26,8 @@ async function bootstrap() {
 	);
 	app.use(json());
 	app.use(urlencoded({ extended: true }));
+
+	app.useGlobalFilters(new GlobalExceptionFilter());
 
 	app.useGlobalPipes(app.get(ReflectionGuardValidationPipe));
 

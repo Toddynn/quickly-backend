@@ -13,3 +13,7 @@ overrides:
   js-yaml@5: 5.2.2
   linkify-it: 5.0.2
   nodemailer: 9.0.5
+
+peerDependencyRules:
+  allowedVersions:
+    nunjucks>chokidar: '4'
