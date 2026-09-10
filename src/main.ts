@@ -48,7 +48,7 @@ async function bootstrap() {
 		setupDocumentationConfig(app);
 	}
 
-	await app.listen(env.APP_PORT ?? 3000, '0.0.0.0');
+	await app.listen(Number(env.APP_PORT), '0.0.0.0');
 }
 
 bootstrap().catch((error) => {
